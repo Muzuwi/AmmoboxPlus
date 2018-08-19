@@ -8,9 +8,9 @@ Ammobox+ is a mod that's (currently) entirely dedicated to the Gunner specializa
 Currently implemented ammo types:
 
 - Rubber Bullet - has a very high knockback
-- Peculiar Bullet - has a chance to turn enemies into a Bunny
-- Drugged Bullet - creates an aura of damage around a shot enemy
-- Ice Bullet - slows down enemies, with a chance to freeze them
+- Peculiar Bullet - has a chance to turn enemies into a Bunny. Does **not** count as a kill
+- Drugged Bullet - creates an aura of damage around a shot enemy. Other drugged enemies are not affected by the aura.
+- Ice Bullet - slows down enemies, with a chance to freeze them. The chance is doubled in water.
 - Markershot - shot enemy takes 15% more damage
 - Miner Bullet - has a low chance of dropping a random amount of ore
 - Spectral Bullet - can penetrate up to 4 blocks, but the accuracy decreases substantially with each block
@@ -20,6 +20,10 @@ Currently implemented ammo types:
 - Miner Bullets will not drop modded ores, this is planned to be fixed in the near future
 - Ice Bullets can sometimes cause weird movement in enemies, such as falling through the ground (for flying enemies). Please report such cases on the issue tracker or in the thread.
 - Debuffs do not apply to players in PvP
+
+## Download
+
+  Use the in-game Mod Browser to download the mod, or visit the **[Releases](https://github.com/Muzuwi/AmmoboxPlus/releases)** tab on this repo for current and past releases. 
 
 ## Planned Features
 - Better cross-mod compatibility
