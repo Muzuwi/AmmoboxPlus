@@ -8,9 +8,9 @@ Ammobox+ is a mod that's (currently) entirely dedicated to the Gunner specializa
 Currently implemented ammo types:
 
 - Rubber Bullet - has a very high knockback
-- Peculiar Bullet - has a chance to turn enemies into a Bunny
-- Drugged Bullet - creates an aura of damage around a shot enemy
-- Ice Bullet - slows down enemies, with a chance to freeze them
+- Peculiar Bullet - has a chance to turn enemies into a Bunny. Does **not** count as a kill
+- Drugged Bullet - creates an aura of damage around a shot enemy. Other drugged enemies are not affected by the aura.
+- Ice Bullet - slows down enemies, with a chance to freeze them. The chance is doubled in water.
 - Markershot - shot enemy takes 15% more damage
 - Miner Bullet - has a low chance of dropping a random amount of ore
 - Spectral Bullet - can penetrate up to 4 blocks, but the accuracy decreases substantially with each block
