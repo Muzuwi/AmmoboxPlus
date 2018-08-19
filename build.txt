@@ -1,7 +1,8 @@
 author = Kranot, Muzuwi
-version = 1.00.2
+version = 1.00.2.1
 displayName = Ammobox+
 includePDB = true
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\* 
 hideCode = false
 hideResources = true
+homepage = https://forums.terraria.org/index.php?threads/ammobox.72004/
