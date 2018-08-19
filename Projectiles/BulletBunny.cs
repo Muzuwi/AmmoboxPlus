@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
+using AmmoboxPlus;
 
 namespace AmmoboxPlus.Projectiles {
     public class BulletBunny : ModProjectile {
@@ -36,9 +37,26 @@ namespace AmmoboxPlus.Projectiles {
             if (target.boss || target.type == NPCID.TargetDummy ) {
                 return;
             }
-            if(WorldGen.genRand.Next(10) == 0) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apBunny = true;
-                target.netUpdate = true;
+            if (WorldGen.genRand.Next(10) == 0) {
+                if(Main.netMode == 0) {
+                    Vector2 pos = target.position;
+                    target.active = false;
+                    NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
+                    Main.PlaySound(SoundID.DoubleJump, pos);
+                    for (int i = 0; i < 20; i++) {
+                        Dust.NewDust(target.position, 16, 16, DustID.Confetti);
+                    }
+
+                } else {
+                    for (int i = 0; i < 20; i++) {
+                        Dust.NewDust(target.position, 16, 16, DustID.Confetti);
+                    }
+                    var packet = mod.GetPacket();
+                    packet.Write((byte)AmmoboxMsgType.AmmoboxBunny);
+                    packet.Write(true);
+                    packet.Write(target.whoAmI);
+                    packet.Send();
+                }
             }
         }
 

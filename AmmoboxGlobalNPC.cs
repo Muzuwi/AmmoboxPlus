@@ -39,9 +39,6 @@ namespace AmmoboxPlus.NPCs {
         public bool apDruggedShouldTint = false;
         //  Drugged aura cooldown
         public int apDruggedCooldown = 0;
-        //  Should the enemy be turned into a bunny?
-        public bool apBunny = false;
-
 
         //  Reset flags
         public override void ResetEffects(NPC npc) {
@@ -63,7 +60,6 @@ namespace AmmoboxPlus.NPCs {
         public override void UpdateLifeRegen(NPC npc, ref int damage) {
             if (apDruggedGoingToReceiveDamage) {
                 if (npc.lifeRegen > 0) npc.lifeRegen = 0;
-                //  TODO:  Fix this
                 npc.lifeRegen -= apDruggedDamage/2;
                 damage = apDruggedDamage/2;
                 apDruggedGoingToReceiveDamage = false;
@@ -83,7 +79,7 @@ namespace AmmoboxPlus.NPCs {
         //  Draw crosshair when Marked for Death and Stuck
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) {
             if (npc.realLife != -1 && (npc.realLife != npc.whoAmI)) return true;
-            if(apMarked || apStuck) {
+            if (apMarked || apStuck) {
                 float elSizeX = 32;
                 float elSizeY = 56;
                 float spacer = (npc.type == NPCID.DD2Betsy ? 60 : 36);  //  TODO: Include other large-sprite enemies
@@ -142,24 +138,6 @@ namespace AmmoboxPlus.NPCs {
         }
 
         public override bool PreAI(NPC npc) {
-
-            //  Turn enemy into a bunny if necessary
-            if (apBunny) {
-
-                Main.npc[npc.whoAmI].active = false;
-                Main.npc[npc.whoAmI].life = 0;
-                Main.npc[npc.whoAmI].netUpdate = true;
-                if (Main.netMode == 2) {
-                    int bunDex = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, NPCID.Bunny);
-                    NetMessage.SendData(23, -1, -1, Terraria.Localization.NetworkText.Empty, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    NetMessage.SendData(23, -1, -1, Terraria.Localization.NetworkText.Empty, bunDex, 0f, 0f, 0f, 0, 0, 0);
-                }
-
-                Main.PlaySound(SoundID.DoubleJump, npc.position);
-                for (int i = 0; i < 20; i++) {
-                    Dust.NewDust(npc.position, 16, 16, DustID.Confetti);
-                }
-            }
 
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);

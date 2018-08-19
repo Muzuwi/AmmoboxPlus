@@ -51,7 +51,7 @@ namespace AmmoboxPlus.Projectiles {
                 return;
             }
 
-            if(WorldGen.genRand.Next(2) == 0) {
+            if(WorldGen.genRand.Next(100) == 0) {
                 if(Main.netMode == 0) { //  Singleplayer
                     int index = Item.NewItem(target.position, oreSet[WorldGen.genRand.Next(oreSet.Length)], WorldGen.genRand.Next(10, 30));
                 }else if(Main.netMode == 1) { //  MP

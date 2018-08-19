@@ -4,6 +4,9 @@ using Terraria.Net;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using System.IO;
+using System;
+using Microsoft.Xna.Framework;
+using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus
 {
@@ -23,11 +26,23 @@ namespace AmmoboxPlus
             instance = null;
         }
 
+        //  TODO: Move everything sync-related to here
         public override void HandlePacket(BinaryReader reader, int whoAmI) {
-            
+            AmmoboxMsgType type = (AmmoboxMsgType)reader.ReadByte();
+            switch (type) {
+                case AmmoboxMsgType.AmmoboxBunny:
+                    bool action = reader.ReadBoolean();
+                    int npcID = reader.ReadInt32();
+
+                    Vector2 pos = Main.npc[npcID].position;
+                    Main.npc[npcID].active = false;
+                    int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
+                    Main.PlaySound(SoundID.DoubleJump, pos);
+                    break;
+                default:
+                    break;
+            }
         }
-
-
 
         //  Whitelisted bosses, aka ones that won't cause weird as hell bugs
         public static bool isBossAllowed(int atype) {
@@ -68,5 +83,11 @@ namespace AmmoboxPlus
             }
             return new List<int> { atype };
         }
+
     }
+
+    enum AmmoboxMsgType : byte {
+        AmmoboxBunny,
+    }
+
 }
