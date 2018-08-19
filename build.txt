@@ -1,7 +1,7 @@
 author = Kranot, Muzuwi
-version = 1.00.1
+version = 1.00.2
 displayName = Ammobox+
 includePDB = true
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\* 
-hideCode = true
+hideCode = false
 hideResources = true
