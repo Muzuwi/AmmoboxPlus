@@ -46,6 +46,7 @@ namespace AmmoboxPlus.NPCs {
             apStuck = false;
             apCold = false;
             apDrugged = false;
+            apDruggedShouldTint = false;
         }
 
         //  Defaults
@@ -150,7 +151,7 @@ namespace AmmoboxPlus.NPCs {
                     double dist = Math.Sqrt(a * a + b * b);
                     double reach = Math.Max(npc.width, npc.height) * 1.7f;
 
-                    if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI)) {
+                    if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged) {
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedGoingToReceiveDamage = true;
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedDamage = apDruggedDamage;
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
