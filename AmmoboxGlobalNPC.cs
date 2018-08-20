@@ -139,7 +139,6 @@ namespace AmmoboxPlus.NPCs {
         }
 
         public override bool PreAI(NPC npc) {
-
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);
             if (apDrugged) {
@@ -157,6 +156,8 @@ namespace AmmoboxPlus.NPCs {
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
                         Main.npc[index].netUpdate = true;
                     }
+                    Main.halloween = true;
+
 
                     ++index;
                 }

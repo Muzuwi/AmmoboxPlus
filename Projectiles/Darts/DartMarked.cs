@@ -1,17 +1,17 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using AmmoboxPlus;
 using AmmoboxPlus.NPCs;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace AmmoboxPlus.Projectiles {
-    public class BulletDrugged : ModProjectile {
+    public class DartMarked : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Drugged Bullets");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            DisplayName.SetDefault("Marker Dart");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -22,25 +22,24 @@ namespace AmmoboxPlus.Projectiles {
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.ranged = true;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
-            projectile.scale = 2f;
+            projectile.light = 0f;
+            projectile.scale = 1f;
             projectile.spriteDirection = 1;
 
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.realLife != -1) return;
-            if (target.type == NPCID.TargetDummy) return;
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
-                target.AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
-            }            
+            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apMarked = true;
+            if (Main.netMode == 0) {
+                target.AddBuff(mod.BuffType<Buffs.Marked>(), 100);
+            }
+            else if (Main.netMode == 1 || Main.netMode == 2) { //  Does it actually work this way?
+                NetMessage.SendData(0x35, -1, -1, Terraria.Localization.NetworkText.Empty, target.whoAmI, mod.BuffType<Buffs.Marked>(), 100);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
@@ -49,5 +48,10 @@ namespace AmmoboxPlus.Projectiles {
             return false;
         }
 
+        /*public override void AI() {
+            for (int i = 0; i < 5; i++) {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 90, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, newColor: Color.Red);
+            }
+        }*/
     }
 }

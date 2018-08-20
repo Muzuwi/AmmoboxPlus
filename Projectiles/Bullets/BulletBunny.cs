@@ -21,7 +21,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.ranged = true;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
             projectile.scale = 2f;
             projectile.spriteDirection = 1;

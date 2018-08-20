@@ -17,10 +17,9 @@ namespace AmmoboxPlus.Projectiles {
             projectile.width = 8;
             projectile.height = 8;
             projectile.aiStyle = 1;
+            projectile.ranged = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
             projectile.light = 0.5f;
             projectile.scale = 2f;
