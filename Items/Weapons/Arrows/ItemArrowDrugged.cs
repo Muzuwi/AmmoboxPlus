@@ -24,13 +24,13 @@ namespace AmmoboxPlus.Items.Weapons {
             item.ammo = AmmoID.Arrow;
         }
 
-        public override void AddRecipes() {
+     /*   public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.JungleSpores, 1);       //  TODO: CHANGE
             recipe.AddIngredient(ItemID.EmptyBullet, 100);      //  TODO: CHANGE
             recipe.SetResult(this, 100);
             recipe.AddRecipe();
-        }
+        }*/
     }
 
 }

@@ -156,9 +156,6 @@ namespace AmmoboxPlus.NPCs {
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
                         Main.npc[index].netUpdate = true;
                     }
-                    Main.halloween = true;
-
-
                     ++index;
                 }
             }

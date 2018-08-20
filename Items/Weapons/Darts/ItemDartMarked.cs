@@ -24,13 +24,13 @@ namespace AmmoboxPlus.Items.Weapons {
             item.ammo = AmmoID.Dart;
         }
 
-        public override void AddRecipes() {
+        /*public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.EyeoftheGolem, 1);  //  TODO: CHANGE
             recipe.AddIngredient(ItemID.EmptyBullet, 1);    //  TODO: CHANGE
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
-        }
+        }*/
     }
 
 }
