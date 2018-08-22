@@ -26,7 +26,7 @@ namespace AmmoboxPlus.Items.Weapons {
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 10);  // Will fix later
+            recipe.AddIngredient(ItemID.FallenStar, 10);
             recipe.AddIngredient(ItemID.MusketBall, 100);
             recipe.SetResult(this, 100);
             recipe.AddTile(TileID.Anvils);
