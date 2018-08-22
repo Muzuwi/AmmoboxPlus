@@ -21,6 +21,9 @@ Currently implemented ammo types:
 - Ice Bullets can sometimes cause weird movement in enemies, such as falling through the ground (for flying enemies). Please report such cases on the issue tracker or in the thread.
 - Debuffs do not apply to players in PvP
 
+## Changelog
+- v1.0.2.2 - Fixed Starfall Bullet recipe
+
 ## Download
 
   Use the in-game Mod Browser to download the mod, or visit the **[Releases](https://github.com/Muzuwi/AmmoboxPlus/releases)** tab on this repo for current and past releases. 
