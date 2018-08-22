@@ -3,10 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class BulletMarked : ModItem {
+    public class DartYang : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Markershot");
-            Tooltip.SetDefault("Inflicts 'Marked for Death'.\nInflicted enemies receive 15% more damage.");
+            DisplayName.SetDefault("Yang Dart");
+            Tooltip.SetDefault("Deals great damage when paired with the Ying Dart.\n'All good contains a modicum of evil'");
         }
 
         public override void SetDefaults() {
@@ -17,21 +17,21 @@ namespace AmmoboxPlus.Items.Weapons {
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 2f; 
-            item.value = 250; 
-            item.rare = ItemRarityID.Lime;
-            item.shoot = mod.ProjectileType("BulletMarked");
-            item.shootSpeed = 10f;
-            item.ammo = AmmoID.Bullet;
+            item.value = 150; 
+            item.rare = ItemRarityID.Orange;
+            item.shoot = mod.ProjectileType("DartYang");
+            item.shootSpeed = 4f;
+            item.ammo = AmmoID.Dart;
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EyeoftheGolem, 1);
-            recipe.AddIngredient(ItemID.EmptyBullet, 1);
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(ItemID.DarkShard, 1);
             recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }
+
     }
 
 }

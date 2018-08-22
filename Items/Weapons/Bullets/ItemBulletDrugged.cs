@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items.Weapons {
     public class BulletDrugged : ModItem {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Drugged Bullet");
-            Tooltip.SetDefault("Makes enemies attack other enemies");
+            Tooltip.SetDefault("Creates an aura around an enemy that damages nearby enemies");
         }
 
         public override void SetDefaults() {
@@ -29,8 +29,8 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.JungleSpores, 1);
             recipe.AddIngredient(ItemID.EmptyBullet, 100);
             recipe.SetResult(this, 100);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }
     }
-
 }

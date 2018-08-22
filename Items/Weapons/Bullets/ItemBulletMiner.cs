@@ -29,6 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.Dynamite, 20);
             recipe.AddIngredient(ItemID.EmptyBullet, 100);
             recipe.SetResult(this, 100);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }
     }

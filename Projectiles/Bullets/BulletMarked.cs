@@ -34,13 +34,20 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            //ErrorLogger.Log("Enemy id " + target.type + " hit with marked, applying debuff");
             target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apMarked = true;
+
             if(Main.netMode == 0) {
                 target.AddBuff(mod.BuffType<Buffs.Marked>(), 100);  
-            }else if(Main.netMode == 1 || Main.netMode == 2) { //  Does it actually work this way?
-                NetMessage.SendData(0x35, -1, -1, Terraria.Localization.NetworkText.Empty, target.whoAmI, mod.BuffType<Buffs.Marked>(), 100);
+            } else {
+                var packet = mod.GetPacket();
+                int buffType = mod.BuffType<Buffs.Marked>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxMarked);
+                packet.Write(target.whoAmI);
+                packet.Write(buffType);
+                packet.Write(100);
+                packet.Send();
             }
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
@@ -54,17 +61,5 @@ namespace AmmoboxPlus.Projectiles {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 90, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, newColor: Color.Red);
             }
         }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
-            //Redraw the projectile with the color not influenced by light
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++) {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
-            return true;
-        }
-
     }
 }

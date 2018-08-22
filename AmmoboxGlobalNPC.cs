@@ -40,6 +40,27 @@ namespace AmmoboxPlus.NPCs {
         //  Drugged aura cooldown
         public int apDruggedCooldown = 0;
 
+        //  Is clouded vision applied?
+        public bool apClouded = false;
+
+        //  Is cactus shield applied?
+        public bool apCactus = false;
+        public bool apCactusGoingToReceiveDamage = false;
+        public int apCactusTick = 0;
+        public int apCactusCooldown = 0;
+        public int apCactusDamage = 0;
+
+        //  Slime?
+        public bool apSlime = false;
+
+        //  Ying/Yang ticks
+        public int apYiYaTick = 0;
+        public bool apYing = false;
+        public bool apYang = false;
+        public int apYingOwner = -1;
+        public int apYangOwner = -1;
+
+
         //  Reset flags
         public override void ResetEffects(NPC npc) {
             apMarked = false;
@@ -47,14 +68,18 @@ namespace AmmoboxPlus.NPCs {
             apCold = false;
             apDrugged = false;
             apDruggedShouldTint = false;
+            apClouded = false;
+            apCactus = false;
+            apSlime = false;
         }
 
-        //  Defaults
+        //  Defaults, should probably update this at some point
         public override void SetDefaults(NPC npc) {
             apMarked = false;
             apAlreadyGrantedMulti = false;
             apStuck = false;
             apCold = false;
+            apCactus = false;
         }
         
         //  Damage enemies affected by drugged 
@@ -64,6 +89,13 @@ namespace AmmoboxPlus.NPCs {
                 npc.lifeRegen -= apDruggedDamage/2;
                 damage = apDruggedDamage/2;
                 apDruggedGoingToReceiveDamage = false;
+                npc.netUpdate = true;
+            }
+            if (apCactusGoingToReceiveDamage) {
+                if (npc.lifeRegen > 0) npc.lifeRegen = 0;
+                npc.lifeRegen -= apCactusDamage / 10;
+                damage = apCactusDamage / 10;
+                apCactusGoingToReceiveDamage = false;
                 npc.netUpdate = true;
             }
         }
@@ -118,9 +150,27 @@ namespace AmmoboxPlus.NPCs {
                 }
             }
 
+            if (apCactus) {
+                for(int i = 0; i < npc.Hitbox.Height; i++) {
+                    for(int j = 0; j < npc.Hitbox.Width; j++) {
+                        if(i == 0 || i == npc.Hitbox.Height - 1) {
+                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j, i), 1, 1, 260, newColor: Color.DarkGreen);
+                        } else {
+                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j, i), 1, 1, 260, newColor: Color.DarkGreen);
+                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j + npc.Hitbox.Width - 1, i), 1, 1, 260, newColor: Color.DarkGreen);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (apClouded) {
+                Dust.NewDust(npc.position, 1, 1, DustID.Sandstorm);
+            }
+
             return true;
         }
-
+        
         /*
          * This is a hackzone, because I couldn't get Frozen and Chilled to be applied on NPCs
          */
@@ -139,6 +189,8 @@ namespace AmmoboxPlus.NPCs {
         }
 
         public override bool PreAI(NPC npc) {
+            apYiYaTick = (apYiYaTick > 0) ? apYiYaTick - 1 : 0;
+
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);
             if (apDrugged) {
@@ -154,6 +206,23 @@ namespace AmmoboxPlus.NPCs {
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedGoingToReceiveDamage = true;
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedDamage = apDruggedDamage;
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
+                        Main.npc[index].netUpdate = true;
+                    }
+                    ++index;
+                }
+            }
+
+            apCactusCooldown = (apCactusCooldown > 0 ? apCactusCooldown - 1 : 0);
+            //  Totally not a rehash of drugged
+            if (apCactus) {
+                int index = 0;
+                foreach (NPC n in Main.npc) {
+                    //  Calculate distance between enemies
+                    bool collision = Terraria.Collision.CheckAABBvAABBCollision(npc.Hitbox.BottomLeft(), new Vector2(npc.Hitbox.Width, npc.Hitbox.Height), n.Hitbox.BottomLeft(), new Vector2(n.Hitbox.Width, n.Hitbox.Height));
+
+                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusGoingToReceiveDamage = true;
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusDamage = apCactusDamage;
                         Main.npc[index].netUpdate = true;
                     }
                     ++index;

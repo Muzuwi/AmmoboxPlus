@@ -1,17 +1,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AmmoboxPlus;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class DartMarked : ModProjectile {
+    public class DartCactus : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Marker Dart");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+            DisplayName.SetDefault("Cactus Dart");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -19,30 +19,32 @@ namespace AmmoboxPlus.Projectiles {
             projectile.width = 8;
             projectile.height = 8;
             projectile.aiStyle = 1;
+            projectile.ranged = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.ranged = true;
             projectile.alpha = 1;
-            projectile.light = 0f;
-            projectile.scale = 1f;
-            projectile.spriteDirection = 1;
+            projectile.light = 0.5f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
+            projectile.spriteDirection = 1;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apMarked = true;
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged) {
+                return;
+            }
 
+            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Marked>(), 100);
-            } else {
+                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 200);
+            }
+            else {
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Marked>();
-                packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
+                int buffType = mod.BuffType<Buffs.Cactus>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
-                packet.Write(100);
+                packet.Write(200);
                 packet.Send();
             }
         }
@@ -51,12 +53,6 @@ namespace AmmoboxPlus.Projectiles {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.Kill();
             return false;
-        }
-
-        public override void AI() {
-            for (int i = 0; i < 1; i++) {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width/2, projectile.height/2, 90, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, newColor: Color.Red);
-            }
         }
     }
 }

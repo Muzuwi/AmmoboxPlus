@@ -3,9 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class BulletStarfall : ModItem {
+    public class DartStarfall : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Bullet");
+            DisplayName.SetDefault("Starfall Dart");
             Tooltip.SetDefault("Has a low chance of turning into an enemy-piercing star.");
         }
 
@@ -17,19 +17,19 @@ namespace AmmoboxPlus.Items.Weapons {
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 2f; 
-            item.value = 10; 
+            item.value = 15; 
             item.rare = ItemRarityID.Blue;
-            item.shoot = mod.ProjectileType("BulletStarfall");
-            item.shootSpeed = 4f;
-            item.ammo = AmmoID.Bullet;
+            item.shoot = mod.ProjectileType("DartStarfall");
+            item.shootSpeed = 3f;
+            item.ammo = AmmoID.Dart;
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 10);  // Will fix later
-            recipe.AddIngredient(ItemID.MusketBall, 100);
-            recipe.SetResult(this, 100);
+            recipe.AddIngredient(ItemID.FallenStar, 5);
+
             recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

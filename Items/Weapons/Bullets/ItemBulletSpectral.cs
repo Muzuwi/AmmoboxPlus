@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace AmmoboxPlus.Items.Weapons {
     public class BulletSpectral : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Spectral Bullet");
+            DisplayName.SetDefault("Phantasmal Bullet");
             Tooltip.SetDefault("Penetrates walls up to 4 blocks.\nAccuracy decreases significantly with each penetrated block.");
         }
 
@@ -29,6 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.SpectreBar, 1);
             recipe.AddIngredient(ItemID.EmptyBullet, 100);
             recipe.SetResult(this, 100);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }
     }

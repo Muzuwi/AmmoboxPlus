@@ -39,6 +39,20 @@ namespace AmmoboxPlus
                     int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
                     Main.PlaySound(SoundID.DoubleJump, pos);
                     break;
+                case AmmoboxMsgType.AmmoboxMarked:
+                case AmmoboxMsgType.AmmoboxClouded:
+                case AmmoboxMsgType.AmmoboxCactus:
+                case AmmoboxMsgType.AmmoboxSlime:
+                    int npc = reader.ReadInt32();
+                    int bID = reader.ReadInt32();
+                    int time = reader.ReadInt32();
+                    Main.npc[npc].AddBuff(bID, time);
+                    break;
+                case AmmoboxMsgType.AmmoboxDelBuff:
+                    int npcid = reader.ReadInt32();
+                    int buffid = reader.ReadInt32();
+                    Main.npc[npcid].DelBuff(buffid);
+                    break;
                 default:
                     break;
             }
@@ -83,11 +97,15 @@ namespace AmmoboxPlus
             }
             return new List<int> { atype };
         }
-
     }
 
     enum AmmoboxMsgType : byte {
         AmmoboxBunny,
+        AmmoboxMarked,
+        AmmoboxClouded,
+        AmmoboxCactus,
+        AmmoboxSlime,
+        AmmoboxDelBuff,
     }
 
 }

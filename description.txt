@@ -12,6 +12,10 @@ Currently added ammo types:
 Please report issues on the GitHub issue tracker!
 GitHub: https://github.com/Muzuwi/AmmoboxPlus
 
+---------- CHANGELOG ----------
+v1.0.2.2 - Fixed Starfall Bullet recipe
+
+
 Known issues:
     - Modded ores do not drop from Miner Bullets
     - Ice Bullets can sometimes cause weird movement in enemies, please report such cases on GitHub or in the thread.

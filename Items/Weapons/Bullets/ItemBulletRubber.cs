@@ -29,6 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.MusketBall, 100);
             recipe.AddIngredient(ItemID.PinkGel, 1);
             recipe.SetResult(this, 300);
+            recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();
         }
     }

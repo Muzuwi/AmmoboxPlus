@@ -7,10 +7,10 @@ using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class BulletIce : ModProjectile {
+    public class DartIce : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Ice Bullet");
+            DisplayName.SetDefault("Ice Dart");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -26,10 +26,7 @@ namespace AmmoboxPlus.Projectiles {
             projectile.light = 0.5f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
-            projectile.scale = 2f;
             projectile.spriteDirection = 1;
-            aiType = ProjectileID.Bullet;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {

@@ -29,6 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.Bunny, 10);
             recipe.AddIngredient(ItemID.EmptyBullet, 100);
             recipe.SetResult(this, 100);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }
     }

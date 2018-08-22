@@ -3,14 +3,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class BulletStarfall : ModItem {
+    public class DartCactus : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Bullet");
-            Tooltip.SetDefault("Has a low chance of turning into an enemy-piercing star.");
+            DisplayName.SetDefault("Cactus Dart");
+            Tooltip.SetDefault("Spikey!\nApplies a thorns-like effect that hurts other enemies.");
         }
 
         public override void SetDefaults() {
-            item.damage = 8;
+            item.damage = 5;
             item.ranged = true;
             item.width = 8;
             item.height = 8;
@@ -18,19 +18,20 @@ namespace AmmoboxPlus.Items.Weapons {
             item.consumable = true;
             item.knockBack = 2f; 
             item.value = 10; 
-            item.rare = ItemRarityID.Blue;
-            item.shoot = mod.ProjectileType("BulletStarfall");
-            item.shootSpeed = 4f;
-            item.ammo = AmmoID.Bullet;
+            item.rare = ItemRarityID.Orange;
+            item.shoot = mod.ProjectileType("DartCactus");
+            item.shootSpeed = 5f;
+            item.ammo = AmmoID.Dart;
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 10);  // Will fix later
-            recipe.AddIngredient(ItemID.MusketBall, 100);
-            recipe.SetResult(this, 100);
+            recipe.AddIngredient(ItemID.Cactus, 10);
+
             recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }
+
 }

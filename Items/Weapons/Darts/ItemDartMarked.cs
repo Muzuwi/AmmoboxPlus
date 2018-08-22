@@ -10,7 +10,7 @@ namespace AmmoboxPlus.Items.Weapons {
         }
 
         public override void SetDefaults() {
-            item.damage = 3;
+            item.damage = 2;
             item.ranged = true;
             item.width = 8;
             item.height = 8;
@@ -20,17 +20,18 @@ namespace AmmoboxPlus.Items.Weapons {
             item.value = 250; 
             item.rare = ItemRarityID.Lime;
             item.shoot = mod.ProjectileType("DartMarked");
-            item.shootSpeed = 10f;
+            item.shootSpeed = 9f;
             item.ammo = AmmoID.Dart;
         }
 
-        /*public override void AddRecipes() {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EyeoftheGolem, 1);  //  TODO: CHANGE
-            recipe.AddIngredient(ItemID.EmptyBullet, 1);    //  TODO: CHANGE
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(ItemID.EyeoftheGolem, 1);
+
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 
 }

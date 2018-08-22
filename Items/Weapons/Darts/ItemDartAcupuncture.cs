@@ -3,34 +3,36 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class BulletStarfall : ModItem {
+    public class DartAcupuncture : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Bullet");
-            Tooltip.SetDefault("Has a low chance of turning into an enemy-piercing star.");
+            DisplayName.SetDefault("Acupuncture Dart");
+            Tooltip.SetDefault("Gets stronger with each hit.\nThe bonus is reset when you miss the enemy.");
         }
 
         public override void SetDefaults() {
-            item.damage = 8;
+            item.damage = 1;
             item.ranged = true;
             item.width = 8;
             item.height = 8;
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 2f; 
-            item.value = 10; 
+            item.value = 15; 
             item.rare = ItemRarityID.Blue;
-            item.shoot = mod.ProjectileType("BulletStarfall");
-            item.shootSpeed = 4f;
-            item.ammo = AmmoID.Bullet;
+            item.shoot = mod.ProjectileType("DartAcupuncture");
+            item.shootSpeed = 3f;
+            item.ammo = AmmoID.Dart;
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 10);  // Will fix later
-            recipe.AddIngredient(ItemID.MusketBall, 100);
-            recipe.SetResult(this, 100);
+            recipe.AddIngredient(ItemID.Bone, 20);
+
             recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
+
     }
+
 }

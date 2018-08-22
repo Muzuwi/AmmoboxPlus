@@ -9,7 +9,7 @@ namespace AmmoboxPlus.Projectiles {
     public class BulletSpectral : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Spectral Bullet");
+            DisplayName.SetDefault("Phantasmal Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
