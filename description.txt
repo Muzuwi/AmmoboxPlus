@@ -1,5 +1,5 @@
 Dart Update is here! 12 new dart types added!
-Full list of added ammo is available on the forum thread.
+Full list of added ammo is available on the forum thread. Also see changelog below.
 
 Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 20 new ammo types with new effects and their own recipes to the game.
 Currently added ammo types:
