@@ -18,7 +18,7 @@ Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
 v1.1.2.4 - Dart Update! 12 new ammo types (Darts), ranging from Pre-Hardmode to Hardmode. 
 	   Netsync should be more stable now
-           Redid slime and ice effects, should work without any bugs on most enemies (however, a blacklist for certain enemies still exists)
+	   Redid slime and ice effects, should work without any bugs on most enemies (however, a blacklist for certain enemies still exists)
 v1.0.2.2 - Fixed Starfall Bullet recipe
 
 ---------- Known issues ---------- 
