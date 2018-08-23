@@ -57,9 +57,6 @@ namespace AmmoboxPlus.NPCs {
         public int apYiYaTick = 0;
         public bool apYing = false;
         public bool apYang = false;
-        public int apYingOwner = -1;
-        public int apYangOwner = -1;
-
 
         //  Reset flags
         public override void ResetEffects(NPC npc) {
@@ -93,8 +90,8 @@ namespace AmmoboxPlus.NPCs {
             }
             if (apCactusGoingToReceiveDamage) {
                 if (npc.lifeRegen > 0) npc.lifeRegen = 0;
-                npc.lifeRegen -= apCactusDamage / 10;
-                damage = apCactusDamage / 10;
+                npc.lifeRegen -= apCactusDamage / 5;
+                damage = apCactusDamage / 5;
                 apCactusGoingToReceiveDamage = false;
                 npc.netUpdate = true;
             }
@@ -150,27 +147,28 @@ namespace AmmoboxPlus.NPCs {
                 }
             }
 
-            if (apCactus) {
-                for(int i = 0; i < npc.Hitbox.Height; i++) {
-                    for(int j = 0; j < npc.Hitbox.Width; j++) {
-                        if(i == 0 || i == npc.Hitbox.Height - 1) {
-                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j, i), 1, 1, 260, newColor: Color.DarkGreen);
-                        } else {
-                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j, i), 1, 1, 260, newColor: Color.DarkGreen);
-                            Dust.NewDust(npc.Hitbox.TopLeft() + new Vector2(j + npc.Hitbox.Width - 1, i), 1, 1, 260, newColor: Color.DarkGreen);
-                            break;
-                        }
-                    }
-                }
-            }
-
             if (apClouded) {
-                Dust.NewDust(npc.position, 1, 1, DustID.Sandstorm);
+                Dust.NewDust(npc.Center, 2, 2, 32);
             }
 
             return true;
         }
-        
+
+        public override bool CheckDead(NPC npc) {
+            if(npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuck && npc.realLife != -1) {
+                int index = 0;
+                foreach (NPC n in Main.npc) {
+                    if(n.whoAmI == npc.realLife || n.realLife == npc.realLife) {
+                        n.StrikeNPC(n.life, 0, 1, noEffect: true);
+                    }
+                    ++index;
+                }
+                return true;
+            } else {
+                return true;
+            }
+        }
+
         /*
          * This is a hackzone, because I couldn't get Frozen and Chilled to be applied on NPCs
          */
@@ -183,8 +181,12 @@ namespace AmmoboxPlus.NPCs {
             } else if (apCold) {
                 drawColor.B = 255;
                 drawColor.R = 200;
-            }else if (apDruggedShouldTint) {
+            }
+            if (apDruggedShouldTint) {
                 drawColor = Color.Purple;
+            }
+            if (apClouded) {
+                drawColor = Color.Yellow;
             }
         }
 

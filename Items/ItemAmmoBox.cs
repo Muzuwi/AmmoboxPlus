@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace AmmoboxPlus {
     class AmmoBox : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Ammo Box");
+            DisplayName.SetDefault("Ammo Box (WIP)");
             Tooltip.SetDefault("A box containing some ammo\nRight Click to open");
         }
 

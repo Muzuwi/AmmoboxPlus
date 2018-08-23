@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items.Weapons {
     public class DartFrostburn : ModItem {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Frostburn Dart");
-            Tooltip.SetDefault(".");
+            Tooltip.SetDefault("Inflicts Frostburn.\n'Ice, Ice, Baby!'");
         }
 
         public override void SetDefaults() {

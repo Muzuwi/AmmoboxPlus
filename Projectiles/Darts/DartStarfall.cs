@@ -22,11 +22,9 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.timeLeft = 600;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.spriteDirection = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
         }
 
         public override void AI() {
@@ -39,6 +37,7 @@ namespace AmmoboxPlus.Projectiles {
             } else {
                 Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
             }
+            Lighting.AddLight(projectile.position, Color.LightYellow.ToVector3());
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

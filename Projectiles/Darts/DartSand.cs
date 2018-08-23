@@ -23,7 +23,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.spriteDirection = 1;
@@ -31,15 +30,21 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             if(Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 200);
+                target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 300);
             } else {
                 var packet = mod.GetPacket();
                 int buffType = mod.BuffType<Buffs.CloudedVision>();
                 packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
-                packet.Write(200);
+                packet.Write(300);
                 packet.Send();
+            }
+        }
+
+        public override void AI() {
+            for (int i = 0; i < 2; i++) {
+                Dust.NewDust(projectile.position, 1, 1, DustID.Sandstorm);
             }
         }
 

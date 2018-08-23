@@ -34,8 +34,7 @@ namespace AmmoboxPlus.Projectiles {
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
                 if (Main.netMode == 0) { //  Singleplayer
                     target.DelBuff(mod.BuffType<Buffs.Cactus>());
-                }
-                else { //  Sync with others
+                } else { //  Sync with others
                     var packet = mod.GetPacket();
                     int buffType = mod.BuffType<Buffs.Cactus>();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);

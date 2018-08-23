@@ -30,18 +30,16 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYing && target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYiYaTick > 0 && (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYingOwner != projectile.owner) ) {
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYing && target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYiYaTick > 0) {
                 Projectile.NewProjectile(target.position, new Vector2(0, 0), ProjectileID.DD2ExplosiveTrapT3Explosion, 150, 1, Owner: projectile.owner);
+                Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, target.position);
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYing = false;
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYang = false;
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYiYaTick = 0;
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYangOwner = -1;
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYingOwner = -1;
             } else {
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYing = false;
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYang = true;
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYiYaTick = 100;
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYangOwner = projectile.owner;
+                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apYiYaTick = 300;
             }
         }
 
@@ -49,6 +47,10 @@ namespace AmmoboxPlus.Projectiles {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.Kill();
             return false;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) {
+            damage = 2;
         }
     }
 }

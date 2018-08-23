@@ -1,4 +1,7 @@
-Ammobox+ is a mod that's entirely dedicated to the Gunner specialization of Terraria, and adds 8 new ammo types with new effects and their own recipes to the game.
+Dart Update is here! 12 new dart types added!
+Full list of added ammo is available on the forum thread.
+
+Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 20 new ammo types with new effects and their own recipes to the game.
 Currently added ammo types:
     - Rubber Bullet - has a very high knockback
     - Peculiar Bullet - has a chance to turn enemies into a Bunny
@@ -8,13 +11,16 @@ Currently added ammo types:
     - Miner Bullet - has a low chance of dropping a random amount of ore
     - Spectral Bullet - can penetrate up to 4 blocks, but the accuracy decreases substantially with each block
     - Starfall Bullet - has a low chance to turn into a star
-
+    - And more!
 Please report issues on the GitHub issue tracker!
 GitHub: https://github.com/Muzuwi/AmmoboxPlus
-
+Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
+v1.1.2.4 - Dart Update! 12 new ammo types (Darts), ranging from Pre-Hardmode to Hardmode. 
+	   Netsync should be more stable now
+           Redid slime and ice effects, should work without any bugs on most enemies (however, a blacklist for certain enemies still exists)
 v1.0.2.2 - Fixed Starfall Bullet recipe
 
 ---------- Known issues ---------- 
   - Modded ores do not drop from Miner Bullets
-  - Ice Bullets can sometimes cause weird movement in enemies, please report such cases on GitHub or in the thread.
+  - Ice/Slime ammo may rarely cause erratic movement in enemies, please report such cases on the Issue Tracker on GitHub

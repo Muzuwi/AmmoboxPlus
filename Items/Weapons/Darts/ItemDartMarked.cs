@@ -27,7 +27,7 @@ namespace AmmoboxPlus.Items.Weapons {
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.EyeoftheGolem, 1);
-
+            recipe.AddRecipeGroup("IronBar", 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -58,13 +58,12 @@ namespace AmmoboxPlus
             }
         }
 
-        //  Whitelisted bosses, aka ones that won't cause weird as hell bugs
-        public static bool isBossAllowed(int atype) {
-            List<int> bossAllowedSet = new List<int>() {
-                NPCID.EyeofCthulhu, NPCID.KingSlime, NPCID.QueenBee, NPCID.BrainofCthulhu, NPCID.DukeFishron, NPCID.SkeletronHead, NPCID.SkeletronPrime, NPCID.Plantera,
-                NPCID.Golem, NPCID.CultistBoss
+        //  Blacklisted enemies for Stuck/Cold/Slime
+        public static bool isEnemyBlacklisted(int atype) {
+            List<int> enemyBlacklist = new List<int>() {
+                NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.WallofFlesh, NPCID.WallofFleshEye, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead
             };
-            return bossAllowedSet.Contains(atype);
+            return enemyBlacklist.Contains(atype);
         }
 
         //  Unused, maybe in the future

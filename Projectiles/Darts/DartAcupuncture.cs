@@ -54,5 +54,10 @@ namespace AmmoboxPlus.Projectiles {
             projectile.Kill();
             return false;
         }
+
+        public override void AI() {
+            Lighting.AddLight(projectile.position, Color.GhostWhite.ToVector3());
+        }
+
     }
 }

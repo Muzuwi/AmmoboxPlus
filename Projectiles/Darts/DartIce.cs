@@ -23,7 +23,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.spriteDirection = 1;
@@ -41,7 +40,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Have we reached Stuck limit?
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit) {
 
-                if ( target.boss && !AmmoboxPlus.isBossAllowed(target.type)) return;
+                if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
                 //  If we have more parts in the chain, apply to the rest
                 if (target.realLife != -1) {
@@ -58,7 +57,7 @@ namespace AmmoboxPlus.Projectiles {
                 }
             } else { //  No stuck limit
 
-                if ( target.boss && !AmmoboxPlus.isBossAllowed(target.type)) return;
+                if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
                 //  If enemy is in water, apply higher chance
                 if (Main.tile[posXlow, posYlow].liquid > 0 || Main.tile[posXhi, posYhi].liquid > 0) {
@@ -94,9 +93,10 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void AI() {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 2; i++) {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Ice, newColor: Color.WhiteSmoke);
             }
+            Lighting.AddLight(projectile.position, Color.DodgerBlue.ToVector3());
         }
 
         public void processAddBuffIce(ref NPC npc, int type, int time) {
@@ -121,5 +121,6 @@ namespace AmmoboxPlus.Projectiles {
                 npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
             }
         }
+
     }
 }

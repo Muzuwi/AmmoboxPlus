@@ -16,11 +16,10 @@ namespace AmmoboxPlus.Buffs {
 
         public override void Update(NPC npc, ref int buffIndex) {
             npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apSlime = true;
-            //  Fix funky Queen bee behaviour
-            if(npc.type == NPCID.QueenBee) {
-                npc.velocity *= 0.90f;
+            if(npc.boss) {
+                npc.velocity *= 0.98f;
             } else {
-                npc.velocity.X *= 0.90f;
+                npc.velocity *= 0.90f;
             }
         }
     }

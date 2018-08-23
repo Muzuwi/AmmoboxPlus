@@ -23,8 +23,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.ranged = true;
             projectile.alpha = 1;
-            projectile.light = 0f;
-            projectile.scale = 1f;
             projectile.spriteDirection = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;

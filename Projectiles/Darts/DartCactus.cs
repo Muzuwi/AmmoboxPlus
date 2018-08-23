@@ -36,7 +36,7 @@ namespace AmmoboxPlus.Projectiles {
 
             target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 200);
+                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 300);
             }
             else {
                 var packet = mod.GetPacket();
@@ -44,7 +44,7 @@ namespace AmmoboxPlus.Projectiles {
                 packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
-                packet.Write(200);
+                packet.Write(300);
                 packet.Send();
             }
         }

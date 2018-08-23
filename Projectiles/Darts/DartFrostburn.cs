@@ -33,6 +33,13 @@ namespace AmmoboxPlus.Projectiles {
             target.AddBuff(BuffID.Frostburn, 200);
         }
 
+        public override void AI() {
+            for(int i = 0; i < 1; i++) {
+                Dust.NewDust(projectile.position, 1, 1, 20);
+            }
+            Lighting.AddLight(projectile.position, Color.DeepSkyBlue.ToVector3());
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity) {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.Kill();

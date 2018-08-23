@@ -22,12 +22,10 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.timeLeft = 600;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.scale = 1.6f;
             projectile.spriteDirection = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
         }
 

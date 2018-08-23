@@ -44,7 +44,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Have we reached Stuck limit?
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit) {
 
-                if ( target.boss && !AmmoboxPlus.isBossAllowed(target.type)) return;
+                if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
                 //  If we have more parts in the chain, apply to the rest
                 if (target.realLife != -1) {
@@ -61,7 +61,7 @@ namespace AmmoboxPlus.Projectiles {
                 }
             } else { //  No stuck limit
 
-                if ( target.boss && !AmmoboxPlus.isBossAllowed(target.type)) return;
+                if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
                 //  If enemy is in water, apply higher chance
                 if (Main.tile[posXlow, posYlow].liquid > 0 || Main.tile[posXhi, posYhi].liquid > 0) {
