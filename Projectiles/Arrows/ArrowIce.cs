@@ -1,16 +1,14 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class BulletIce : ModProjectile {
+    public class ArrowIce : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Ice Bullet");
+            DisplayName.SetDefault("Ice Arrow");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -25,10 +23,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.alpha = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
-            projectile.scale = 2f;
-            projectile.spriteDirection = 1;
-            aiType = ProjectileID.Bullet;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
@@ -55,10 +49,12 @@ namespace AmmoboxPlus.Projectiles {
                         }
                         ++index;
                     }
-                } else {
+                }
+                else {
                     target.AddBuff(mod.BuffType<Buffs.Cold>(), 500);
                 }
-            } else { //  No stuck limit
+            }
+            else { //  No stuck limit
 
                 if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
@@ -67,7 +63,8 @@ namespace AmmoboxPlus.Projectiles {
                     if (WorldGen.genRand.Next(50) == 0) {
                         processAddBuffIce(ref target, mod.BuffType<Buffs.Stuck>(), 300);
                     }
-                } else {
+                }
+                else {
                     if (WorldGen.genRand.Next(100) == 0) {
                         processAddBuffIce(ref target, mod.BuffType<Buffs.Stuck>(), 300);
                     }
@@ -83,7 +80,8 @@ namespace AmmoboxPlus.Projectiles {
                         }
                         ++index;
                     }
-                } else {
+                }
+                else {
                     target.AddBuff(mod.BuffType<Buffs.Cold>(), 500);
                 }
             }
@@ -118,11 +116,13 @@ namespace AmmoboxPlus.Projectiles {
                     }
                     ++index;
                 }
-            } else {
+            }
+            else {
                 npc.AddBuff(type, time);
                 npc.velocity = new Vector2(0, 0);
                 npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
             }
         }
+
     }
 }

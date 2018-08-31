@@ -2,14 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class DartStarfall : ModProjectile {
+    public class ArrowSand : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Dart");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            DisplayName.SetDefault("Sandy Arrow");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -20,23 +19,28 @@ namespace AmmoboxPlus.Projectiles {
             projectile.ranged = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
-            projectile.spriteDirection = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
         }
 
-        public override void AI() {
-            //  Check if projectile just spawned
-            if(WorldGen.genRand.Next(10) == 0 && projectile.timeLeft == 600) {
-                Vector2 vel = projectile.velocity, pos = projectile.position;
-                int own = projectile.owner;
-                projectile.Kill();
-                Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            if (Main.netMode == 0) {
+                target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 300);
             } else {
-                Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
-                Lighting.AddLight(projectile.position, Color.LightYellow.ToVector3());
+                var packet = mod.GetPacket();
+                int buffType = mod.BuffType<Buffs.CloudedVision>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
+                packet.Write(target.whoAmI);
+                packet.Write(buffType);
+                packet.Write(300);
+                packet.Send();
+            }
+        }
+
+        public override void AI() {
+            for (int i = 0; i < 2; i++) {
+                Dust.NewDust(projectile.position, 1, 1, DustID.Sandstorm);
             }
         }
 

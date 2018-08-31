@@ -2,14 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class DartStarfall : ModProjectile {
+    public class TestRocket : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Dart");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            DisplayName.SetDefault("Test Rocket");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -20,24 +19,18 @@ namespace AmmoboxPlus.Projectiles {
             projectile.ranged = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
+            projectile.light = 0.5f;
+            projectile.scale = 2f;
             projectile.spriteDirection = 1;
+
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
+            projectile.extraUpdates = 1;
         }
 
-        public override void AI() {
-            //  Check if projectile just spawned
-            if(WorldGen.genRand.Next(10) == 0 && projectile.timeLeft == 600) {
-                Vector2 vel = projectile.velocity, pos = projectile.position;
-                int own = projectile.owner;
-                projectile.Kill();
-                Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
-            } else {
-                Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
-                Lighting.AddLight(projectile.position, Color.LightYellow.ToVector3());
-            }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            knockback = 15;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
@@ -45,5 +38,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.Kill();
             return false;
         }
+
     }
 }

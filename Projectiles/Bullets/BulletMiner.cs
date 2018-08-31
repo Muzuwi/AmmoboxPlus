@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Utilities;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
@@ -32,33 +33,42 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-
+            if (WorldGen.genRand.Next(100) != 0) return;
             if (target.type == NPCID.TargetDummy) return;
             if (target.SpawnedFromStatue) return;
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre) return;
-            //  TODO: Change this into a List<int>, why did i think an array is a good idea
-            int[] oreSet;
-            if(!Main.hardMode) {
-                oreSet = new int[] { ItemID.CopperOre, ItemID.TinOre, ItemID.LeadOre, ItemID.SilverOre, ItemID.TungstenOre, ItemID.GoldOre, ItemID.PlatinumOre, ItemID.DemoniteOre, ItemID.IronOre, ItemID.CrimtaneOre, ItemID.FossilOre };
-            } else if (Main.hardMode && !NPC.downedPlantBoss){
-                oreSet = new int[] { ItemID.CopperOre, ItemID.TinOre, ItemID.LeadOre, ItemID.SilverOre, ItemID.TungstenOre, ItemID.GoldOre, ItemID.PlatinumOre, ItemID.DemoniteOre, ItemID.IronOre, ItemID.CrimtaneOre, ItemID.FossilOre, ItemID.AdamantiteOre, ItemID.CobaltOre, ItemID.MythrilOre, ItemID.OrichalcumOre, ItemID.PalladiumOre, ItemID.TitaniumOre };
-            } else if (NPC.downedPlantBoss && !NPC.downedMoonlord) {
-                oreSet = new int[] { ItemID.CopperOre, ItemID.TinOre, ItemID.LeadOre, ItemID.SilverOre, ItemID.TungstenOre, ItemID.GoldOre, ItemID.PlatinumOre, ItemID.DemoniteOre, ItemID.IronOre, ItemID.CrimtaneOre, ItemID.FossilOre, ItemID.AdamantiteOre, ItemID.CobaltOre, ItemID.MythrilOre, ItemID.OrichalcumOre, ItemID.PalladiumOre, ItemID.TitaniumOre, ItemID.ChlorophyteOre };
-            } else if (NPC.downedPlantBoss && NPC.downedMoonlord) {
-                oreSet = new int[] { ItemID.CopperOre, ItemID.TinOre, ItemID.LeadOre, ItemID.SilverOre, ItemID.TungstenOre, ItemID.GoldOre, ItemID.PlatinumOre, ItemID.DemoniteOre, ItemID.IronOre, ItemID.CrimtaneOre, ItemID.FossilOre, ItemID.AdamantiteOre, ItemID.CobaltOre, ItemID.MythrilOre, ItemID.OrichalcumOre, ItemID.PalladiumOre, ItemID.TitaniumOre, ItemID.ChlorophyteOre, ItemID.LunarOre };
-            } else {
-                return;
+
+            //  Load drop table
+            var dropTable = new WeightedRandom<int>();
+            if (!Main.hardMode) {
+                foreach (int a in AmmoboxPlus.AmmoboxOreVanillaPHM) {
+                    dropTable.Add(a);
+                }
+            } else if (Main.hardMode) {
+                //  Include both phm and hm ores
+                foreach (int a in AmmoboxPlus.AmmoboxOreVanillaPHM) {
+                    dropTable.Add(a);
+                }
+                if(AmmoboxPlus.AmmoboxOreVanillaHM.Count > 0) {
+                    foreach (int a in AmmoboxPlus.AmmoboxOreVanillaHM) {
+                        dropTable.Add(a);
+                    }
+                }
             }
 
-            if(WorldGen.genRand.Next(100) == 0) {
-                if(Main.netMode == 0) { //  Singleplayer
-                    int index = Item.NewItem(target.position, oreSet[WorldGen.genRand.Next(oreSet.Length)], WorldGen.genRand.Next(10, 30));
-                }else if(Main.netMode == 1) { //  MP
-                    int index = Item.NewItem(target.position, oreSet[WorldGen.genRand.Next(oreSet.Length)], WorldGen.genRand.Next(10, 30));
-                    NetMessage.SendData(21, -1, -1, Terraria.Localization.NetworkText.Empty, index, 0.0f, 0.0f, 0.0f, 0, 0, 0);
+            //  Add mod-supplied ores to the drop table (if any exist)
+            if (AmmoboxPlus.AmmoboxOreModded.Count > 0) {
+                foreach (int a in AmmoboxPlus.AmmoboxOreModded) {
+                    dropTable.Add(a);
                 }
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
             }
+
+            //  Spawn the item
+            int index = Item.NewItem(target.position, dropTable, WorldGen.genRand.Next(10, 30));
+            if(Main.netMode == 1) {
+                NetMessage.SendData(21, -1, -1, Terraria.Localization.NetworkText.Empty, index, 0.0f, 0.0f, 0.0f, 0, 0, 0);
+            }
+            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
 
         }
 

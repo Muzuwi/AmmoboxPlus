@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -29,26 +28,18 @@ namespace AmmoboxPlus.NPCs {
 
         //  Is enemy drugged (the Buff)
         public bool apDrugged = false;
-        //  Is enemy going to receive damage
-        public bool apDruggedGoingToReceiveDamage = false; 
-        //  Drugged damage aura tick time
-        public int apDruggedTick = 0;
-        //  Damage to do
-        public int apDruggedDamage = 0;
         //  Whether to tint the enemy
         public bool apDruggedShouldTint = false;
         //  Drugged aura cooldown
         public int apDruggedCooldown = 0;
+        public int apDruggedTick = 0;
 
         //  Is clouded vision applied?
         public bool apClouded = false;
 
         //  Is cactus shield applied?
         public bool apCactus = false;
-        public bool apCactusGoingToReceiveDamage = false;
-        public int apCactusTick = 0;
         public int apCactusCooldown = 0;
-        public int apCactusDamage = 0;
 
         //  Slime?
         public bool apSlime = false;
@@ -79,30 +70,22 @@ namespace AmmoboxPlus.NPCs {
             apCactus = false;
         }
         
-        //  Damage enemies affected by drugged 
-        public override void UpdateLifeRegen(NPC npc, ref int damage) {
-            if (apDruggedGoingToReceiveDamage) {
-                if (npc.lifeRegen > 0) npc.lifeRegen = 0;
-                npc.lifeRegen -= apDruggedDamage/2;
-                damage = apDruggedDamage/2;
-                apDruggedGoingToReceiveDamage = false;
-                npc.netUpdate = true;
-            }
-            if (apCactusGoingToReceiveDamage) {
-                if (npc.lifeRegen > 0) npc.lifeRegen = 0;
-                npc.lifeRegen -= apCactusDamage / 5;
-                damage = apCactusDamage / 5;
-                apCactusGoingToReceiveDamage = false;
-                npc.netUpdate = true;
-            }
-        }
-
         //  Apply damage multiplier when Marked for Death
         public override void HitEffect(NPC npc, int hitDirection, double damage) {
             if (apMarked && !apAlreadyGrantedMulti) {
                 apAlreadyGrantedMulti = true;
-                npc.takenDamageMultiplier *= 1.15f;
+                npc.takenDamageMultiplier += 0.15f;
                 npc.netUpdate = true;
+            }
+        }
+
+        public override void NPCLoot(NPC npc) {
+            if(npc.boss && !Main.expertMode) {
+                if (Main.hardMode) {
+                    Item.NewItem(npc.getRect(), mod.ItemType("AmmoBoxPlus"));
+                } else {
+                    Item.NewItem(npc.getRect(), mod.ItemType("AmmoBox"));
+                }
             }
         }
 
@@ -195,8 +178,9 @@ namespace AmmoboxPlus.NPCs {
 
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);
-            if (apDrugged) {
-                int index = 0;
+            apDruggedTick = (apDruggedTick > 0 ? apDruggedTick - 1 : 0);
+            if (apDrugged && apDruggedTick == 0) {
+                int index = 0, appliedCount = 0;
                 foreach (NPC n in Main.npc) {
                     //  Calculate distance between enemies
                     float a = Math.Abs(npc.Center.X - n.Center.X);
@@ -205,13 +189,14 @@ namespace AmmoboxPlus.NPCs {
                     double reach = Math.Max(npc.width, npc.height) * 1.7f;
 
                     if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged) {
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedGoingToReceiveDamage = true;
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedDamage = apDruggedDamage;
+                        n.StrikeNPC(npc.damage / 2, 1, 0);
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
                         Main.npc[index].netUpdate = true;
+                        ++appliedCount;
                     }
                     ++index;
                 }
+                if(appliedCount > 0) apDruggedTick = 120;
             }
 
             apCactusCooldown = (apCactusCooldown > 0 ? apCactusCooldown - 1 : 0);
@@ -220,11 +205,14 @@ namespace AmmoboxPlus.NPCs {
                 int index = 0;
                 foreach (NPC n in Main.npc) {
                     //  Calculate distance between enemies
-                    bool collision = Terraria.Collision.CheckAABBvAABBCollision(npc.Hitbox.BottomLeft(), new Vector2(npc.Hitbox.Width, npc.Hitbox.Height), n.Hitbox.BottomLeft(), new Vector2(n.Hitbox.Width, n.Hitbox.Height));
-
-                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusGoingToReceiveDamage = true;
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusDamage = apCactusDamage;
+                    bool collision = Collision.CheckAABBvAABBCollision(npc.Hitbox.BottomLeft(), new Vector2(npc.Hitbox.Width, npc.Hitbox.Height), n.Hitbox.BottomLeft(), new Vector2(n.Hitbox.Width, n.Hitbox.Height));
+                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus && n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown == 0) {
+                        if (n.position.X > npc.position.X) {
+                            n.StrikeNPC(npc.damage / 4, 9.0f, 1);
+                        }else {
+                            n.StrikeNPC(npc.damage / 4, 9.0f, -1);
+                        }
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown = 300;
                         Main.npc[index].netUpdate = true;
                     }
                     ++index;

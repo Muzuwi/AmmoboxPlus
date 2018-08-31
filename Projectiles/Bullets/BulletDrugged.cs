@@ -23,7 +23,6 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.ranged = true;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.scale = 2f;
             projectile.spriteDirection = 1;
 
@@ -60,6 +59,10 @@ namespace AmmoboxPlus.Projectiles {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.Kill();
             return false;
+        }
+
+        public override void AI() {
+            Lighting.AddLight(projectile.Top, Color.MediumPurple.ToVector3());
         }
 
     }

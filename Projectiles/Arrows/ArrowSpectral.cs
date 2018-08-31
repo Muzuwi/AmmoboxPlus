@@ -4,13 +4,12 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AmmoboxPlus;
 
 namespace AmmoboxPlus.Projectiles {
     public class ArrowSpectral : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Spectral Arrow");
+            DisplayName.SetDefault("Phantasmal Arrow");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -24,13 +23,11 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.ranged = true;
             projectile.alpha = 1;
-            projectile.light = 0f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.extraUpdates = 1;
             projectile.maxPenetrate = 5;
             projectile.penetrate = 6;
-            projectile.spriteDirection = 1;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
@@ -58,6 +55,21 @@ namespace AmmoboxPlus.Projectiles {
 
             }
             return false;
+        }
+
+        public override void AI() {
+            Lighting.AddLight(projectile.Top, Color.LightBlue.ToVector3());
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
+            //Redraw the projectile with the color not influenced by light
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++) {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * 0.3f;
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return true;
         }
     }
 }

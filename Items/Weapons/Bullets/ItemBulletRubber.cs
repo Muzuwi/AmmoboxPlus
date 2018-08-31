@@ -27,7 +27,7 @@ namespace AmmoboxPlus.Items.Weapons {
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MusketBall, 100);
-            recipe.AddIngredient(ItemID.PinkGel, 1);
+            recipe.AddIngredient(ItemID.PinkGel, 10);
             recipe.SetResult(this, 300);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();

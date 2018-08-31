@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
-
 
 namespace AmmoboxPlus {
     class AmmoboxPlayer : ModPlayer {
@@ -27,6 +23,18 @@ namespace AmmoboxPlus {
                     crit = false;
                 }
             }
+        }
+
+        public override void OnEnterWorld(Player player) {
+            //  Reset the lists/dictionaries and bools
+            AmmoboxPlus.resetVariables();
+            AmmoboxWorld.apInsertedPostMechAny = false;
+            AmmoboxWorld.apInsertedPostMechAll = false;
+            AmmoboxWorld.apInsertedPostPlantera = false;
+            AmmoboxWorld.apInsertedPostGolem = false;
+            AmmoboxWorld.apInsertedPostMoonlord = false;
+            AmmoboxWorld.apInsertedPostHMActive = false;
+            AmmoboxWorld.apInsertedAlwaysAvailablePHM = false;
         }
 
     }

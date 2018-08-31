@@ -34,12 +34,12 @@ namespace AmmoboxPlus.Projectiles {
             knockback = 15;
         }
 
-
         public override bool OnTileCollide(Vector2 oldVelocity) {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.Kill();
             return false;
         }
+
 
     }
 }

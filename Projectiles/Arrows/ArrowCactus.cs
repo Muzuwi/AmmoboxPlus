@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class DartStarfall : ModProjectile {
+    public class ArrowCactus : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starfall Dart");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            DisplayName.SetDefault("Cactus Arrow");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -20,23 +20,28 @@ namespace AmmoboxPlus.Projectiles {
             projectile.ranged = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.timeLeft = 600;
             projectile.alpha = 1;
-            projectile.spriteDirection = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
         }
 
-        public override void AI() {
-            //  Check if projectile just spawned
-            if(WorldGen.genRand.Next(10) == 0 && projectile.timeLeft == 600) {
-                Vector2 vel = projectile.velocity, pos = projectile.position;
-                int own = projectile.owner;
-                projectile.Kill();
-                Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
-            } else {
-                Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
-                Lighting.AddLight(projectile.position, Color.LightYellow.ToVector3());
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged) {
+                return;
+            }
+
+            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
+            if (Main.netMode == 0) {
+                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 300);
+            }
+            else {
+                var packet = mod.GetPacket();
+                int buffType = mod.BuffType<Buffs.Cactus>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
+                packet.Write(target.whoAmI);
+                packet.Write(buffType);
+                packet.Write(300);
+                packet.Send();
             }
         }
 

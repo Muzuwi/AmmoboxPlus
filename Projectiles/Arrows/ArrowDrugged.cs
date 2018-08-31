@@ -21,24 +21,37 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.ranged = true;
             projectile.alpha = 1;
-            projectile.light = 0f;
-            projectile.scale = 2f;
-            projectile.spriteDirection = 1;
-
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             if (target.realLife != -1) return;
             if (target.type == NPCID.TargetDummy) return;
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
+                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
+                if (Main.netMode == 0) { //  Singleplayer
+                    target.DelBuff(mod.BuffType<Buffs.Cactus>());
+                }
+                else { //  Sync with others
+                    var packet = mod.GetPacket();
+                    int buffType = mod.BuffType<Buffs.Cactus>();
+                    packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
+                    packet.Write(target.whoAmI);
+                    packet.Write(buffType);
+                    packet.Send();
+                }
+            }
+
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
                 target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
                 target.AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
             }
         }
 
+        public override void AI() {
+            Lighting.AddLight(projectile.Top, Color.MediumPurple.ToVector3());
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
             Main.PlaySound(SoundID.Item10, projectile.position);

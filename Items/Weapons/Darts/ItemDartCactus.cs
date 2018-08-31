@@ -18,7 +18,7 @@ namespace AmmoboxPlus.Items.Weapons {
             item.consumable = true;
             item.knockBack = 2f; 
             item.value = 10; 
-            item.rare = ItemRarityID.Orange;
+            item.rare = ItemRarityID.White;
             item.shoot = mod.ProjectileType("DartCactus");
             item.shootSpeed = 5f;
             item.ammo = AmmoID.Dart;

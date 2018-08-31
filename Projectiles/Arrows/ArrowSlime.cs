@@ -1,16 +1,14 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class DartCactus : ModProjectile {
+    public class ArrowSlime : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Cactus Dart");
+            DisplayName.SetDefault("Slime Arrow");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -25,26 +23,31 @@ namespace AmmoboxPlus.Projectiles {
             projectile.alpha = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
-            projectile.spriteDirection = 1;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged) {
-                return;
-            }
+            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apSlime = true;
 
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 300);
+                target.AddBuff(mod.BuffType<Buffs.Slime>(), 200);
+                target.AddBuff(BuffID.Slimed, 200);
             }
             else {
+                target.AddBuff(BuffID.Slimed, 200);
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Cactus>();
-                packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
+                int buffType = mod.BuffType<Buffs.Slime>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxSlime);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
-                packet.Write(300);
+                packet.Write(200);
                 packet.Send();
+            }
+
+        }
+
+        public override void AI() {
+            for (int i = 0; i < 2; i++) {
+                Dust.NewDust(projectile.position, 1, 1, DustID.PinkSlime, newColor: Color.DeepSkyBlue);
             }
         }
 

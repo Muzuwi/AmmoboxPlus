@@ -1,0 +1,11 @@
+v1.2.2.7
+- Arrow Update! 10 new arrow types added
+- Fix cactus dart rarity
+- Changed rubber bullet recipe, now requires 10 pink gel (previously 1)
+- Reworked cactus shield, should be more reliable now
+- Fixed Marked multiplying the multiplier instead of adding onto it
+- Reworked drugged status, more visual feedback (?)
+- New system for miner ammo, preparation for cross-mod support
+- New bullet projectiles, vanilla style
+- New light effects for ammo
+- Turn down the effects for bullets

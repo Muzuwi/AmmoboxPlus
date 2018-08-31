@@ -15,7 +15,7 @@ namespace AmmoboxPlus.Buffs {
 
         public override void Update(NPC npc, ref int buffIndex) {
             npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
-            npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusDamage = npc.damage;
+            //npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusDamage = npc.damage;
         }
     }
 }

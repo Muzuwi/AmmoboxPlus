@@ -61,8 +61,9 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void AI() {
             for (int i = 0; i < 1; i++) {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Silver, newColor: new Color(255,255,255));
+                //Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Silver, newColor: new Color(255,255,255));
             }
+            Lighting.AddLight(projectile.Top, Color.White.ToVector3());
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

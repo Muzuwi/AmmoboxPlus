@@ -23,14 +23,12 @@ namespace AmmoboxPlus.Projectiles {
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.alpha = 1;
-            projectile.light = 0.5f;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.extraUpdates = 1;
             projectile.maxPenetrate = 5;
             projectile.penetrate = 6;
             projectile.spriteDirection = 1;
-
             aiType = ProjectileID.Bullet;
         }
 
@@ -57,6 +55,10 @@ namespace AmmoboxPlus.Projectiles {
 
             }
             return false;
+        }
+
+        public override void AI() {
+            Lighting.AddLight(projectile.Top, Color.LightBlue.ToVector3());
         }
 
 

@@ -14,7 +14,7 @@ namespace AmmoboxPlus.Buffs {
         }
 
         public override void Update(NPC npc, ref int buffIndex) {
-            npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedDamage = npc.damage;
+            //npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedDamage = npc.damage;
             npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged = true;
         }
     }

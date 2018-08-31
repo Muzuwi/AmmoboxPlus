@@ -37,8 +37,9 @@ namespace AmmoboxPlus.Projectiles {
                 projectile.Kill();
                 Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
             } else {
-                Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
+                //Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
             }
+            Lighting.AddLight(projectile.Top, Color.Yellow.ToVector3());
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
