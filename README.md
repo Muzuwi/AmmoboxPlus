@@ -3,7 +3,7 @@
 # ![icon] Ammobox+
 Expanding ammo variety for Terraria [tModLoader]
 
-Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 20 new ammo types with new effects and their own recipes to the game.
+Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 30 new ammo types with new effects and their own recipes to the game.
 
 Currently implemented ammo types:
 
@@ -16,17 +16,27 @@ Currently implemented ammo types:
 - Spectral Bullet - can penetrate up to 4 blocks, but the accuracy decreases substantially with each block
 - Starfall Bullet - has a low chance to turn into a star
 
-- And more! Dart update adds 12 new dart types to the game!
+- And more! Arrow and Dart updates add 22 new ammo types to the game!
 
 ## Known Issues
-- Miner Bullets do not drop modded ores, this is planned to be implemented in the near future
 - Ice/Slime ammo may rarely cause erratic movement in enemies, please report such cases on the Issue Tracker on GitHub
 - Debuffs do not apply to players in PvP
 
 ## Changelog
-- v1.1.2.4 - **Dart Update!** 12 new ammo types (Darts), ranging from Pre-Hardmode to Hardmode. 
-	           Netsync should be more stable now
-             Redid slime and ice effects, should work without any bugs on most enemies (a blacklist for certain enemies still exists)
+- v1.2.2.7 - **Arrow Update!** 10 new arrow types, 2 new items (Ammo Box, Ammo Box Plus)
+	* Fix cactus dart rarity
+	* Changed rubber bullet recipe, now requires 10 pink gel (previously 1)
+	* Reworked cactus shield, should be more reliable now
+	* Fixed Marked multiplying the multiplier instead of adding onto it
+	* Reworked drugged status, more visual feedback (?)
+	* New system for miner ammo, preparation for cross-mod support
+	* New bullet projectiles, vanilla style
+	* New light effects for ammo
+	* Turn down the effects for bullets
+
+- v1.1.2.4 - **Dart Update!** 12 new ammo types (Darts), ranging from Pre-Hardmode to Hardmode.
+	* Netsync should be more stable now
+	* Redid slime and ice effects, should work without any bugs on most enemies (a blacklist for certain enemies still exists)
 - v1.0.2.2 - Fixed Starfall Bullet recipe
 
 ## Download
