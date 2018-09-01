@@ -222,5 +222,73 @@ namespace AmmoboxPlus.NPCs {
             npc.velocity = (apStuck) ? new Vector2(0, 0) : npc.velocity;
             return (apStuck) ? false : true;
         }
+
+        public override void PostAI(NPC npc) {
+            if (apSlime || apCold) {
+                float slimeVelocityBossMulti = 0.995f;
+                float slimeVelocityNpcMulti = 0.98f;
+                float iceVelocityBossMulti = 0.96f;
+                float iceVelocityNpcMulti = 0.90f;
+
+                if(Main.netMode == 1) {
+                    if (npc.type == NPCID.QueenBee) {
+                        if (  (npc.ai[0] == 0 && npc.ai[1] == 1) || (npc.ai[0] == 0 && npc.ai[1] == 3) || (npc.ai[0] == 0 && npc.ai[1] == 5)){
+                            //  Screw queen bee
+                            return;
+                        }
+                    }
+
+                    if (npc.boss) {
+                        if (apSlime) {
+                            npc.velocity *= slimeVelocityBossMulti;
+                        } else if (apCold) {
+                            if (npc.type == NPCID.QueenBee) {
+                                npc.velocity *= 0.98f;
+                            } else {
+                                npc.velocity *= iceVelocityBossMulti;
+                            }
+                        }
+                    } else {
+                        if (apSlime) {
+                            npc.velocity *= slimeVelocityNpcMulti;
+                        } else if (apCold) {
+                            npc.velocity *= iceVelocityNpcMulti;
+                        }
+                    }
+
+                    var packet = mod.GetPacket();
+                    packet.Write((byte)AmmoboxMsgType.AmmoboxUpdateVelocity);
+                    packet.Write(npc.whoAmI);
+                    packet.WriteVector2(npc.velocity);
+                    packet.Send();
+                    npc.netUpdate = true;
+                    npc.netUpdate2 = true;
+                } else if (Main.netMode == 0){
+                    if (npc.type == NPCID.QueenBee) {
+                        if ((npc.ai[0] == 0 && npc.ai[1] == 1) || (npc.ai[0] == 0 && npc.ai[1] == 3) || (npc.ai[0] == 0 && npc.ai[1] == 5)) {
+                            //  Screw queen bee
+                            return;
+                        }
+                    }
+                    if (npc.boss) {
+                        if (apSlime) {
+                            npc.velocity *= slimeVelocityBossMulti;
+                        } else if (apCold) {
+                            if (npc.type == NPCID.QueenBee) {
+                                npc.velocity *= 0.98f;
+                            } else {
+                                npc.velocity *= iceVelocityBossMulti;
+                            }
+                        }
+                    } else {
+                        if (apSlime) {
+                            npc.velocity *= slimeVelocityNpcMulti;
+                        } else if (apCold) {
+                            npc.velocity *= iceVelocityNpcMulti;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

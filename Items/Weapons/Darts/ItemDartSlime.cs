@@ -26,7 +26,7 @@ namespace AmmoboxPlus.Items.Weapons {
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Gel, 10);
+            recipe.AddIngredient(ItemID.Gel, 15);
             recipe.AddRecipeGroup("IronBar", 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 100);

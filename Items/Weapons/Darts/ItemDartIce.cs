@@ -29,7 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.IceFeather, 1);
             recipe.AddRecipeGroup("IronBar", 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
     }

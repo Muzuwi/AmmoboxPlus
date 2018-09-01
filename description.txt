@@ -15,6 +15,10 @@ Please report issues on the GitHub issue tracker!
 GitHub: https://github.com/Muzuwi/AmmoboxPlus
 Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
+v1.2.2.8 - Fix possible multiplayer Ice/Slime desync
+		Queen Bee is no longer affected by Ice Ammo (due to unfixable glitches, for now)
+		Changed ice ammo recipe
+		Changed slime ammo recipe
 v1.2.2.7 - Arrow Update! 10 new arrow types added
 	   New items - Ammo Boxes and Ammo Boxes Plus!
 	   Changed rubber bullet recipe, now requires 10 pink gel

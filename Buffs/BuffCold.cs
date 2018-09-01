@@ -16,11 +16,7 @@ namespace AmmoboxPlus.Buffs {
 
         public override void Update(NPC npc, ref int buffIndex) {
             npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCold = true;
-            if(npc.boss){
-                npc.velocity *= 0.95f;
-            } else {
-                npc.velocity *= 0.7f;
-            }
+            npc.netUpdate = true;
         }
     }
 }

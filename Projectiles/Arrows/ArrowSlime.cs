@@ -31,8 +31,7 @@ namespace AmmoboxPlus.Projectiles {
             if (Main.netMode == 0) {
                 target.AddBuff(mod.BuffType<Buffs.Slime>(), 200);
                 target.AddBuff(BuffID.Slimed, 200);
-            }
-            else {
+            } else {
                 target.AddBuff(BuffID.Slimed, 200);
                 var packet = mod.GetPacket();
                 int buffType = mod.BuffType<Buffs.Slime>();

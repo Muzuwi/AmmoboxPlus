@@ -83,6 +83,13 @@ namespace AmmoboxPlus
                     int buffid = reader.ReadInt32();
                     Main.npc[npcid].DelBuff(buffid);
                     break;
+                case AmmoboxMsgType.AmmoboxUpdateVelocity:
+                    //  C# why
+                    int npcid2 = reader.ReadInt32();
+                    Vector2 vel = reader.ReadVector2();
+                    Main.npc[npcid2].velocity = vel;
+                    break;
+
                 default:
                     break;
             }
@@ -91,7 +98,7 @@ namespace AmmoboxPlus
         //  Blacklisted enemies for Stuck/Cold/Slime
         public static bool isEnemyBlacklisted(int atype) {
             List<int> enemyBlacklist = new List<int>() {
-                NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.WallofFlesh, NPCID.WallofFleshEye, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead
+                NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.PrimeCannon, NPCID.PrimeLaser, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.MoonLordHand, NPCID.QueenBee
             };
             return enemyBlacklist.Contains(atype);
         }
@@ -217,6 +224,7 @@ namespace AmmoboxPlus
         AmmoboxCactus,
         AmmoboxSlime,
         AmmoboxDelBuff,
+        AmmoboxUpdateVelocity,
     }
 
 }
