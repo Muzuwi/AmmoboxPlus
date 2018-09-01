@@ -98,7 +98,7 @@ namespace AmmoboxPlus
         //  Blacklisted enemies for Stuck/Cold/Slime
         public static bool isEnemyBlacklisted(int atype) {
             List<int> enemyBlacklist = new List<int>() {
-                NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.PrimeCannon, NPCID.PrimeLaser, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.MoonLordHand, NPCID.QueenBee
+                NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.PrimeCannon, NPCID.PrimeLaser, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.MoonLordHand, NPCID.QueenBee, NPCID.SkeletronHand
             };
             return enemyBlacklist.Contains(atype);
         }
