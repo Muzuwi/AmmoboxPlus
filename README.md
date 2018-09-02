@@ -23,6 +23,13 @@ Currently implemented ammo types:
 - Debuffs do not apply to players in PvP
 
 ## Changelog
+- v1.2.2.9 - Fix possible multiplayer Ice/Slime desync
+	* Changed ice ammo recipe
+	* Changed slime ammo recipe
+	* Nerfed slime slowdown
+	* Possibly a few more things I forgot
+
+
 - v1.2.2.7 - **Arrow Update!** 10 new arrow types, 2 new items (Ammo Box, Ammo Box Plus)
 	* Fix cactus dart rarity
 	* Changed rubber bullet recipe, now requires 10 pink gel (previously 1)
