@@ -26,9 +26,9 @@ namespace AmmoboxPlus.Items.Weapons {
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceFeather, 1);
-            recipe.AddIngredient(ItemID.EmptyBullet, 100);
-            recipe.SetResult(this, 50);
+            recipe.AddIngredient(ItemID.FrostCore, 1);
+            recipe.AddIngredient(ItemID.EmptyBullet, 75);
+            recipe.SetResult(this, 75);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
         }

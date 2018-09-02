@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items.Weapons {
     public class ArrowSand : ModItem {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sandy Arrow");
-            Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to not hit you.");
+            Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to do less damage on hit.");
         }
 
         public override void SetDefaults() {

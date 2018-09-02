@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items.Weapons {
     public class DartSand : ModItem {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sandy Dart");
-            Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to not hit you.");
+            Tooltip.SetDefault("Inflicts 'Clouded Vision'\nEnemies have a very low chance to do less damage on hit.");
         }
 
         public override void SetDefaults() {

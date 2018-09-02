@@ -26,6 +26,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
             target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apSlime = true;
 
             if (Main.netMode == 0) {

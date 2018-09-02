@@ -229,8 +229,8 @@ namespace AmmoboxPlus.NPCs {
 
         public override void AI(NPC npc) {
             if (apSlime || apCold) {
-                float slimeVelocityBossMulti = 0.995f;
-                float slimeVelocityNpcMulti = 0.98f;
+                float slimeVelocityBossMulti = 0.993f;
+                float slimeVelocityNpcMulti = 0.97f;
                 float iceVelocityBossMulti = 0.96f;
                 float iceVelocityNpcMulti = 0.93f;
 

@@ -17,7 +17,7 @@ namespace AmmoboxPlus {
             if (npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apClouded) {
                 //  This actually doesn't negate the damage completely, but leaves 1 point of damage
                 //  I'll fix this someday
-                if(WorldGen.genRand.Next(20) == 0) {
+                if(WorldGen.genRand.Next(14) == 0) {
                     for(int i = 0; i < 5; i++) Dust.NewDust(player.position, 1, 1, DustID.Smoke);
                     damage = 0;
                     crit = false;
