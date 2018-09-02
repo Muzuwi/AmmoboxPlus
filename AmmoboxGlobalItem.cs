@@ -1,5 +1,8 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using AmmoboxPlus;
+using Microsoft.Xna.Framework;
 
 namespace AmmoboxPlus {
     class AmmoboxGlobalItem :  GlobalItem{
@@ -15,5 +18,19 @@ namespace AmmoboxPlus {
                 }
             }
         }
+
+        public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+            if (item.type == ItemID.GrenadeLauncher && type == ProjectileID.GrenadeI + mod.ProjectileType("TestRocket")) {
+                //Main.NewText("" + type + " " + mod.ProjectileType("TestRocket") + " " + mod.ItemType("TestRocket"));
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("TestRocket"), damage, knockBack, player.whoAmI);
+                return false;
+            } else if(item.type == ItemID.RocketLauncher && type == ProjectileID.RocketI + mod.ProjectileType("TestRocket")) {
+                //Main.NewText("" + type + " " + mod.ProjectileType("TestRocket") + " " + mod.ItemType("ItemTestRocket"));
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("TestRocket"), damage, knockBack, player.whoAmI);
+                return false;
+            }
+            return true;
+        }
+
     }
 }

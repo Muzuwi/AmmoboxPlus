@@ -1,6 +1,8 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using AmmoboxPlus;
 
 namespace AmmoboxPlus.Items {
     class TestRocket : ModItem {
@@ -19,10 +21,9 @@ namespace AmmoboxPlus.Items {
             item.knockBack = 2f;
             item.value = 15;
             item.rare = ItemRarityID.Lime;
-            item.shoot = mod.ProjectileType("TestRocket");
             item.shootSpeed = 3f;
+            item.shoot = mod.ProjectileType("TestRocket");
             item.ammo = AmmoID.Rocket;
         }
-
     }
 }
