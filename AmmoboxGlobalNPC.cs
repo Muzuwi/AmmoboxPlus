@@ -220,6 +220,10 @@ namespace AmmoboxPlus.NPCs {
             }
 
             npc.velocity = (apStuck) ? new Vector2(0, 0) : npc.velocity;
+            if(npc.type == 222 && apStuck) {
+                npc.ai[0] = 2;
+                npc.ai[1] = 0;
+            }
             return (apStuck) ? false : true;
         }
 
@@ -228,11 +232,11 @@ namespace AmmoboxPlus.NPCs {
                 float slimeVelocityBossMulti = 0.995f;
                 float slimeVelocityNpcMulti = 0.98f;
                 float iceVelocityBossMulti = 0.96f;
-                float iceVelocityNpcMulti = 0.90f;
+                float iceVelocityNpcMulti = 0.93f;
 
-                if(Main.netMode == 1) {
+                if (Main.netMode == 2) {
                     if (npc.type == NPCID.QueenBee) {
-                        if (  (npc.ai[0] == 0 && npc.ai[1] == 1) || (npc.ai[0] == 0 && npc.ai[1] == 3) || (npc.ai[0] == 0 && npc.ai[1] == 5)){
+                        if ((npc.ai[0] == 0 && npc.ai[1] % 2 != 0)) {
                             //  Screw queen bee
                             return;
                         }
@@ -255,6 +259,7 @@ namespace AmmoboxPlus.NPCs {
                             npc.velocity *= iceVelocityNpcMulti;
                         }
                     }
+                    npc.netUpdate = true;
 
                     var packet = mod.GetPacket();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxUpdateVelocity);
@@ -263,9 +268,9 @@ namespace AmmoboxPlus.NPCs {
                     packet.Send();
                     npc.netUpdate = true;
                     npc.netUpdate2 = true;
-                } else if (Main.netMode == 0){
+                } else if (Main.netMode == 0) {
                     if (npc.type == NPCID.QueenBee) {
-                        if ((npc.ai[0] == 0 && npc.ai[1] == 1) || (npc.ai[0] == 0 && npc.ai[1] == 3) || (npc.ai[0] == 0 && npc.ai[1] == 5)) {
+                        if ((npc.ai[0] == 0 && npc.ai[1] % 2 != 0)) {
                             //  Screw queen bee
                             return;
                         }

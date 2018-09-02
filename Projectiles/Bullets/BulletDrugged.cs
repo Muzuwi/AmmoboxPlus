@@ -3,8 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace AmmoboxPlus.Projectiles {
     public class BulletDrugged : ModProjectile {
