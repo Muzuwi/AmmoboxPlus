@@ -22,6 +22,7 @@ namespace AmmoboxPlus {
 
 
         public override void PostUpdate() {
+            AmmoboxPlus.AmmoboxDruggedActive = 0;
             //  Add always-accessible phm ammo and ore
             if (!apInsertedAlwaysAvailablePHM) {
                 //ErrorLogger.Log("PHM inserted");

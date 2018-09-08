@@ -31,26 +31,50 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.realLife != -1) return;
             if (target.type == NPCID.TargetDummy) return;
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
-                if (Main.netMode == 0) { //  Singleplayer
-                    target.DelBuff(mod.BuffType<Buffs.Cactus>());
-                } else { //  Sync with others
-                    var packet = mod.GetPacket();
-                    int buffType = mod.BuffType<Buffs.Cactus>();
-                    packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
-                    packet.Write(target.whoAmI);
-                    packet.Write(buffType);
-                    packet.Send();
+
+            if (target.realLife != -1) {
+                //  Apply only to the parent
+                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
+                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
+                    if (Main.netMode == 0) { //  Singleplayer
+                        Main.npc[target.realLife].DelBuff(mod.BuffType<Buffs.Cactus>());
+                    } else { //  Sync with others
+                        var packet = mod.GetPacket();
+                        int buffType = mod.BuffType<Buffs.Cactus>();
+                        packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
+                        packet.Write(Main.npc[target.realLife].whoAmI);
+                        packet.Write(buffType);
+                        packet.Send();
+                    }
+                }
+
+                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
+                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
+                    Main.npc[target.realLife].AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
+                }
+
+            } else {
+                //  Normal enemy, do things as usual
+                if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
+                    target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
+                    if (Main.netMode == 0) { //  Singleplayer
+                        target.DelBuff(mod.BuffType<Buffs.Cactus>());
+                    } else { //  Sync with others
+                        var packet = mod.GetPacket();
+                        int buffType = mod.BuffType<Buffs.Cactus>();
+                        packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
+                        packet.Write(target.whoAmI);
+                        packet.Write(buffType);
+                        packet.Send();
+                    }
+                }
+
+                if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
+                    target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
+                    target.AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
                 }
             }
-
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
-                target.AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
-            }            
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

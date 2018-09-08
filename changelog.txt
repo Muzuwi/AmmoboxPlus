@@ -1,3 +1,6 @@
+v1.3.3.0
+- Fix ammo dropped from ammoboxes very rarely getting prefixes
+
 v1.2.2.9 
 - Fix possible multiplayer Ice/Slime desync
 - Changed ice ammo recipe

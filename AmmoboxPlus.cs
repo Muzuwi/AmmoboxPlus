@@ -11,6 +11,8 @@ namespace AmmoboxPlus
 	{
         internal static AmmoboxPlus instance;
 
+        public static int AmmoboxDruggedActive = 0;
+
         //  UNUSED
         //  Contains vanilla ore itemIDs to drop from miner ammo
         public static List<int> AmmoboxOreVanillaPHM;
@@ -101,37 +103,6 @@ namespace AmmoboxPlus
                 NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.PrimeCannon, NPCID.PrimeLaser, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.MoonLordHand,  NPCID.SkeletronHand, NPCID.GolemHead
             };
             return enemyBlacklist.Contains(atype);
-        }
-
-        //  Unused, maybe in the future
-        public static List<int> getTechnicallySameEnemyList(int atype) {
-            List<List<int>> massiveClustertruck = new List<List<int>> {
-                new List<int>{7,8,9},
-                new List<int>{10,11,12},
-                new List<int>{13,14,15},
-                new List<int>{35,36},
-                new List<int>{39,40,41},
-                new List<int>{87,88,89,90,91,92},
-                new List<int>{95,96,97},
-                new List<int>{98,99,100},
-                new List<int>{113,114},
-                new List<int>{117,118,119},
-                new List<int>{127,128,129,130,131},
-                new List<int>{134,135,136},
-                new List<int>{396,397,398,400,401},
-                new List<int>{402,403,404},
-                new List<int>{412,413,414},
-                new List<int>{454,455,456,457,458,459},
-                new List<int>{510,511,512},
-                new List<int>{513,514,515}
-            };
-
-            foreach(List<int> list in massiveClustertruck) {
-                if (list.Contains(atype)) {
-                    return list;
-                }
-            }
-            return new List<int> { atype };
         }
 
         //  Reset the Lists/Dictionaries to their default values

@@ -49,6 +49,10 @@ namespace AmmoboxPlus.NPCs {
         public bool apYing = false;
         public bool apYang = false;
 
+        //  Extra heart tick
+        public int apExtraHeartTick = 0;
+        public int apExtraManaTick = 0;
+
         //  Reset flags
         public override void ResetEffects(NPC npc) {
             apMarked = false;
@@ -82,9 +86,31 @@ namespace AmmoboxPlus.NPCs {
         public override void NPCLoot(NPC npc) {
             if(npc.boss && !Main.expertMode) {
                 if (Main.hardMode) {
-                    Item.NewItem(npc.getRect(), mod.ItemType("AmmoBoxPlus"));
+                    int id = Item.NewItem(npc.getRect(), mod.ItemType("AmmoBoxPlus"));
+                    if(Main.netMode != 0) {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id);
+                    }
                 } else {
-                    Item.NewItem(npc.getRect(), mod.ItemType("AmmoBox"));
+                    int id = Item.NewItem(npc.getRect(), mod.ItemType("AmmoBox"));
+                    if (Main.netMode != 0) {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id);
+                    }
+                }
+            }
+            if(Main.rand.Next(10) == 0 && apExtraHeartTick > 0) {
+                int id1 = Item.NewItem(npc.getRect(), ItemID.Heart);
+                int id2 = Item.NewItem(npc.getRect(), ItemID.Heart);
+                if(Main.netMode != 0) {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id1);
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id2);
+                }
+            }
+            if (Main.rand.Next(10) == 0 && apExtraManaTick > 0) {
+                int id1 = Item.NewItem(npc.getRect(), ItemID.Star);
+                int id2 = Item.NewItem(npc.getRect(), ItemID.Star);
+                if (Main.netMode != 0) {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id1);
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id2);
                 }
             }
         }
@@ -131,7 +157,7 @@ namespace AmmoboxPlus.NPCs {
             }
 
             if (apClouded) {
-                Dust.NewDust(npc.Center, 2, 2, 32);
+                Dust.NewDustDirect(npc.Center, 2, 2, 32);
             }
 
             return true;
@@ -176,6 +202,8 @@ namespace AmmoboxPlus.NPCs {
         public override bool PreAI(NPC npc) {
             apYiYaTick = (apYiYaTick > 0) ? apYiYaTick - 1 : 0;
 
+            if(apDrugged) ++AmmoboxPlus.AmmoboxDruggedActive;
+
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);
             apDruggedTick = (apDruggedTick > 0 ? apDruggedTick - 1 : 0);
@@ -189,7 +217,11 @@ namespace AmmoboxPlus.NPCs {
                     double reach = Math.Max(npc.width, npc.height) * 1.7f;
 
                     if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged) {
-                        n.StrikeNPC(npc.damage / 2, 1, 0);
+                        if(n.realLife == npc.whoAmI) {
+                            n.StrikeNPC(npc.damage / 8, 1, 0);
+                        } else {
+                            n.StrikeNPC(npc.damage / 2, 1, 0);
+                        }
                         Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
                         Main.npc[index].netUpdate = true;
                         ++appliedCount;
@@ -228,6 +260,8 @@ namespace AmmoboxPlus.NPCs {
         }
 
         public override void AI(NPC npc) {
+            apExtraManaTick = (apExtraManaTick > 0 ? apExtraManaTick - 1 : 0);
+            apExtraHeartTick = (apExtraHeartTick > 0 ? apExtraHeartTick - 1 : 0);
             if (apSlime || apCold) {
                 float slimeVelocityBossMulti = 0.993f;
                 float slimeVelocityNpcMulti = 0.97f;

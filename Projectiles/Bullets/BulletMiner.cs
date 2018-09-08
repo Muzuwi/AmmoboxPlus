@@ -33,43 +33,10 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (WorldGen.genRand.Next(100) != 0) return;
-            if (target.type == NPCID.TargetDummy) return;
-            if (target.SpawnedFromStatue) return;
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre) return;
-
-            //  Load drop table
-            var dropTable = new WeightedRandom<int>();
-            if (!Main.hardMode) {
-                foreach (int a in AmmoboxPlus.AmmoboxOreVanillaPHM) {
-                    dropTable.Add(a);
-                }
-            } else if (Main.hardMode) {
-                //  Include both phm and hm ores
-                foreach (int a in AmmoboxPlus.AmmoboxOreVanillaPHM) {
-                    dropTable.Add(a);
-                }
-                if(AmmoboxPlus.AmmoboxOreVanillaHM.Count > 0) {
-                    foreach (int a in AmmoboxPlus.AmmoboxOreVanillaHM) {
-                        dropTable.Add(a);
-                    }
-                }
+            if (AmmoboxHelpfulMethods.processMinerOreDrop(target)) {
+                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
             }
-
-            //  Add mod-supplied ores to the drop table (if any exist)
-            if (AmmoboxPlus.AmmoboxOreModded.Count > 0) {
-                foreach (int a in AmmoboxPlus.AmmoboxOreModded) {
-                    dropTable.Add(a);
-                }
-            }
-
-            //  Spawn the item
-            int index = Item.NewItem(target.position, dropTable, WorldGen.genRand.Next(10, 30));
-            if(Main.netMode == 1) {
-                NetMessage.SendData(21, -1, -1, Terraria.Localization.NetworkText.Empty, index, 0.0f, 0.0f, 0.0f, 0, 0, 0);
-            }
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
-
         }
 
         public override void AI() {

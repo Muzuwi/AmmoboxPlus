@@ -1,37 +1,36 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class ArrowSand : ModItem {
+    class RocketSand : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Sandy Arrow");
-            Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to miss their attacks.");
+            DisplayName.SetDefault("Sandy Rocket");
+            Tooltip.SetDefault("Small blast radius. Will not destroy tiles\nEnemies have a slight chance to miss their attacks");
         }
 
         public override void SetDefaults() {
-            item.damage = 9;
+            item.damage = 20;
             item.ranged = true;
-            item.width = 8;
-            item.height = 8;
+            item.width = 20;
+            item.height = 14;
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 2f;
             item.value = 15;
-            item.rare = ItemRarityID.White;
-            item.shoot = mod.ProjectileType("ArrowSand");
+            item.rare = ItemRarityID.Lime;
             item.shootSpeed = 5f;
-            item.ammo = AmmoID.Arrow;
+            item.shoot = mod.ProjectileType("RocketSand");
+            item.ammo = AmmoID.Rocket;
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SandBlock, 10);
-            recipe.AddIngredient(ItemID.WoodenArrow, 10);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.RocketI, 10);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 10);
             recipe.AddRecipe();
         }
-    }
 
+    }
 }
