@@ -24,6 +24,8 @@ Examples of implemented ammo types (full list on the forum post):
 - **Rocket special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher (for now, Terraria's implementation of rockets makes it very hard to add custom ones that work with all launchers, and each rocket has to be added specifically for every launcher. In the future, other modders will be able to use Call to add their own launchers to this list.**
 
 ## Changelog
+- v1.3.3.1 - Add rockets to Ammoboxes
+
 - v1.3.3.0 - Rocket update! 13 new rocket types added 
 
 	* **special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher.** Celebration, Electrosphere Launcher and modded launchers can use the rockets, however they behave just like Rocket III/IV's, and have no special effects (to be changed in the future, this is the case mainly because of the way Terraria implements rockets and the launchers) 
