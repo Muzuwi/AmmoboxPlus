@@ -65,6 +65,17 @@ namespace AmmoboxPlus {
                 AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("ArrowBunny")] = 100;
                 AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("ArrowIce")] = 100;
 
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketMiner")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketBunny")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketIce")] = 5;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketStarburst")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketIchor")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketFrostburn")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketCursed")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketHeart")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketHarpy")] = 10;
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketSand")] = 10;
+
 
                 apInsertedPostHMActive = true;
             }
@@ -82,6 +93,8 @@ namespace AmmoboxPlus {
                 AmmoboxPlus.AmmoboxVanillaHMAmmo[ItemID.HighVelocityBullet] = 50;
                 AmmoboxPlus.AmmoboxVanillaHMAmmo[ItemID.RocketIV] = 100;
 
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketBlackhole")] = 10;
+
                 apInsertedPostMechAny = true;
             }
 
@@ -94,6 +107,8 @@ namespace AmmoboxPlus {
                 AmmoboxPlus.AmmoboxVanillaHMAmmo[ItemID.ChlorophyteArrow] = 150;
 
                 AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("ArrowTrueChloro")] = 20;
+
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketChlorophyte")] = 10;
 
                 apInsertedPostMechAll = true;
             }
@@ -120,6 +135,7 @@ namespace AmmoboxPlus {
                 AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("DartMarked")] = 1;
                 AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("ArrowMarked")] = 1;
 
+                AmmoboxPlus.AmmoboxModAmmoHM[mod.ItemType("RocketGolemfist")] = 10;
 
                 apInsertedPostGolem = true;
             }

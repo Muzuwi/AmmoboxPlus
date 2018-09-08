@@ -16,6 +16,8 @@ GitHub: https://github.com/Muzuwi/AmmoboxPlus
 Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
 
+v1.3.3.1 - Add rockets to Ammoboxes
+
 v1.3.3.0 - Rocket update! 13 new rocket types added (special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher, Celebration is not included due to programming issues and Electrosphere Launcher is planned in the future. Celebration, Electrosphere Launcher and modded launchers can use the rockets, however they behave just like Rocket III/IV's, and have no special effects)
 	   Fix ammo dropped from ammoboxes very rarely getting prefixes
 	   Fix bullet hitboxes
