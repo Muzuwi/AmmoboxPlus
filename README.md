@@ -3,9 +3,9 @@
 # ![icon] Ammobox+
 Expanding ammo variety for Terraria [tModLoader]
 
-Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 30 new ammo types with new effects and their own recipes to the game.
+Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 43 new ammo types with new effects and their own recipes to the game.
 
-Currently implemented ammo types:
+Examples of implemented ammo types (full list on the forum post):
 
 - Rubber Bullet - has a very high knockback
 - Peculiar Bullet - has a chance to turn enemies into a Bunny. Does **not** count as a kill
@@ -16,13 +16,19 @@ Currently implemented ammo types:
 - Spectral Bullet - can penetrate up to 4 blocks, but the accuracy decreases substantially with each block
 - Starfall Bullet - has a low chance to turn into a star
 
-- And more! Arrow and Dart updates add 22 new ammo types to the game!
+- And more! Arrow, Rocket and Dart updates add 35 new ammo types to the game!
 
 ## Known Issues
 - Ice/Slime ammo may rarely cause erratic movement in enemies, please report such cases on the Issue Tracker on GitHub
 - Debuffs do not apply to players in PvP
 
 ## Changelog
+- v1.3.3.0 - Rocket update! 13 new rocket types added 
+
+	* **special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher.** Celebration, Electrosphere Launcher and modded launchers can use the rockets, however they behave just like Rocket III/IV's, and have no special effects (to be changed in the future, this is the case mainly because of the way Terraria implements rockets and the launchers) 
+	* Fix ammo dropped from ammoboxes very rarely getting prefixes
+	* Fix bullet hitboxes
+
 - v1.2.2.9 - Fix possible multiplayer Ice/Slime desync
 	* Changed ice ammo recipe
 	* Changed slime ammo recipe
