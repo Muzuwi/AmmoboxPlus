@@ -29,7 +29,7 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.AddIngredient(ItemID.ManaCrystal, 1);
             recipe.AddIngredient(ItemID.RocketI, 10);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 40);
+            recipe.SetResult(this, 10);
             recipe.AddRecipe();
         }
 

@@ -13,8 +13,8 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void SetDefaults() {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 2;
+            projectile.height = 2;
             projectile.aiStyle = 1;
             projectile.ranged = true;
             projectile.friendly = true;

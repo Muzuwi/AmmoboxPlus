@@ -4,8 +4,9 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using AmmoboxPlus;
 
-namespace AmmoboxPlus.Items {
+namespace AmmoboxPlus.Items{
     class AmmoBox : ModItem {
+
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Ammo Box");
             Tooltip.SetDefault("A box containing some ammo\nIt's heavy and rattling with the unknown\nRight Click to open");

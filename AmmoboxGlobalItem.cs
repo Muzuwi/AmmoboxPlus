@@ -54,6 +54,7 @@ namespace AmmoboxPlus {
         }
 
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+            //  Depending on the launcher, spawn projectile and set its' apShotFromLauncher to it's ID
             //Main.NewText("item " + item.type + ", " + type + " star" + mod.ItemType("RocketStarburst") + " proj" + mod.ProjectileType("RocketStarburst"));
             if (item.type == ItemID.GrenadeLauncher) {
                 foreach(string name in projectileNameList) {
@@ -87,7 +88,9 @@ namespace AmmoboxPlus {
                         return false;
                     }
                 }
-            }/* else if (item.type == ItemID.ElectrosphereLauncher) {
+            }
+            
+            /* else if (item.type == ItemID.ElectrosphereLauncher) {
                 foreach (string name in projectileNameList) {
                     if (apAmmoUsedID != -1 && apAmmoUsedID == mod.ItemType(name)) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType(name), damage, knockBack, player.whoAmI, (Main.MouseWorld.X / 16f), (Main.MouseWorld.Y / 16f));
@@ -97,6 +100,7 @@ namespace AmmoboxPlus {
                     }
                 }
             }*/
+
             return true;
         }
 
