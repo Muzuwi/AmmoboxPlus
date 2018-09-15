@@ -3,6 +3,12 @@
 # ![icon] Ammobox+
 Expanding ammo variety for Terraria [tModLoader]
 
+* [**Known Issues**](#known-issues)
+* [**Changelog**](#changelog)
+* [**Download**](#download)
+* [**Dev Team**](#dev-team)
+* [**For Modders and contributors: Adding compatibility with Ammobox+**](https://github.com/Muzuwi/AmmoboxPlus/blob/master/CONTRIBUTING.md)
+
 Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 43 new ammo types with new effects and their own recipes to the game.
 
 Examples of implemented ammo types (full list on the forum post):
