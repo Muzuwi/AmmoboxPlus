@@ -41,6 +41,7 @@ namespace AmmoboxPlus.Projectiles {
             int posYhi = ((int)target.position.Y + target.height) / 16;
             if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
+
             //  Have we reached Stuck limit?
             if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit) {
 
@@ -100,7 +101,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public void processAddBuffIce(ref NPC npc, int type, int time) {
-            //  If multipart enemy
+            //  If multi part enemy
             if (npc.realLife != -1) {
                 Main.npc[npc.realLife].AddBuff(type, time);
                 Main.npc[npc.realLife].velocity = new Vector2(0, 0);

@@ -53,6 +53,8 @@ namespace AmmoboxPlus
             instance = this;
             //  Set defaults for the Lists/Dictionaries
             AmmoboxModdedBlacklist = new List<int>();
+            AmmoboxBagModdedHM = new List<int>();
+            AmmoboxBagModdedPHM = new List<int>();
             resetVariables();
         }
 

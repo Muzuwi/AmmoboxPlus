@@ -26,9 +26,9 @@ namespace AmmoboxPlus {
                 //ErrorLogger.Log("PHM inserted");
                 AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletRubber")] = 100;
                 AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletStarfall")] = 100;
-                //AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletSand")] = 100;
-                //AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletCactus")] = 100;
-                //AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletSlime")] = 100;
+                AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletSand")] = 100;
+                AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletCactus")] = 100;
+                AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("BulletSlime")] = 100;
 
                 AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("DartDrugged")] = 100;
                 AmmoboxPlus.AmmoboxModAmmoPHM[mod.ItemType("DartStarfall")] = 100;

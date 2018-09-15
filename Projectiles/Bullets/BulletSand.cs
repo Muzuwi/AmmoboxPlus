@@ -7,10 +7,10 @@ using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class BulletCactus : ModProjectile {
+    public class BulletSand : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Cactus Bullet");
+            DisplayName.SetDefault("Sandy Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -29,18 +29,12 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged) {
-                return;
-            }
-
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
-            if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 300);
-            }
-            else {
+            if(Main.netMode == 0) {
+                target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 300);
+            } else {
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Cactus>();
-                packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
+                int buffType = mod.BuffType<Buffs.CloudedVision>();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
                 packet.Write(300);
