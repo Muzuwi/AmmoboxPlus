@@ -7,10 +7,10 @@ using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
 namespace AmmoboxPlus.Projectiles {
-    public class BulletCactus : ModProjectile {
+    public class DartCactus : ModProjectile {
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Cactus Bullet");
+            DisplayName.SetDefault("Cactus Dart");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
