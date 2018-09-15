@@ -14,44 +14,44 @@ namespace AmmoboxPlus.NPCs {
         }
 
         //  Is enemy stuck in place?
-        public bool apStuck = false;
+        internal bool apStuck = false;
         //  If enemy is marked for death
-        public bool apMarked = false;
+        internal bool apMarked = false;
         //  Has the damage multiplier been applied?
-        public bool apAlreadyGrantedMulti = false;
+        internal bool apAlreadyGrantedMulti = false;
         //  Has ore dropped from this enemy yet?
-        public bool apAlreadyDroppedOre = false;
+        internal bool apAlreadyDroppedOre = false;
         //  Is the enemy Cold?
-        public bool apCold = false;
+        internal bool apCold = false;
         //  Has the enemy been frozen already?
-        public bool apStuckLimit = false;
+        internal bool apStuckLimit = false;
 
         //  Is enemy drugged (the Buff)
-        public bool apDrugged = false;
+        internal bool apDrugged = false;
         //  Whether to tint the enemy
-        public bool apDruggedShouldTint = false;
+        internal bool apDruggedShouldTint = false;
         //  Drugged aura cooldown
-        public int apDruggedCooldown = 0;
-        public int apDruggedTick = 0;
+        internal int apDruggedCooldown = 0;
+        internal int apDruggedTick = 0;
 
         //  Is clouded vision applied?
-        public bool apClouded = false;
+        internal bool apClouded = false;
 
         //  Is cactus shield applied?
-        public bool apCactus = false;
-        public int apCactusCooldown = 0;
+        internal bool apCactus = false;
+        internal int apCactusCooldown = 0;
 
         //  Slime?
-        public bool apSlime = false;
+        internal bool apSlime = false;
 
         //  Ying/Yang ticks
-        public int apYiYaTick = 0;
-        public bool apYing = false;
-        public bool apYang = false;
+        internal int apYiYaTick = 0;
+        internal bool apYing = false;
+        internal bool apYang = false;
 
         //  Extra heart tick
-        public int apExtraHeartTick = 0;
-        public int apExtraManaTick = 0;
+        internal int apExtraHeartTick = 0;
+        internal int apExtraManaTick = 0;
 
         //  Reset flags
         public override void ResetEffects(NPC npc) {
@@ -201,8 +201,6 @@ namespace AmmoboxPlus.NPCs {
 
         public override bool PreAI(NPC npc) {
             apYiYaTick = (apYiYaTick > 0) ? apYiYaTick - 1 : 0;
-
-            if(apDrugged) ++AmmoboxPlus.AmmoboxDruggedActive;
 
             //  Drugged aura calculations
             apDruggedCooldown = (apDruggedCooldown > 0 ? apDruggedCooldown - 1 : 0);

@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AmmoboxPlus
 {
@@ -11,46 +12,47 @@ namespace AmmoboxPlus
 	{
         internal static AmmoboxPlus instance;
 
-        public static int AmmoboxDruggedActive = 0;
-
-        //  UNUSED
         //  Contains vanilla ore itemIDs to drop from miner ammo
-        public static List<int> AmmoboxOreVanillaPHM;
-        
-        //  UNUSED
-        //  Contains vanilla HM ores
-        public static List<int> AmmoboxOreVanillaHM;
+        internal static List<int> AmmoboxOreVanillaPHM;
 
-        //  UNUSED
+        //  Contains vanilla HM ores
+        internal static List<int> AmmoboxOreVanillaHM;
+
         //  Contains ore itemIDs supplied by other mods 
         //  This is always added to the ore poll, as longs as Count > 0
-        public static List<int> AmmoboxOreModded;
+        internal static List<int> AmmoboxOreModded;
 
         //  Contains vanilla ammo itemIDs, to drop from Ammo Boxes and amounts to drop
-        public static Dictionary<int, int> AmmoboxVanillaAmmo;
+        internal static Dictionary<int, int> AmmoboxVanillaAmmo;
 
         //  Contains vanilla HM ammo
-        public static Dictionary<int, int> AmmoboxVanillaHMAmmo;
+        internal static Dictionary<int, int> AmmoboxVanillaHMAmmo;
 
         //  Contains ammo itemIDs, to drop from Ammo Boxes and amounts to drop supplied by other mods (PHM)
-        public static Dictionary<int, int> AmmoboxModAmmoPHM;
+        internal static Dictionary<int, int> AmmoboxModAmmoPHM;
 
         //  Contains ammo itemIDs, to drop from Ammo Boxes and amounts to drop supplied by other mods (PHM)
-        public static Dictionary<int, int> AmmoboxModAmmoHM;
+        internal static Dictionary<int, int> AmmoboxModAmmoHM;
 
         //  List containing phm bags that drop ammo boxes
-        public static List<int> AmmoboxBagAllowedPHM;
+        internal static List<int> AmmoboxBagAllowedPHM;
         //  List containing hm bags that drop ammo boxes
-        public static List<int> AmmoboxBagAllowedHM;
+        internal static List<int> AmmoboxBagAllowedHM;
 
+        //  Modded boss bags that are allowed to drop ammo boxes
+        internal static List<int> AmmoboxBagModdedPHM;
+        internal static List<int> AmmoboxBagModdedHM;
 
-        public AmmoboxPlus() {
+        internal static List<int> AmmoboxModdedBlacklist;
+
+		public AmmoboxPlus() {
 
         }
 
         public override void Load() {
             instance = this;
             //  Set defaults for the Lists/Dictionaries
+            AmmoboxModdedBlacklist = new List<int>();
             resetVariables();
         }
 
@@ -86,7 +88,6 @@ namespace AmmoboxPlus
                     Main.npc[npcid].DelBuff(buffid);
                     break;
                 case AmmoboxMsgType.AmmoboxUpdateVelocity:
-                    //  C# why
                     int npcid2 = reader.ReadInt32();
                     Vector2 vel = reader.ReadVector2();
                     Main.npc[npcid2].velocity = vel;
@@ -102,8 +103,8 @@ namespace AmmoboxPlus
             List<int> enemyBlacklist = new List<int>() {
                 NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail, NPCID.ScutlixRider, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.PrimeCannon, NPCID.PrimeLaser, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.MoonLordHand,  NPCID.SkeletronHand, NPCID.GolemHead
             };
-            return enemyBlacklist.Contains(atype);
-        }
+            return (enemyBlacklist.Contains(atype) || AmmoboxModdedBlacklist.Contains(atype));
+        } 
 
         //  Reset the Lists/Dictionaries to their default values
         public static void resetVariables() {
@@ -179,12 +180,54 @@ namespace AmmoboxPlus
                 {ItemID.CursedBullet, 150},
                 {ItemID.RocketI, 100},
                 {ItemID.RocketII, 100},
-                {ItemID.RocketIII, 100}
+                {ItemID.RocketIII, 100},
             };
 
             AmmoboxModAmmoPHM = new Dictionary<int, int>();
             AmmoboxModAmmoHM = new Dictionary<int, int>();
             AmmoboxOreModded = new List<int>();
+        }
+
+        public override object Call(params object[] args) {
+            try {
+                string command = args[0] as string;
+
+                if(command == "AddOre") {
+                    int id = Convert.ToInt32(args[1]);
+                    if (!AmmoboxOreModded.Contains(id)) {
+                        AmmoboxOreModded.Add(id);
+                    }
+                    return "Success";
+                } else if(command == "AddAmmo") {
+                    bool hm = Convert.ToBoolean(args[1]);
+                    int id = Convert.ToInt32(args[2]);
+                    int amount = Convert.ToInt32(args[3]);
+                    if (hm) {
+                        if (!AmmoboxModAmmoHM.ContainsKey(id)) AmmoboxModAmmoHM.Add(id, amount);
+                    } else {
+                        if (!AmmoboxModAmmoPHM.ContainsKey(id)) AmmoboxModAmmoPHM.Add(id, amount);
+                    }
+                    return "Success";
+                } else if (command == "AddBossBag") {
+                    bool hm = Convert.ToBoolean(args[1]);
+                    int id = Convert.ToInt32(args[2]);
+                    if(hm) {
+                        if (!AmmoboxBagModdedHM.Contains(id)) AmmoboxBagModdedHM.Add(id);
+                    } else {
+                        if (!AmmoboxBagModdedPHM.Contains(id)) AmmoboxBagModdedPHM.Add(id);
+                    }
+                    return "Success";
+                } else if(command == "AddNPCToBlacklist") {
+                    int id = Convert.ToInt32(args[1]);
+                    if (!AmmoboxModdedBlacklist.Contains(id)) AmmoboxModdedBlacklist.Add(id);
+                    return "Success";
+                } else {
+                    ErrorLogger.Log("[AmmoboxPlus] Invalid Call command type: " + command);
+                }
+            }catch(Exception exception) {
+                ErrorLogger.Log("[AmmoboxPlus] Failed Call! Stack trace: " + exception.StackTrace + " What: " + exception.Message);
+            }
+            return "Failure";
         }
     }
 

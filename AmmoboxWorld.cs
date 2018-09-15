@@ -5,24 +5,22 @@ using Terraria.ModLoader;
 namespace AmmoboxPlus {
     class AmmoboxWorld : ModWorld{
         //  Has post-mech ammo been inserted into AmmoboxOreVanillaHM/AmmoboxVanillaHMAmmo already?
-        public static bool apInsertedPostMechAny = false;
+        internal static bool apInsertedPostMechAny = false;
         //  Same, but for all mechs
-        public static bool apInsertedPostMechAll = false;
+        internal static bool apInsertedPostMechAll = false;
         //  Same, but for Plantera
-        public static bool apInsertedPostPlantera = false;
+        internal static bool apInsertedPostPlantera = false;
         //  Same, but for Golem
-        public static bool apInsertedPostGolem = false;
+        internal static bool apInsertedPostGolem = false;
         //  Same, but for Moonlord
-        public static bool apInsertedPostMoonlord = false;
+        internal static bool apInsertedPostMoonlord = false;
         //  Same, but after HM start
-        public static bool apInsertedPostHMActive = false;
+        internal static bool apInsertedPostHMActive = false;
 
         //  Same, but always available PHM
-        public static bool apInsertedAlwaysAvailablePHM = false;
-
+        internal static bool apInsertedAlwaysAvailablePHM = false;
 
         public override void PostUpdate() {
-            AmmoboxPlus.AmmoboxDruggedActive = 0;
             //  Add always-accessible phm ammo and ore
             if (!apInsertedAlwaysAvailablePHM) {
                 //ErrorLogger.Log("PHM inserted");
@@ -141,7 +139,7 @@ namespace AmmoboxPlus {
             }
 
             //  Add post moonlord ammo and ore
-            if (Main.hardMode && NPC.downedMechBossAny && !apInsertedPostMoonlord) {
+            if (Main.hardMode && NPC.downedMoonlord && !apInsertedPostMoonlord) {
                 //ErrorLogger.Log("Moonlord inserted");
 
                 AmmoboxPlus.AmmoboxOreVanillaHM.Add(ItemID.LunarOre);

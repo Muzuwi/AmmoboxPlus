@@ -44,7 +44,10 @@ namespace AmmoboxPlus.Items{
                 amount = AmmoboxPlus.AmmoboxModAmmoPHM[randomChoice];
             }
 
-            player.QuickSpawnItem(randomChoice, amount);
+            int id = Item.NewItem(player.position, randomChoice, amount, prefixGiven: 0, noGrabDelay: true);
+            if (Main.netMode == 1) {
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id, 1f, 0f, 0f, 0, 0, 0);
+            }
         }
 
     }

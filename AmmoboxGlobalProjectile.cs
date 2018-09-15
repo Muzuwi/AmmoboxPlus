@@ -13,7 +13,7 @@ namespace AmmoboxPlus {
         }
 
         //  Id of the launcher the projectile was shot from
-        public int apShotFromLauncherID = -1;
+        internal int apShotFromLauncherID = -1;
 
         /*public override bool CanHitPlayer(Projectile projectile, Player target) {
             if(projectile.type == ProjectileID.HarpyFeather && projectile.friendly && !projectile.hostile) {

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace AmmoboxPlus {
     class AmmoboxGlobalItem : GlobalItem {
 
-        public static List<string> projectileNameList = new List<string>() {
+        internal static List<string> projectileNameList = new List<string>() {
             "RocketStarburst",
             "RocketHarpy",
             "RocketSand",
@@ -37,17 +37,15 @@ namespace AmmoboxPlus {
         }
 
         //  Id of ammo used by launcher
-        public int apAmmoUsedID;
+        internal int apAmmoUsedID;
 
         public override void OpenVanillaBag(string context, Player player, int arg) {
             if (context == "bossBag") {
-                if (AmmoboxPlus.AmmoboxBagAllowedPHM.Contains(arg)) {
+                if (AmmoboxPlus.AmmoboxBagAllowedPHM.Contains(arg) || AmmoboxPlus.AmmoboxBagModdedPHM.Contains(arg)) {
                     player.QuickSpawnItem(mod.ItemType("AmmoBox"));
-                }
-                else if (AmmoboxPlus.AmmoboxBagAllowedHM.Contains(arg)) {
+                } else if (AmmoboxPlus.AmmoboxBagAllowedHM.Contains(arg) || AmmoboxPlus.AmmoboxBagModdedHM.Contains(arg)) {
                     player.QuickSpawnItem(mod.ItemType("AmmoBoxPlus"));
-                }
-                else {
+                } else {
                     return;
                 }
             }

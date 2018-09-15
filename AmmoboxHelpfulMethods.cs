@@ -174,7 +174,7 @@ namespace AmmoboxPlus {
         }
 
         //   Miner ammo helper function
-        public static bool processMinerOreDrop(NPC target, int oneInX=100) {
+        internal static bool processMinerOreDrop(NPC target, int oneInX=100) {
             if (WorldGen.genRand.Next(oneInX) != 0) return false;
             if (target.type == NPCID.TargetDummy) return false;
             if (target.SpawnedFromStatue) return false;
@@ -352,24 +352,6 @@ namespace AmmoboxPlus {
                 } else if ((i >= 0.5 + angleOffset && i <= 1 + angleOffset) || (i >= 1.5 + angleOffset && i < 2 + angleOffset)) {
                     double y = radius * Math.Cos(i * Math.PI);
                     double x = radius * Math.Sin(i * Math.PI);
-                    /*                   if (newDustPerfect) {
-                                           Dust dust;
-                                           if (angleOffset != 0) {
-                                               dust = Dust.NewDustPerfect(position + new Vector2((float)x, (float)y).RotatedBy(angleOffset, position), dustType, velocity, newColor: color);
-                                           } else {
-                                               dust = Dust.NewDustPerfect(position + new Vector2((float)x, (float)y), dustType, velocity, newColor: color);
-                                           }
-                                           if (noGravity) Main.dust[dust.dustIndex].noGravity = true;
-                                       } else {
-                                           int id;
-                                           if (angleOffset != 0) {
-                                               id = Dust.NewDust(position + new Vector2((float)x, (float)y).RotatedBy(angleOffset, position), width, height, dustType, velocity.X, velocity.Y, newColor: color);
-                                           } else {
-                                               id = Dust.NewDust(position + new Vector2((float)x, (float)y), width, height, dustType, velocity.X, velocity.Y, newColor: color);
-                                           }
-                                           if (noGravity) Main.dust[id].noGravity = true; 
-                                       }*/
-
                     if (newDustPerfect) {
                         Dust dust = Dust.NewDustPerfect(position + new Vector2((float)x, (float)y), dustType, velocity, newColor: color);
                         if (noGravity) Main.dust[dust.dustIndex].noGravity = true;
@@ -387,114 +369,6 @@ namespace AmmoboxPlus {
             }
 
         }
-
-
-
-        //  Electrosphere AI
-        /*public static void processElectroAI(int projid, ref bool reachedDestination, Vector2 apTargetLocation, ref List<int> additionalProjectileList) {
-            Projectile projectile = Main.projectile[projid];
-            //projectile.velocity = projectile.oldVelocity;
-            //projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-
-            /*if (!reachedDestination) {
-                Vector2 target = apTargetLocation / 16;
-                if (target.X == -1 || target.Y == -1) return;
-                target.X = (float)Math.Floor(target.X);
-                target.Y = (float)Math.Floor(target.Y);
-
-                Vector2 curr = projectile.position / 16f;
-                curr.X = (float)Math.Floor(curr.X);
-                curr.Y = (float)Math.Floor(curr.Y);
-
-                if (curr == target || curr == target - new Vector2(0, 1) || curr == target + new Vector2(0, 1) || curr == target - new Vector2(1, 0) || curr == target + new Vector2(1, 0)) {
-                    reachedDestination = true;
-                }
-            }
-
-            if (reachedDestination && additionalProjectileList.Count == 0) {
-                int index = 0;
-                foreach (Projectile proj in Main.projectile) {
-                    if (proj.type == projectile.type && proj.Distance(projectile.position) <= 120f && proj.identity != projectile.identity) {
-                        Main.projectile[index].Kill();
-                    }
-                    ++index;
-                }
-
-                Vector2 initialPos = projectile.Center;
-                projectile.velocity = Vector2.Zero;
-                projectile.alpha = 255;
-                projectile.timeLeft = 400;
-                reachedDestination = true;
-                Main.projectile[projid] = projectile;
-                float radius = 60;
-
-                for (float i = 0f; i < 2; i += 0.125f) {
-                    if ((i >= 0 && i <= 0.5) || (i >= 1 && i <= 1.5)) {
-                        float x = radius * (float)Math.Cos(i * Math.PI);
-                        float y = radius * (float)Math.Sin(i * Math.PI);
-                        int id = Projectile.NewProjectile(initialPos + new Vector2(x, y), Vector2.Zero, ProjectileID.FallingStar, 40, 0, projectile.owner);
-                        additionalProjectileList.Add(id);
-                    }
-                    else if ((i >= 0.5 && i <= 1) || (i >= 1.5 && i < 2)) {
-                        float y = radius * (float)Math.Cos(i * Math.PI);
-                        float x = radius * (float)Math.Sin(i * Math.PI);
-                        int id = Projectile.NewProjectile(initialPos + new Vector2(x, y), Vector2.Zero, ProjectileID.FallingStar, 40, 0, projectile.owner);
-                        additionalProjectileList.Add(id);
-                    }
-                }
-            }
-
-            if (reachedDestination) {
-                bool alive = false;
-                Vector2 initialPos = projectile.Center;
-                foreach (int id in additionalProjectileList) {
-                    if (Main.projectile[id].active) {
-                        Main.projectile[id].Center = Main.projectile[id].Center.RotatedBy(Math.PI / 45, center: initialPos);
-                        alive = true;
-                    }
-                }
-                if (!alive) {
-                    projectile.Kill();
-                }
-            }
-
-            projectile.frame = 0;
-            if (projectile.alpha != 0) {
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] >= 4f) {
-                    projectile.alpha -= 90;
-                    if (projectile.alpha < 0) {
-                        projectile.alpha = 0;
-                        projectile.localAI[0] = 2f;
-                    }
-                }
-            }
-            if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1]) * 16f + Vector2.One * 8f) <= 16f) {
-                projectile.Kill();
-                return;
-            }
-            if (projectile.alpha == 0) {
-                projectile.localAI[1] += 1f;
-                if (projectile.localAI[1] >= 120f) {
-                    projectile.Kill();
-                    return;
-                }
-                Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3f, 0.45f, 0.8f);
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] == 3f) {
-                    projectile.localAI[0] = 0f;
-                    for (int num53 = 0; num53 < 8; num53++) {
-                        Vector2 vector7 = Vector2.UnitX * -8f;
-                        vector7 += -Vector2.UnitY.RotatedBy((double)((float)num53 * 3.14159274f / 4f), default(Vector2)) * new Vector2(2f, 4f);
-                        vector7 = vector7.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-                        int num54 = Dust.NewDust(projectile.Center, 0, 0, 135, 0f, 0f, 0, default(Color), 1f);
-                        Main.dust[num54].scale = 1.5f;
-                        Main.dust[num54].noGravity = true;
-                        Main.dust[num54].position = projectile.Center + vector7;
-                        Main.dust[num54].velocity = projectile.velocity * 0.66f;
-                    }
-                }
-            }*/
     }
 }
 
