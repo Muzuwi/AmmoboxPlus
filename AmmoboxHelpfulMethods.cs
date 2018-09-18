@@ -347,7 +347,9 @@ namespace AmmoboxPlus {
                         if (noGravity) {
                             Main.dust[id].noGravity = true;
                         }
-                        if (shader != 0) Main.dust[id].shader = GameShaders.Armor.GetSecondaryShader(shader, Main.LocalPlayer);
+                        if (shader != 0) {
+                            Main.dust[id].shader = GameShaders.Armor.GetSecondaryShader(shader, Main.LocalPlayer);
+                        }
                     }
                 } else if ((i >= 0.5 + angleOffset && i <= 1 + angleOffset) || (i >= 1.5 + angleOffset && i < 2 + angleOffset)) {
                     double y = radius * Math.Cos(i * Math.PI);
@@ -362,7 +364,9 @@ namespace AmmoboxPlus {
                         if (noGravity) {
                             Main.dust[id].noGravity = true;
                         }
-                        if (shader != 0) Main.dust[id].shader = GameShaders.Armor.GetSecondaryShader(shader, Main.LocalPlayer);
+                        if (shader != 0) {
+                            Main.dust[id].shader = GameShaders.Armor.GetSecondaryShader(shader, Main.LocalPlayer);
+                        }
                     }
                 }
                 i += increment;
