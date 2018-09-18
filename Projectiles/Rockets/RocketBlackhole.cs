@@ -107,6 +107,7 @@ namespace AmmoboxPlus.Projectiles {
             if(Main.netMode == 1) {
                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, id);
             }
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/blackHole").WithVolume(0.8f), projectile.position);
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity);
         }
     }

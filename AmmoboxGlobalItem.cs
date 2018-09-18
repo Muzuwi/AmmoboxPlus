@@ -55,14 +55,14 @@ namespace AmmoboxPlus {
             //  Depending on the launcher, spawn projectile and set its' apShotFromLauncher to it's ID
             //Main.NewText("item " + item.type + ", " + type + " star" + mod.ItemType("RocketStarburst") + " proj" + mod.ProjectileType("RocketStarburst"));
             if (item.type == ItemID.GrenadeLauncher) {
-                foreach(string name in projectileNameList) {
+                foreach (string name in projectileNameList) {
                     if (type == ProjectileID.GrenadeI + mod.ProjectileType(name)) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType(name), damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.GrenadeLauncher;
                         return false;
                     }
                 }
-            } else if (item.type == ItemID.RocketLauncher) {
+            } else if (item.type == ItemID.RocketLauncher || item.type == mod.ItemType("Marine") || item.type == mod.ItemType("Boombox")) {
                 foreach (string name in projectileNameList) {
                     if (type == ProjectileID.RocketI + mod.ProjectileType(name)) {
                         Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType(name), damage, knockBack, player.whoAmI);

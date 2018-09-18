@@ -1,4 +1,4 @@
-v1.3.4.1
+v1.4.4.1
 - Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
 - Added Call abilities, modders can now use several different commands to enhance compatibility of their mods with Ammobox+
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,6 +23,27 @@ namespace AmmoboxPlus.Items {
         }
 
         public override void RightClick(Player player) {
+            //  Spawn a dev weapon
+            if(Main.rand.Next(20) == 0) {
+                List<int> weaponList = new List<int>();
+
+                if (NPC.downedPlantBoss) {
+                    weaponList.Add(mod.ItemType("Marine"));
+                    weaponList.Add(mod.ItemType("Boombox"));
+                }
+                if (NPC.downedMoonlord) {
+                    weaponList.Add(mod.ItemType("BoneGun"));
+                }
+                if (Main.hardMode) {
+                    weaponList.Add(mod.ItemType("DartScrapper"));
+                }
+
+                int id1 = Item.NewItem(player.position, weaponList[Main.rand.Next(4)], 1, prefixGiven: 0, noGrabDelay: true);
+                if (Main.netMode == 1) {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id1, 1f, 0f, 0f, 0, 0, 0);
+                }
+            }
+
             //  Load drop table
             var dropTable = new WeightedRandom<int>();
             foreach (var a in AmmoboxPlus.AmmoboxVanillaHMAmmo) {
