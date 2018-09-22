@@ -30,6 +30,14 @@ Examples of implemented ammo types (full list on the forum post):
 - **Rocket special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher (for now, Terraria's implementation of rockets makes it very hard to add custom ones that work with all launchers, and each rocket has to be added specifically for every launcher. In the future, other modders will be able to use Call to add their own launchers to this list.**
 
 ## Changelog
+- v1.4.4.1 - Endless update
+	* Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
+	* Added Call abilities, modders can now use several different commands to enhance compatibility of their mods with Ammobox+
+	* New UI Element: Ammo Display - Shows ammo that will be shot from held weapon. Off by default - Default hotkey is 'P'
+	* Add Ammo Display
+	* Add Dev weapons (reskins of certain vanilla weapons)
+	* Minor optimizations
+
 - v1.3.3.1 - Add rockets to Ammoboxes
 
 - v1.3.3.0 - Rocket update! 13 new rocket types added 
