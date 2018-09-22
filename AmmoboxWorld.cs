@@ -112,7 +112,7 @@ namespace AmmoboxPlus {
             }
 
             //  Add post plantera ammo and ore
-            if (Main.hardMode && NPC.downedMechBossAny && !apInsertedPostPlantera) {
+            if (Main.hardMode && NPC.downedPlantBoss && !apInsertedPostPlantera) {
                 //ErrorLogger.Log("Plantera inserted");
 
                 AmmoboxPlus.AmmoboxVanillaHMAmmo[ItemID.VenomBullet] = 50;
