@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.UI;
+using AmmoboxPlus.UI;
 
 namespace AmmoboxPlus
 {
@@ -45,6 +47,14 @@ namespace AmmoboxPlus
 
         internal static List<int> AmmoboxModdedBlacklist;
 
+        //  Ammo icon interface elements
+        internal static UserInterface AmmoboxAmmoIconInterface;
+        internal static AmmoIconUI AmmoboxAmmoUI;
+        internal static ModHotKey AmmoboxAmmoIconHotkey;
+
+        //  Contains id's of rocket class names
+        internal static Dictionary<string, Tuple<int, int>> RocketNameTypes;
+
 		public AmmoboxPlus() {
 
         }
@@ -55,12 +65,47 @@ namespace AmmoboxPlus
             AmmoboxModdedBlacklist = new List<int>();
             AmmoboxBagModdedHM = new List<int>();
             AmmoboxBagModdedPHM = new List<int>();
+
+            AmmoboxAmmoIconHotkey = RegisterHotKey("Display used ammo", "P");
+
+            AmmoboxAmmoUI = new AmmoIconUI();
+            AmmoboxAmmoUI.Activate();
+            AmmoboxAmmoIconInterface = new UserInterface();
+            AmmoboxAmmoIconInterface.SetState(AmmoboxAmmoUI);
+
             resetVariables();
         }
 
         public override void Unload() {
             instance = null;
         }
+
+        public override void PostSetupContent() {
+            RocketNameTypes = new Dictionary<string, Tuple<int, int>>();
+            //  Cache rocket item/projectile id's
+            List<string> rocketClassNames = new List<string> {
+                  "RocketStarburst",
+                  "RocketHarpy",
+                  "RocketSand",
+                  "RocketGolemfist",
+                  "RocketBunny",
+                  "RocketCursed",
+                  "RocketIchor",
+                  "RocketFrostburn",
+                  "RocketIce",
+                  "RocketMiner",
+                  "RocketBlackhole",
+                  "RocketChlorophyte",
+                  "RocketHeart",
+            };
+
+            foreach (string className in rocketClassNames) {
+                Tuple<int, int> values = new Tuple<int, int>(ItemType(className), ProjectileType(className));
+                RocketNameTypes.Add(className, values);
+            }
+        }
+
+
 
         //  TODO: Move everything sync-related to here
         public override void HandlePacket(BinaryReader reader, int whoAmI) {
@@ -231,6 +276,32 @@ namespace AmmoboxPlus
             }
             return "Failure";
         }
+
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
+            int InventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Hotbar"));
+            if (InventoryIndex != -1) {
+                layers.Insert(InventoryIndex + 1, new LegacyGameInterfaceLayer(
+                    "Ammobox+: Ammo Display",
+                    delegate {
+                        if(AmmoIconUI.vis) AmmoboxAmmoIconInterface.Draw(Main.spriteBatch, new GameTime());
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
+            }
+
+        }
+
+        public override void UpdateUI(GameTime gameTime) {
+            if (AmmoboxAmmoIconHotkey.JustPressed) {
+                AmmoIconUI.vis = !AmmoIconUI.vis;
+            }
+
+            if (AmmoIconUI.vis && AmmoboxAmmoUI != null) {
+                AmmoboxAmmoUI.Update(gameTime);
+            }
+        }
+
     }
 
     enum AmmoboxMsgType : byte {

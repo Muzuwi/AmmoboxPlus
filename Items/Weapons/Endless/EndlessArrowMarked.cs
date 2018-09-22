@@ -25,7 +25,7 @@ namespace AmmoboxPlus.Items.Weapons {
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ArrowMarked"), 3996);
+            recipe.AddIngredient(mod.ItemType("ArrowMarked"), 50);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.CrystalBall);
             recipe.AddRecipe();

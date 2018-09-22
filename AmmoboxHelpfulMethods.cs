@@ -329,6 +329,7 @@ namespace AmmoboxPlus {
             }
         }
 
+
         public static void createDustCircle(Vector2 position, int dustType, float radius = 10f, bool noGravity=false, bool newDustPerfect=false, int Count=4, Color color=default(Color), int width=8, int height=8, Vector2 velocity=default(Vector2), double angleOffset=0d, int shader=0) {
             int done = 0;
             double i = angleOffset;
@@ -371,7 +372,57 @@ namespace AmmoboxPlus {
                 }
                 i += increment;
             }
+        }
 
+        public static Color getRarityColor(int rarity) {
+            float num3 = (float)Main.mouseTextColor / 255f;
+            Color baseColor = new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor, (int)Main.mouseTextColor, (int)Main.mouseTextColor);
+            if (rarity == -11) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(175f * num3)), (int)((byte)(0f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == -10) {
+                baseColor = new Color((int)((byte)(65f * num3)), (int)((byte)(255f * num3)), (int)((byte)(110f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == -1) {
+                baseColor = new Color((int)((byte)(130f * num3)), (int)((byte)(130f * num3)), (int)((byte)(130f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 1) {
+                baseColor = new Color((int)((byte)(150f * num3)), (int)((byte)(150f * num3)), (int)((byte)(255f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 2) {
+                baseColor = new Color((int)((byte)(150f * num3)), (int)((byte)(255f * num3)), (int)((byte)(150f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 3) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(200f * num3)), (int)((byte)(150f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 4) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(150f * num3)), (int)((byte)(150f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 5) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(150f * num3)), (int)((byte)(255f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 6) {
+                baseColor = new Color((int)((byte)(210f * num3)), (int)((byte)(160f * num3)), (int)((byte)(255f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 7) {
+                baseColor = new Color((int)((byte)(150f * num3)), (int)((byte)(255f * num3)), (int)((byte)(10f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 8) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(255f * num3)), (int)((byte)(10f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 9) {
+                baseColor = new Color((int)((byte)(5f * num3)), (int)((byte)(200f * num3)), (int)((byte)(255f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == 10) {
+                baseColor = new Color((int)((byte)(255f * num3)), (int)((byte)(40f * num3)), (int)((byte)(100f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity >= 11) {
+                baseColor = new Color((int)((byte)(180f * num3)), (int)((byte)(40f * num3)), (int)((byte)(255f * num3)), (int)Main.mouseTextColor);
+            }
+            if (rarity == -12) {
+                baseColor = new Color((int)((byte)((float)Main.DiscoR * num3)), (int)((byte)((float)Main.DiscoG * num3)), (int)((byte)((float)Main.DiscoB * num3)), (int)Main.mouseTextColor);
+            }
+            return baseColor;
         }
     }
 }
