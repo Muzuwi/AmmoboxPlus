@@ -32,6 +32,7 @@ Examples of implemented ammo types (full list on the forum post):
 ## Changelog
 - v1.4.4.1 - Endless update
 	* Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
+	* Fix post-plantera ammo dropping from ammoboxes after defeating any mech boss
 	* Added Call abilities, modders can now use several different commands to enhance compatibility of their mods with Ammobox+
 	* New UI Element: Ammo Display - Shows ammo that will be shot from held weapon. Off by default - Default hotkey is 'P'
 	* Add Ammo Display
