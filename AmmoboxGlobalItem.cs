@@ -9,7 +9,7 @@ using AmmoboxPlus.UI;
 
 namespace AmmoboxPlus {
     class AmmoboxGlobalItem : GlobalItem {
-
+        
         public override bool InstancePerEntity {
             get {
                 return true;

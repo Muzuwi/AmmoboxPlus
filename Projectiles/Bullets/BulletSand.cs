@@ -27,6 +27,7 @@ namespace AmmoboxPlus.Projectiles {
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.spriteDirection = 1;
+            aiType = ProjectileID.Bullet;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {

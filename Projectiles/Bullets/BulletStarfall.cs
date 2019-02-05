@@ -35,12 +35,14 @@ namespace AmmoboxPlus.Projectiles {
                 Vector2 vel = projectile.velocity, pos = projectile.position;
                 int own = projectile.owner;
                 projectile.Kill();
-                Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
+                int id = Projectile.NewProjectile(pos, vel, ProjectileID.FallingStar, 40, 0, own);
+                Main.projectile[id].friendly = true;
             } else {
                 //Dust.NewDust(projectile.position, projectile.width/2, projectile.height/2, 214);
             }
             Lighting.AddLight(projectile.Top, Color.Yellow.ToVector3());
         }
+        
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
             Main.PlaySound(SoundID.Item10, projectile.position);

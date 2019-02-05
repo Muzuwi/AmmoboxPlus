@@ -163,6 +163,9 @@ namespace AmmoboxPlus.NPCs {
             return true;
         }
 
+        /*
+         *  Fix glitches caused by a multi-part enemy being killed by ice ammo  
+         */ 
         public override bool CheckDead(NPC npc) {
             if(npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuck && npc.realLife != -1) {
                 int index = 0;
@@ -214,7 +217,7 @@ namespace AmmoboxPlus.NPCs {
                     double dist = Math.Sqrt(a * a + b * b);
                     double reach = Math.Max(npc.width, npc.height) * 1.7f;
 
-                    if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged) {
+                    if (dist < reach && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged && !n.dontTakeDamage) {
                         if(n.realLife == npc.whoAmI) {
                             n.StrikeNPC(npc.damage / 8, 1, 0);
                         } else {
@@ -236,7 +239,7 @@ namespace AmmoboxPlus.NPCs {
                 foreach (NPC n in Main.npc) {
                     //  Calculate distance between enemies
                     bool collision = Collision.CheckAABBvAABBCollision(npc.Hitbox.BottomLeft(), new Vector2(npc.Hitbox.Width, npc.Hitbox.Height), n.Hitbox.BottomLeft(), new Vector2(n.Hitbox.Width, n.Hitbox.Height));
-                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus && n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown == 0) {
+                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus && n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown == 0 && !n.dontTakeDamage) {
                         if (n.position.X > npc.position.X) {
                             n.StrikeNPC(npc.damage / 4, 9.0f, 1);
                         }else {
