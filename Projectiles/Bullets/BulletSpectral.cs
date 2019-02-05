@@ -44,15 +44,15 @@ namespace AmmoboxPlus.Projectiles {
                 double tng = projectile.velocity.Y / projectile.velocity.X;
                 double angle = Math.Atan(tng);
                 if(angle < -1.2) {
-                    projectile.velocity.X += WorldGen.genRand.NextFloat(-1*(projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
+                    projectile.velocity.X += WorldGen.genRand.NextFloat(-1*  (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
                 } else if(angle < 0) {
                     projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
                 } else if(angle < 1.2) {
                     projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
+                    projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
                 } else {
                     projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
                 }
-
             }
             return false;
         }
