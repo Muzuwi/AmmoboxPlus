@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using AmmoboxPlus.UI;
+using AmmoboxPlus.Items;
 
 namespace AmmoboxPlus {
     class AmmoboxGlobalItem : GlobalItem {
@@ -47,7 +48,7 @@ namespace AmmoboxPlus {
                         return false;
                     }
                 }
-            } else if (item.type == ItemID.RocketLauncher || item.type == mod.ItemType("Marine") || item.type == mod.ItemType("Boombox")) {
+            } else if (item.type == ItemID.RocketLauncher || item.type == mod.ItemType("Boombox")) {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (type == ProjectileID.RocketI + entry.Value.Item2) {
                         Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), entry.Value.Item2, damage, knockBack, player.whoAmI);
@@ -71,6 +72,11 @@ namespace AmmoboxPlus {
                         return false;
                     }
                 }
+            } else if (item.useAmmo == 771) {
+                Item temp = new Item();
+                temp.type = apAmmoUsedID;
+                temp.CloneDefaults(apAmmoUsedID);
+                type = temp.shoot;
             }
             return true;
         }
@@ -84,9 +90,15 @@ namespace AmmoboxPlus {
         }
 
         public override void HoldItem(Item item, Player player) {
-            if (!AmmoIconUI.vis) return;
+            AmmoSelectorUI.heldItemType = item.type;
+            if(item.ranged && item.useAmmo != 0) {
+                AmmoSelectorUI.itemAllowed = true;
+            } else {
+                AmmoSelectorUI.itemAllowed = false;
+            }
 
-            if (item.ranged && item.useAmmo == AmmoID.Bullet) { // Guns\
+
+            /*if (item.ranged && item.useAmmo == AmmoID.Bullet) { // Guns\
                 SearchForAmmo(AmmoID.Bullet, ref player);
             } else if (item.ranged && item.useAmmo == AmmoID.Arrow) {  //  Bows and repeaters
                 SearchForAmmo(AmmoID.Arrow, ref player);
@@ -99,6 +111,15 @@ namespace AmmoboxPlus {
             } else {
                 AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = -1;
                 AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = "";
+            }*/
+
+            if (AmmoIconUI.vis) {
+                if (item.ranged) {
+                    SearchForAmmo(item.useAmmo, ref player);
+                } else {
+                    AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = -1;
+                    AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = "";
+                }
             }
         }
 
@@ -124,6 +145,5 @@ namespace AmmoboxPlus {
                 }
             }
         }
-
     }
 }

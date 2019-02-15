@@ -330,5 +330,19 @@ namespace AmmoboxPlus.NPCs {
                 }
             }
         }
+
+        public override void SetupShop(int type, Chest shop, ref int nextSlot) {
+            if (type == NPCID.ArmsDealer) {
+                if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
+                    shop.item[nextSlot].SetDefaults(mod.ItemType<Items.ItemAmmoBelt>());
+                    ++nextSlot;
+                }
+
+                if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && NPC.downedPlantBoss && NPC.downedGolemBoss) {
+                    shop.item[nextSlot].SetDefaults(mod.ItemType<Items.ItemLihzahrdBelt>());
+                    ++nextSlot;
+                }
+            }
+        }
     }
 }

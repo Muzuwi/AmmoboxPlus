@@ -116,12 +116,12 @@ namespace AmmoboxPlus.Projectiles {
                     }
                     ++index;
                 }
-            }
-            else {
+            } else {
                 npc.AddBuff(type, time);
                 npc.velocity = new Vector2(0, 0);
                 npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
             }
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/iceBullet").WithVolume(0.8f), projectile.position);
         }
 
     }

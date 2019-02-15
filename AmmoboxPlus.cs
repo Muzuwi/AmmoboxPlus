@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria.UI;
 using AmmoboxPlus.UI;
+using AmmoboxPlus.Items;
 
 namespace AmmoboxPlus
 {
@@ -49,8 +50,11 @@ namespace AmmoboxPlus
 
         //  Ammo icon interface elements
         internal static UserInterface AmmoboxAmmoIconInterface;
+        internal static UserInterface AmmoboxAmmoSwapInterface;
         internal static AmmoIconUI AmmoboxAmmoUI;
+        internal static AmmoSelectorUI AmmoboxSwapUI;
         internal static ModHotKey AmmoboxAmmoIconHotkey;
+        internal static ModHotKey AmmoboxAmmoSwapHotkey;
 
         //  Contains id's of rocket class names
         internal static Dictionary<string, Tuple<int, int>> RocketNameTypes;
@@ -67,11 +71,18 @@ namespace AmmoboxPlus
             AmmoboxBagModdedPHM = new List<int>();
 
             AmmoboxAmmoIconHotkey = RegisterHotKey("Display used ammo", "P");
+            AmmoboxAmmoSwapHotkey = RegisterHotKey("Switch between ammo", "C");
 
             AmmoboxAmmoUI = new AmmoIconUI();
             AmmoboxAmmoUI.Activate();
             AmmoboxAmmoIconInterface = new UserInterface();
             AmmoboxAmmoIconInterface.SetState(AmmoboxAmmoUI);
+
+            AmmoboxSwapUI = new AmmoSelectorUI();
+            AmmoboxSwapUI.Activate();
+            AmmoboxAmmoSwapInterface = new UserInterface();
+            AmmoboxAmmoSwapInterface.SetState(AmmoboxSwapUI);
+
 
             resetVariables();
         }
@@ -104,8 +115,6 @@ namespace AmmoboxPlus
                 RocketNameTypes.Add(className, values);
             }
         }
-
-
 
         //  TODO: Move everything sync-related to here
         public override void HandlePacket(BinaryReader reader, int whoAmI) {
@@ -288,18 +297,91 @@ namespace AmmoboxPlus
                     },
                     InterfaceScaleType.UI)
                 );
+
+                layers.Insert(InventoryIndex + 2, new LegacyGameInterfaceLayer(
+                    "Ammobox+: Ammo Swapping",
+                    delegate {
+                        if(AmmoSelectorUI.visible) AmmoboxAmmoSwapInterface.Draw(Main.spriteBatch, new GameTime());
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
             }
 
         }
 
         public override void UpdateUI(GameTime gameTime) {
+            if (AmmoIconUI.vis && AmmoboxAmmoUI != null) {
+                AmmoboxAmmoUI.Update(gameTime);
+            }
+
+            if (AmmoSelectorUI.visible && AmmoboxSwapUI != null) {
+                AmmoboxSwapUI.Update(gameTime);
+            }
+
             if (AmmoboxAmmoIconHotkey.JustPressed) {
                 AmmoIconUI.vis = !AmmoIconUI.vis;
             }
 
-            if (AmmoIconUI.vis && AmmoboxAmmoUI != null) {
-                AmmoboxAmmoUI.Update(gameTime);
+            if (AmmoboxAmmoSwapHotkey.JustPressed && (AmmoboxPlayer.apCanUseBeltBasic || AmmoboxPlayer.apCanUseBeltAdvanced) && AmmoSelectorUI.itemAllowed) {
+                //  Spawn ammo selector
+                AmmoboxSwapUI.UpdateAmmoTypeList();
+                AmmoSelectorUI.currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
+                AmmoSelectorUI.visible = true;
+                AmmoSelectorUI.spawnPosition = Main.MouseScreen;
+                AmmoSelectorUI.leftCorner = Main.MouseScreen - new Vector2(AmmoSelectorUI.mainRadius, AmmoSelectorUI.mainRadius);
+            } else if (AmmoboxAmmoSwapHotkey.JustReleased && AmmoSelectorUI.visible) {
+                //  Destroy ammo selector
+                //Main.NewText("ammo selector closing");
+                //  Switch selected ammo
+                if(AmmoSelectorUI.selectedAmmoType != -1) {
+                    List<Tuple<int, int>> available = new List<Tuple<int, int>>();
+                    //  Basic belt
+                    for(int i = 54; i <= 57; i++) {
+                        if(Main.LocalPlayer.inventory[i].type == AmmoSelectorUI.selectedAmmoType) {
+                            //  Add pairs slotID - stackSize of chosen ammo
+                            available.Add(new Tuple<int, int>(i, Main.LocalPlayer.inventory[i].stack));
+                        }
+                    }
+                    //  Lihzahrd belt
+                    if (AmmoboxPlayer.apCanUseBeltAdvanced) {
+                        for(int j = 0; j < 54; j++) {
+                            if(Main.LocalPlayer.inventory[j].type == AmmoSelectorUI.selectedAmmoType) {
+                                available.Add(new Tuple<int, int>(j, Main.LocalPlayer.inventory[j].stack));
+                            }
+                        }
+                    }
+
+                    Tuple<int, int> chosen = available[0];
+                    //  Prioritize larger stacks for switching
+                    foreach(Tuple<int, int> tuple in available) {
+                        if(tuple.Item2 > chosen.Item2) {
+                            chosen = tuple;
+                        }
+                    }
+
+                    //  Switch ammo stacks
+                    //  Save first stack
+                    Item temp = Main.LocalPlayer.inventory[54], chosenItem = Main.LocalPlayer.inventory[chosen.Item1];
+                    Main.LocalPlayer.inventory[54] = chosenItem;
+                    Main.LocalPlayer.inventory[chosen.Item1] = temp;
+                    
+
+                }
+
+                AmmoSelectorUI.currentFirstAmmoType = -1;
+                AmmoSelectorUI.selectedAmmoType = -1;
+                AmmoSelectorUI.visible = false;
+                AmmoboxSwapUI.Update(gameTime);
+                //  Set amount of circles drawn to -1
+                AmmoSelectorUI.circleAmount = -1;
+                //  Clear ammo types already in the list
+                AmmoSelectorUI.ammoTypes.Clear();
+                AmmoSelectorUI.ammoCount.Clear();
+                
             }
+
+
         }
 
     }

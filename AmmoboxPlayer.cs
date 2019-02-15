@@ -12,6 +12,11 @@ namespace AmmoboxPlus {
         internal static int apAcupunctureTargetID = -1;
         //  Damage increase
         internal static int apAcupunctureDmgIncrease = 0;
+        //  Currently held weapon's ammo type
+        internal static int apHeldItemAmmoType = -1;
+        //  Can the player use the basic belt ammo switching?
+        internal static bool apCanUseBeltBasic = false;
+        internal static bool apCanUseBeltAdvanced = false;
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) {
             if (npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apClouded) {
@@ -35,5 +40,9 @@ namespace AmmoboxPlus {
             AmmoboxWorld.apInsertedAlwaysAvailablePHM = false;
         }
 
+        public override void PreUpdate() {
+            apCanUseBeltBasic = false;
+            apCanUseBeltAdvanced = false;
+        }
     }
 }
