@@ -1,3 +1,11 @@
+v1.5.0.0
+- New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots
+- Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)
+- Fix phantasmal ammo flying straight through blocks when shot at a certain angle
+- Add ice sound effect
+- Potential compatibility for rockets with modded launchers
+- Fixed aiType for pre-hardmode bullets
+
 v1.4.4.1
 - Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
 - Fix post-plantera ammo dropping from ammoboxes after defeating any mech boss

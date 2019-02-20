@@ -1,6 +1,5 @@
-Endless update is here! Infinite versions of all Ammobox ammo types added to the game!
-New feature: Ammo Display - shows ammo that will be used when held weapon is shot!
-Developers of other mods can also add support for their mods to Ammobox+! (For more info, see GitHub repo)
+Bugfixes update.
+Introducing Ammo Belts, that allow quick switching between ammo in your ammo slots!
 
 Ammobox+ is a mod that's entirely dedicated to the ranger specialization of Terraria, and adds 43 new ammo types with new effects and their own recipes to the game.
 Currently added ammo types:
@@ -18,6 +17,14 @@ GitHub: https://github.com/Muzuwi/AmmoboxPlus
 Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
 
+v1.5.0.0 - Bugfix Update
+	   New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots	   
+	   Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)
+	   Fix phantasmal ammo flying straight through blocks when shot at a certain angle
+	   Add ice sound effect
+	   Potential compatibility for Ammobox rockets with modded launchers
+	   Fix pre-hardmode bullet behaviour
+
 v1.4.4.1 - Endless update! New, infinite versions of all Ammobox ammo types
 	   New UI Element: Ammo Display - Shows ammo that will be shot from held weapon. Off by default - Default hotkey is 'P'
 	   Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
@@ -32,23 +39,7 @@ v1.3.3.0 - Rocket update! 13 new rocket types added (special effects only work w
 	   Fix ammo dropped from ammoboxes very rarely getting prefixes
 	   Fix bullet hitboxes
 
-v1.2.2.9 - Fix possible multiplayer Ice/Slime desync
-	   Changed ice ammo recipe
-	   Changed slime ammo recipe
-	   Nerfed slime slowdown
-	   Possibly a few more things I forgot
-
-v1.2.2.7 - Arrow Update! 10 new arrow types added
-	   New items - Ammo Boxes and Ammo Boxes Plus!
-	   Changed rubber bullet recipe, now requires 10 pink gel
-	   Reworked Drugged/Cactus effect
-Full changelog available on GitHub
-
-v1.1.2.4 - Dart Update! 12 new ammo types (Darts), ranging from Pre-Hardmode to Hardmode. 
-	   Netsync should be more stable now
-	   Redid slime and ice effects, should work without any bugs on most enemies (however, a blacklist for certain enemies still exists)
-
-v1.0.2.2 - Fixed Starfall Bullet recipe
+Full changelog on GitHub.
 
 ---------- Known issues ---------- 
   - Ice/Slime ammo may rarely cause erratic movement in enemies, please report such cases on the Issue Tracker on GitHub
