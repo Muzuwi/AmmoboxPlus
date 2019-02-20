@@ -19,9 +19,6 @@ namespace AmmoboxPlus.UI {
         internal UIPanel ammoPanel;
         static float ratioX = 1530f / 1920;
         static float ratioY = 35f   / 1080;
-        //float lastUIscale = 0f;
-        //float posX = ratioX * Main.screenWidth;
-        //float posY = ratioY * Main.screenHeight;
 
         public override void OnInitialize() {
             icon = new AmmoIconSprite();
@@ -43,19 +40,6 @@ namespace AmmoboxPlus.UI {
             base.Update(gameTime); 
             ammoPanel.Top.Set(10 * Main.UIScale, 0f);
             ammoPanel.Left.Set(-80 * Main.UIScale, 0f);
-
-            //  Reset the pos, in case the resolution was changed, so no mod reload is necessary
-            //posX = ratioX * Main.screenWidth;
-            //posY = ratioY * Main.screenHeight;
-            /*Main.NewText(Main.instance.invBottom);
-            if (Main.UIScale != 1 && lastUIscale != Main.UIScale) {
-                lastUIscale = Main.UIScale;
-                ammoPanel.Left.Set((posX / Main.UIScale) - Main.UIScale*50f, 0f);
-                ammoPanel.Top.Set( (posY / Main.UIScale) + Main.UIScale*6f, 0f);
-            } else if (Main.UIScale == 1) {
-                ammoPanel.Left.Set(posX, 0f);
-                ammoPanel.Top.Set(posY, 0f);
-            }*/
         }
     }
 
@@ -111,7 +95,6 @@ namespace AmmoboxPlus.UI {
         }
     }
 
-
     class AmmoSelectorUI : UIState {
         //  Is the UI visible?
         internal static bool visible = false;
@@ -138,6 +121,8 @@ namespace AmmoboxPlus.UI {
         internal static int currentFirstAmmoType = -1;
         //  Is held item allowed to be used with the ammo switcher?
         internal static bool itemAllowed = false;
+        //  Skip drawing
+        internal static bool doNotDraw = false;
 
         //  Initialization
         public override void OnInitialize() {
@@ -155,6 +140,8 @@ namespace AmmoboxPlus.UI {
 
         protected override void DrawSelf(SpriteBatch spriteBatch) {
             base.DrawSelf(spriteBatch);
+            if (doNotDraw) return;
+
             Texture2D bgTexture = Main.wireUITexture[0];
 
             //  Draw weapon circle
@@ -209,8 +196,7 @@ namespace AmmoboxPlus.UI {
                     //  For some reason CloneDefaults doesn't actually clone the type
                     //  Set the type for proper cloning
                     Item onetwo = new Item();
-                    onetwo.type = ammoTypes[done];
-                    onetwo.CloneDefaults(ammoTypes[done]);
+                    onetwo.SetDefaults(ammoTypes[done]);
 
                     //  Draw the tooltip
                     Color fontColor = AmmoboxHelpfulMethods.getRarityColor(onetwo.rare);
@@ -218,29 +204,23 @@ namespace AmmoboxPlus.UI {
                     ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, onetwo.Name + " (" + ammoCount[ammoTypes[done]] + ")", mousePos + new Vector2(15, 15), fontColor, 0, Vector2.Zero, Vector2.One);
                 }
 
-                /*string temp = "";
-                if (done == 0) temp = "0";
-                if (done == 1) temp = "1";
-                if (done == 2) temp = "2";
-                if (done == 3) temp = "3";
-                if (done == 4) temp = "4";
-                spriteBatch.DrawString(Main.fontItemStack, temp, new Vector2(ammoRect.X, ammoRect.Y), Color.White);*/
-
-
-
                 i += angleSteps;
             }
-            //ErrorLogger.Log("##############");
-            //Main.NewText("############");
         }
 
         internal void UpdateAmmoTypeList() {
             ammoCount.Clear();
             ammoTypes.Clear();
-            if (heldItemType != -1) {
-                Item held = new Item();
-                held.type = heldItemType;
-                held.CloneDefaults(heldItemType);
+            Item held = new Item();
+            held.SetDefaults(heldItemType);
+
+            if (!held.ranged || held.useAmmo == 0 || held.type == 0) {
+                doNotDraw = true;
+            } else {
+                doNotDraw = false;
+            }
+
+            if (heldItemType != -1 ) {
                 List<int> ammos = new List<int>();
                 //  Check ammo slots for ammo usable by the currently held weapon
                 for (int j = 54; j <= 57; j++) {

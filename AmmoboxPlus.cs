@@ -89,6 +89,10 @@ namespace AmmoboxPlus
 
         public override void Unload() {
             instance = null;
+            AmmoboxAmmoUI = null;
+            AmmoboxAmmoIconInterface = null;
+            AmmoboxSwapUI = null;
+            AmmoboxAmmoSwapInterface = null;
         }
 
         public override void PostSetupContent() {
@@ -326,6 +330,7 @@ namespace AmmoboxPlus
             if (AmmoboxAmmoSwapHotkey.JustPressed && (AmmoboxPlayer.apCanUseBeltBasic || AmmoboxPlayer.apCanUseBeltAdvanced) && AmmoSelectorUI.itemAllowed) {
                 //  Spawn ammo selector
                 AmmoboxSwapUI.UpdateAmmoTypeList();
+                AmmoSelectorUI.doNotDraw = false;
                 AmmoSelectorUI.currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
                 AmmoSelectorUI.visible = true;
                 AmmoSelectorUI.spawnPosition = Main.MouseScreen;
