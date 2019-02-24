@@ -3,16 +3,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Items.Weapons {
-    public class EndlessDartMarked : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
+    public class EndlessDartMarked : ModItem {
+        public override void SetStaticDefaults() {
             DisplayName.SetDefault("Endless Marker Pouch");
             Tooltip.SetDefault("Inflicts 'Marked for Death'.\nInflicted enemies receive 15% more damage.");
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.damage = 2;
             item.ranged = true;
             item.width = 8;
@@ -26,8 +23,7 @@ namespace AmmoboxPlus.Items.Weapons {
             item.ammo = AmmoID.Dart;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("DartMarked"), 50);
             recipe.SetResult(this, 1);
