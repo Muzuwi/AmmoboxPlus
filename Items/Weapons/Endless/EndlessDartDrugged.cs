@@ -15,24 +15,20 @@ namespace AmmoboxPlus.Items.Weapons {
             item.width = 8;
             item.height = 8;
             item.maxStack = 1;
-            item.consumable = true;
-            item.knockBack = 2f; 
+            item.knockBack = 2f;
             item.value = 10;
             item.rare = ItemRarityID.Orange;
             item.shoot = mod.ProjectileType("DartDrugged");
             item.shootSpeed = 2f;
             item.ammo = AmmoID.Dart;
         }
-        public override void AddRecipes() {
+
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("DartDrugged"), 3996);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.CrystalBall);
             recipe.AddRecipe();
-        }
-
-        public override bool ConsumeAmmo(Player player){
-            return false;
         }
     }
 }

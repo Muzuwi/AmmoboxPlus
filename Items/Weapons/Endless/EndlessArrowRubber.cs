@@ -15,7 +15,6 @@ namespace AmmoboxPlus.Items.Weapons {
             item.width = 8;
             item.height = 8;
             item.maxStack = 1;
-            item.consumable = true;
             item.knockBack = 10f; 
             item.value = 15;
             item.rare = ItemRarityID.Green;
@@ -29,10 +28,6 @@ namespace AmmoboxPlus.Items.Weapons {
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.CrystalBall);
             recipe.AddRecipe();
-        }
-
-        public override bool ConsumeAmmo(Player player){
-            return false;
         }
     }
 }
