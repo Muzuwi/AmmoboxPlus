@@ -37,7 +37,7 @@ namespace AmmoboxPlus.Projectiles {
                 projectile.velocity = projectile.oldVelocity;
                 if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f) projectile.velocity *= 1.1f;
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Grenade launcher
@@ -49,7 +49,7 @@ namespace AmmoboxPlus.Projectiles {
                 } else {
                     ++tickAliveCount;
                 }
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Proximity mine
@@ -66,7 +66,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Snowman
             if (shotFrom == ItemID.SnowmanCannon) {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Common for all launchers
@@ -111,7 +111,7 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void Kill(int timeLeft) {
             int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type);
         }
     }
 }

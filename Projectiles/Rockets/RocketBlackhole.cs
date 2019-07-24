@@ -66,7 +66,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Snowman
             if (shotFrom == ItemID.SnowmanCannon) {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
         }
@@ -103,7 +103,7 @@ namespace AmmoboxPlus.Projectiles {
                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, id);
             }
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/blackHole").WithVolume(0.8f), projectile.position);
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.owner);
         }
     }
 }

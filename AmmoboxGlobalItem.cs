@@ -44,19 +44,25 @@ namespace AmmoboxPlus {
          *  Synchronize the shotFrom field across the clients for proper syncing of shot rockets
          */
         internal void broadcastShotFromValue(short shotFrom, int projType, int identity, int playerID) {
-            Main.NewText("Sending projectile id " + identity + " shot from " + shotFrom);
+            //Main.NewText("Sending projectile id " + identity + " shot from " + shotFrom);
             Main.projectile[identity].netUpdate = true;
-            ModPacket packet = mod.GetPacket();
-            packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFrom);
-            //  Owner id
-            packet.Write(playerID);
-            //  Projectile identity
-            packet.Write(identity);
-            //  Shot from which item?
-            packet.Write(shotFrom);
-            //  Projectile type
-            packet.Write(projType);
-            packet.Send();
+            ModPacket packet;
+            try {
+                packet = mod.GetPacket();
+                packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFrom);
+                //  Owner id
+                packet.Write(playerID);
+                //  Projectile identity
+                packet.Write(identity);
+                //  Shot from which item?
+                packet.Write(shotFrom);
+                //  Projectile type
+                packet.Write(projType);
+                packet.Send();
+            }
+            catch (SystemException e) {
+                //  TODO: Why does this happen?
+            }
         }
 
         /*
@@ -64,7 +70,7 @@ namespace AmmoboxPlus {
          */
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             //  Depending on the launcher, spawn projectile and set its' apShotFromLauncher to it's ID
-            //Main.NewText("item " + item.type + ", " + type + " star" + mod.ItemType("RocketStarburst") + " proj" + mod.ProjectileType("RocketStarburst"));
+            //Main.NewText("item " + item.type + ", " + type + " ammousedid " + apAmmoUsedID);
             if (item.type == ItemID.GrenadeLauncher) {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (type == ProjectileID.GrenadeI + entry.Value.Item2) {
@@ -108,7 +114,7 @@ namespace AmmoboxPlus {
                 }
             } else if (item.type == ItemID.SnowmanCannon) {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
-                    if (apAmmoUsedID != -1 && apAmmoUsedID == entry.Value.Item2) {
+                    if (apAmmoUsedID != -1 && apAmmoUsedID == entry.Value.Item1) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.SnowmanCannon;
 
@@ -116,15 +122,9 @@ namespace AmmoboxPlus {
                             Main.projectile[id].netUpdate = true;
                             broadcastShotFromValue(ItemID.SnowmanCannon, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
                         }
-
                         return false;
                     }
                 }
-            } else if (item.useAmmo == 771) {
-                Item temp = new Item();
-                temp.type = apAmmoUsedID;
-                temp.CloneDefaults(apAmmoUsedID);
-                type = temp.shoot;
             }
             return true;
         }
@@ -136,6 +136,7 @@ namespace AmmoboxPlus {
             foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                 if (ammo.type == entry.Value.Item1) {
                     apAmmoUsedID = ammo.type;
+                    //Main.NewText("Ammo picked: " + apAmmoUsedID);
                 }
             }
         }

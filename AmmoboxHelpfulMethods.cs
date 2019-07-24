@@ -10,8 +10,22 @@ using Terraria.Graphics.Shaders;
 namespace AmmoboxPlus {
     class AmmoboxHelpfulMethods {
         //  Projectile follows enemy, Chlorophyte bullet-like behavior, vanilla
-        public static void chaseEnemy(int projid) {
-            Projectile projectile = Main.projectile[projid];
+        public static void chaseEnemy(int projid, int projType) {
+            //  Find projectile
+            bool found = false;
+            Projectile projectile = new Projectile();
+            int projectileIndex = 0;
+            foreach (Projectile p in Main.projectile) {
+                if (p.type == projType && projid == p.identity) {
+                    projectile = p;
+                    found = true;
+                    break;
+                }
+                projectileIndex++;
+            }
+            if (!found) return;
+
+
             float velVector = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
             float locAIzero = projectile.localAI[0];
             if ((double)locAIzero == 0.0) {
@@ -76,12 +90,24 @@ namespace AmmoboxPlus {
                 projectile.velocity.X = (float)((projectile.velocity.X * (double)(num14 - 1) + (double)num12) / (double)num14);
                 projectile.velocity.Y = (float)((projectile.velocity.Y * (double)(num14 - 1) + (double)num13) / (double)num14);
             }
-            Main.projectile[projid] = projectile;
+            Main.projectile[projectileIndex] = projectile;
         }
 
         //  Spawns effects for rocket explosion, vanilla style
-        public static void explodeRocket(int shot, int projid, Color color = default(Color), bool largeBlast=false, bool skipDamage=false) {
-            Projectile projectile = Main.projectile[projid];
+        public static void explodeRocket(int shot, int projid, int projtype, Color color = default(Color), bool largeBlast=false, bool skipDamage=false) {
+            //  Run only on the owner client 
+            //if (Main.myPlayer != owner) return;
+            bool found = false;
+            Projectile projectile = new Projectile();
+            foreach(Projectile p in Main.projectile) {
+                if(p.type == projtype && projid == p.identity) {
+                    projectile = p;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) return;
+
             projectile.position = projectile.position + new Vector2(projectile.width / 2, projectile.height / 2);
             if (largeBlast) {
                 projectile.width = 80;
@@ -131,9 +157,8 @@ namespace AmmoboxPlus {
         }
 
         //  Create a burst of projectiles
-        public static void createBurst(int type, int projid, int owner, int damage, float radius=10, float velocityMultiplier=1.0f, int oneInX=4, bool makeFriendly=false, int Count=16) {
+        public static void createBurst(int type, Vector2 initialPos, int owner, int damage, float radius=10, float velocityMultiplier=1.0f, int oneInX=4, bool makeFriendly=false, int Count=16) {
             if (Main.rand.Next(oneInX) != 0) return;
-            Vector2 initialPos = Main.projectile[projid].position;
 
             int done = 0;
             double i = 0f;
@@ -328,7 +353,6 @@ namespace AmmoboxPlus {
                 }
             }
         }
-
 
         public static void createDustCircle(Vector2 position, int dustType, float radius = 10f, bool noGravity=false, bool newDustPerfect=false, int Count=4, Color color=default(Color), int width=8, int height=8, Vector2 velocity=default(Vector2), double angleOffset=0d, int shader=0) {
             int done = 0;
