@@ -46,7 +46,6 @@ namespace AmmoboxPlus.Projectiles {
                     }
                     var packet = mod.GetPacket();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxBunny);
-                    packet.Write(true);
                     packet.Write(target.whoAmI);
                     packet.Send();
                 }
@@ -88,7 +87,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Snowman
             if (shotFrom == ItemID.SnowmanCannon) {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Common for all launchers
@@ -127,7 +126,7 @@ namespace AmmoboxPlus.Projectiles {
             /*                        
                         Custom effects here                   
             */
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type);
         }
     }
 }

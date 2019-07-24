@@ -42,7 +42,7 @@ namespace AmmoboxPlus.Projectiles {
                 Main.dust[index2].noGravity = true;
             }
 
-            AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+            AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
 
         }
 

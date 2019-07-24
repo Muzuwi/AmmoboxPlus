@@ -18,12 +18,15 @@ Terraria Forums: https://forums.terraria.org/index.php?threads/ammobox.72004/
 ---------- CHANGELOG ----------
 
 v1.5.0.0 - Bugfix Update
-	   New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots	   
+	   New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots
 	   Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)
 	   Fix phantasmal ammo flying straight through blocks when shot at a certain angle
 	   Add ice sound effect
 	   Potential compatibility for Ammobox rockets with modded launchers
 	   Fix pre-hardmode bullet behaviour
+	   Fix ammo display not working correctly on MP
+	   Fix infinite ammo being consumed when shot from MechTransfer turrets
+	   Fixed rockets being terribly desynched on multiplayer
 
 v1.4.4.1 - Endless update! New, infinite versions of all Ammobox ammo types
 	   New UI Element: Ammo Display - Shows ammo that will be shot from held weapon. Off by default - Default hotkey is 'P'

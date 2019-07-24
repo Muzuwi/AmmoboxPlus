@@ -62,7 +62,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Snowman
             if (shotFrom == ItemID.SnowmanCannon) {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Common for all launchers
@@ -99,7 +99,7 @@ namespace AmmoboxPlus.Projectiles {
             /*                        
                         Custom effects here                   
             */
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, largeBlast: true);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type, largeBlast: true);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) {

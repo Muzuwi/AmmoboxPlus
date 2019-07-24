@@ -71,11 +71,12 @@ namespace AmmoboxPlus.Projectiles {
             //  Snowman
             if (shotFrom == ItemID.SnowmanCannon) {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
+                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
             }
 
             //  Common for all launchers
             Lighting.AddLight(projectile.Center, Color.Brown.ToVector3());
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
@@ -106,7 +107,7 @@ namespace AmmoboxPlus.Projectiles {
         public override void Kill(int timeLeft) {
             int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
             AmmoboxHelpfulMethods.blastArea(projectile.position, maxRange: 7, extraDrops: true);
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, largeBlast: true);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type, largeBlast: true);
         }
     }
 }

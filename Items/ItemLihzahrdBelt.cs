@@ -19,7 +19,7 @@ namespace AmmoboxPlus.Items {
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            AmmoboxPlayer.apCanUseBeltAdvanced = true;
+            player.GetModPlayer<AmmoboxPlayer>().apCanUseBeltAdvanced = true;
             player.rangedDamage += 0.15f;
         }
 

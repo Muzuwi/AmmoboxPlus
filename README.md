@@ -27,9 +27,17 @@ Examples of implemented ammo types (full list on the forum post):
 ## Known Issues
 - Ice/Slime ammo may rarely cause erratic movement in enemies, please report such cases on the Issue Tracker on GitHub
 - Debuffs do not apply to players in PvP
-- **Rocket special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher (for now, Terraria's implementation of rockets makes it very hard to add custom ones that work with all launchers, and each rocket has to be added specifically for every launcher. In the future, other modders will be able to use Call to add their own launchers to this list.**
+- **Rocket special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher (for now, Terraria's implementation of rockets makes it very hard to add custom ones that work with all launchers, and each rocket has to be added specifically for every launcher.**
 
 ## Changelog
+- v1.5.0.0 - Bugfix Update
+	* New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots
+	* Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)
+	* Fix phantasmal ammo flying straight through blocks when shot at a certain angle
+	* Add ice sound effect
+	* Potential compatibility for rockets with modded launchers (might not actually work)
+	* Fixed aiType for pre-hardmode bullets
+
 - v1.4.4.1 - Endless update
 	* Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
 	* Fix post-plantera ammo dropping from ammoboxes after defeating any mech boss

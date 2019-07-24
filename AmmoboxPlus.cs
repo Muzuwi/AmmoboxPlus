@@ -1,13 +1,13 @@
 using Terraria;
+using Terraria.UI;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
 using System;
-using Terraria.UI;
+using System.IO;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
 using AmmoboxPlus.UI;
-using AmmoboxPlus.Items;
 
 namespace AmmoboxPlus
 {
@@ -52,12 +52,17 @@ namespace AmmoboxPlus
         internal static UserInterface AmmoboxAmmoIconInterface;
         internal static UserInterface AmmoboxAmmoSwapInterface;
         internal static AmmoIconUI AmmoboxAmmoUI;
-        internal static AmmoSelectorUI AmmoboxSwapUI;
+        internal AmmoSelectorUI AmmoboxSwapUI;
         internal static ModHotKey AmmoboxAmmoIconHotkey;
         internal static ModHotKey AmmoboxAmmoSwapHotkey;
 
-        //  Contains id's of rocket class names
+        //  Matches the class name of a rocket type to a Tuple containing it's Item type and ProjectileType
         internal static Dictionary<string, Tuple<int, int>> RocketNameTypes;
+
+        internal static AmmoboxGlobalItem AmmoboxGI;
+        internal static AmmoboxGlobalProjectile AmmoboxGP;
+
+        //  Global Items
 
 		public AmmoboxPlus() {
 
@@ -83,6 +88,11 @@ namespace AmmoboxPlus
             AmmoboxAmmoSwapInterface = new UserInterface();
             AmmoboxAmmoSwapInterface.SetState(AmmoboxSwapUI);
 
+            AmmoboxGI = new AmmoboxGlobalItem();
+            AmmoboxGP = new AmmoboxGlobalProjectile();
+
+            AddGlobalItem("AmmoboxGlobalItem", AmmoboxGI);
+            AddGlobalProjectile("AmmoboxGlobalProjectile", AmmoboxGP);
 
             resetVariables();
         }
@@ -93,6 +103,24 @@ namespace AmmoboxPlus
             AmmoboxAmmoIconInterface = null;
             AmmoboxSwapUI = null;
             AmmoboxAmmoSwapInterface = null;
+            AmmoboxGI = null;
+            AmmoboxGP = null;
+            AmmoboxBagAllowedHM = null;
+            AmmoboxBagAllowedPHM = null;
+            AmmoboxBagModdedHM = null;
+            AmmoboxBagModdedPHM = null;
+            AmmoboxOreModded = null;
+            AmmoboxOreVanillaHM = null;
+            AmmoboxOreVanillaPHM = null;
+            AmmoboxModdedBlacklist = null;
+            AmmoboxVanillaAmmo = null;
+            AmmoboxVanillaHMAmmo = null;
+            AmmoboxModAmmoHM = null;
+            AmmoboxModAmmoPHM = null;
+            RocketNameTypes = null;
+            AmmoboxAmmoIconHotkey = null;
+            AmmoboxAmmoSwapHotkey = null;
+
         }
 
         public override void PostSetupContent() {
@@ -114,47 +142,90 @@ namespace AmmoboxPlus
                   "RocketHeart",
             };
 
+            //  Add normal rockets
             foreach (string className in rocketClassNames) {
                 Tuple<int, int> values = new Tuple<int, int>(ItemType(className), ProjectileType(className));
                 RocketNameTypes.Add(className, values);
             }
+
+            //  Add endless rockets
+            foreach (string className in rocketClassNames) {
+                Tuple<int, int> values = new Tuple<int, int>(ItemType("Endless"+className), ProjectileType(className));
+                RocketNameTypes.Add("Endless"+className, values);
+            }
+
         }
 
         //  TODO: Move everything sync-related to here
         public override void HandlePacket(BinaryReader reader, int whoAmI) {
             AmmoboxMsgType type = (AmmoboxMsgType)reader.ReadByte();
             switch (type) {
-                case AmmoboxMsgType.AmmoboxBunny:
-                    bool action = reader.ReadBoolean();
-                    int npcID = reader.ReadInt32();
-
-                    Vector2 pos = Main.npc[npcID].position;
-                    Main.npc[npcID].active = false;
-                    int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
-                    Main.PlaySound(SoundID.DoubleJump, pos);
-                    break;
+                case AmmoboxMsgType.AmmoboxBunny: {
+                        int npcID = reader.ReadInt32();
+                        Vector2 pos = Main.npc[npcID].position;
+                        Main.npc[npcID].active = false;
+                        int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
+                        Main.PlaySound(SoundID.DoubleJump, pos);
+                        break;
+                    }
                 case AmmoboxMsgType.AmmoboxMarked:
                 case AmmoboxMsgType.AmmoboxClouded:
                 case AmmoboxMsgType.AmmoboxCactus:
-                case AmmoboxMsgType.AmmoboxSlime:
-                    int npc = reader.ReadInt32();
-                    int bID = reader.ReadInt32();
-                    int time = reader.ReadInt32();
-                    Main.npc[npc].AddBuff(bID, time);
-                    break;
-                case AmmoboxMsgType.AmmoboxDelBuff:
-                    int npcid = reader.ReadInt32();
-                    int buffid = reader.ReadInt32();
-                    Main.npc[npcid].DelBuff(buffid);
-                    break;
-                case AmmoboxMsgType.AmmoboxUpdateVelocity:
-                    int npcid2 = reader.ReadInt32();
-                    Vector2 vel = reader.ReadVector2();
-                    Main.npc[npcid2].velocity = vel;
-                    break;
+                case AmmoboxMsgType.AmmoboxSlime: {
+                        int npc = reader.ReadInt32();
+                        int bID = reader.ReadInt32();
+                        int time = reader.ReadInt32();
+                        Main.npc[npc].AddBuff(bID, time);
+                        break;
+                    }
+                case AmmoboxMsgType.AmmoboxDelBuff: {
+                        int npc = reader.ReadInt32();
+                        int buffid = reader.ReadInt32();
+                        Main.npc[npc].DelBuff(buffid);
+                        break;
 
-                default:
+                    }
+                case AmmoboxMsgType.AmmoboxUpdateVelocity: {
+                        int npc = reader.ReadInt32();
+                        Vector2 vel = reader.ReadVector2();
+                        Main.npc[npc].velocity = vel;
+                    }
                     break;
+                case AmmoboxMsgType.AmmoboxBroadcastShotFrom: {
+                        int who = reader.ReadInt32();
+                        int projID = reader.ReadInt32();
+                        short shotFrom = reader.ReadInt16();
+                        int projType = reader.ReadInt32();
+                        //  If server, broadcast the shotFrom value to all clients
+                        if (Main.netMode == NetmodeID.Server) {
+                            ModPacket packet = GetPacket();
+                            packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFromToClients);
+                            packet.Write(projID);
+                            packet.Write(shotFrom);
+                            packet.Write(projType);
+                            packet.Send(-1, who);
+                        }
+                    break;
+                }
+                case AmmoboxMsgType.AmmoboxBroadcastShotFromToClients: {
+                        int projID = reader.ReadInt32();
+                        short shotFrom = reader.ReadInt16();
+                        int projType = reader.ReadInt32();
+                        //Main.NewText("Received shotFrom update from server: " + projID + ", " + shotFrom);
+
+                        foreach(Projectile proj in Main.projectile) {
+                            //  Found the projectile
+                            if(proj.type == projType && proj.identity == projID) {
+                                //Main.NewText("Found proj " + proj.identity + ", " + proj.whoAmI);
+                                proj.GetGlobalProjectile<AmmoboxGlobalProjectile>(instance).apShotFromLauncherID = shotFrom;
+                                break;
+                            }
+                        }
+                        break;
+                }
+
+
+                default: break;
             }
         }
 
@@ -282,10 +353,10 @@ namespace AmmoboxPlus
                     if (!AmmoboxModdedBlacklist.Contains(id)) AmmoboxModdedBlacklist.Add(id);
                     return "Success";
                 } else {
-                    ErrorLogger.Log("[AmmoboxPlus] Invalid Call command type: " + command);
+                    Logger.Error("[AmmoboxPlus] Invalid Call command type: " + command);
                 }
             }catch(Exception exception) {
-                ErrorLogger.Log("[AmmoboxPlus] Failed Call! Stack trace: " + exception.StackTrace + " What: " + exception.Message);
+                Logger.Error("[AmmoboxPlus] Failed Call! Stack trace: " + exception.StackTrace + " What: " + exception.Message);
             }
             return "Failure";
         }
@@ -305,7 +376,7 @@ namespace AmmoboxPlus
                 layers.Insert(InventoryIndex + 2, new LegacyGameInterfaceLayer(
                     "Ammobox+: Ammo Swapping",
                     delegate {
-                        if(AmmoSelectorUI.visible) AmmoboxAmmoSwapInterface.Draw(Main.spriteBatch, new GameTime());
+                        if(AmmoboxPlus.instance.AmmoboxSwapUI.visible) AmmoboxAmmoSwapInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)
@@ -319,7 +390,7 @@ namespace AmmoboxPlus
                 AmmoboxAmmoUI.Update(gameTime);
             }
 
-            if (AmmoSelectorUI.visible && AmmoboxSwapUI != null) {
+            if (AmmoboxPlus.instance.AmmoboxSwapUI.visible && AmmoboxSwapUI != null) {
                 AmmoboxSwapUI.Update(gameTime);
             }
 
@@ -327,31 +398,46 @@ namespace AmmoboxPlus
                 AmmoIconUI.vis = !AmmoIconUI.vis;
             }
 
-            if (AmmoboxAmmoSwapHotkey.JustPressed && (AmmoboxPlayer.apCanUseBeltBasic || AmmoboxPlayer.apCanUseBeltAdvanced) && AmmoSelectorUI.itemAllowed) {
+            bool canUseBeltBasic = Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().apCanUseBeltBasic,
+                 canUseBeltAdvanced = Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().apCanUseBeltAdvanced;
+
+            //  Credits to direwolf420
+            bool canOpen = Main.hasFocus &&
+                !Main.drawingPlayerChat &&
+                !Main.editSign &&
+                !Main.editChest &&
+                !Main.blockInput &&
+                !Main.mapFullscreen &&
+                !Main.HoveringOverAnNPC &&
+                Main.LocalPlayer.talkNPC == -1 &&
+                !Main.LocalPlayer.showItemIcon &&
+                !(Main.LocalPlayer.frozen || Main.LocalPlayer.webbed || Main.LocalPlayer.stoned);
+
+
+            if (AmmoboxAmmoSwapHotkey.JustPressed && (canUseBeltBasic || canUseBeltAdvanced) && Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().itemAllowed && canOpen) {
                 //  Spawn ammo selector
                 AmmoboxSwapUI.UpdateAmmoTypeList();
-                AmmoSelectorUI.doNotDraw = false;
-                AmmoSelectorUI.currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
-                AmmoSelectorUI.visible = true;
-                AmmoSelectorUI.spawnPosition = Main.MouseScreen;
-                AmmoSelectorUI.leftCorner = Main.MouseScreen - new Vector2(AmmoSelectorUI.mainRadius, AmmoSelectorUI.mainRadius);
-            } else if (AmmoboxAmmoSwapHotkey.JustReleased && AmmoSelectorUI.visible) {
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().doNotDraw = false;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
+                AmmoboxSwapUI.visible = true;
+                AmmoboxSwapUI.spawnPosition = Main.MouseScreen;
+                AmmoboxSwapUI.leftCorner = Main.MouseScreen - new Vector2(AmmoboxSwapUI.mainRadius, AmmoboxSwapUI.mainRadius);
+            } else if (AmmoboxAmmoSwapHotkey.JustReleased && AmmoboxSwapUI.visible) {
                 //  Destroy ammo selector
-                //Main.NewText("ammo selector closing");
                 //  Switch selected ammo
-                if(AmmoSelectorUI.selectedAmmoType != -1) {
+                if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().selectedAmmoType != -1) {
                     List<Tuple<int, int>> available = new List<Tuple<int, int>>();
                     //  Basic belt
                     for(int i = 54; i <= 57; i++) {
-                        if(Main.LocalPlayer.inventory[i].type == AmmoSelectorUI.selectedAmmoType) {
+                        if(Main.LocalPlayer.inventory[i].type == Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().selectedAmmoType) {
                             //  Add pairs slotID - stackSize of chosen ammo
                             available.Add(new Tuple<int, int>(i, Main.LocalPlayer.inventory[i].stack));
                         }
                     }
                     //  Lihzahrd belt
-                    if (AmmoboxPlayer.apCanUseBeltAdvanced) {
+                    if (canUseBeltAdvanced) {
                         for(int j = 0; j < 54; j++) {
-                            if(Main.LocalPlayer.inventory[j].type == AmmoSelectorUI.selectedAmmoType) {
+                            if(Main.LocalPlayer.inventory[j].type == Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().selectedAmmoType) {
                                 available.Add(new Tuple<int, int>(j, Main.LocalPlayer.inventory[j].stack));
                             }
                         }
@@ -374,15 +460,15 @@ namespace AmmoboxPlus
 
                 }
 
-                AmmoSelectorUI.currentFirstAmmoType = -1;
-                AmmoSelectorUI.selectedAmmoType = -1;
-                AmmoSelectorUI.visible = false;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().currentFirstAmmoType = -1;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().selectedAmmoType = -1;
+                AmmoboxSwapUI.visible = false;
                 AmmoboxSwapUI.Update(gameTime);
                 //  Set amount of circles drawn to -1
-                AmmoSelectorUI.circleAmount = -1;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount = -1;
                 //  Clear ammo types already in the list
-                AmmoSelectorUI.ammoTypes.Clear();
-                AmmoSelectorUI.ammoCount.Clear();
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes.Clear();
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount.Clear();
                 
             }
 
@@ -399,6 +485,12 @@ namespace AmmoboxPlus
         AmmoboxSlime,
         AmmoboxDelBuff,
         AmmoboxUpdateVelocity,
+        AmmoboxBroadcastShotFrom,
+        AmmoboxBroadcastShotFromToClients,
+
     }
+
+
+
 
 }

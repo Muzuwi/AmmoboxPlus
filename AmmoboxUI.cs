@@ -13,6 +13,7 @@ using System;
 using Terraria.ModLoader;
 
 namespace AmmoboxPlus.UI {
+    //  TODO: Get rid of or rework the ammo display UI
     class AmmoIconUI : UIState{
         internal static bool vis = false;
         internal AmmoIconSprite icon;
@@ -22,7 +23,6 @@ namespace AmmoboxPlus.UI {
 
         public override void OnInitialize() {
             icon = new AmmoIconSprite();
-            icon.itemID = -1;
 
             ammoPanel = new UIPanel();
             ammoPanel.Top.Set(10, 0f);
@@ -44,9 +44,6 @@ namespace AmmoboxPlus.UI {
     }
 
     class AmmoIconSprite : UIElement {
-        internal int itemID;
-        internal string mouseText = "";
-        internal int rarity;
 
         public AmmoIconSprite() {
             Width.Set(32f, 0f);
@@ -55,10 +52,10 @@ namespace AmmoboxPlus.UI {
 
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
-
-            if(itemID != -1) {
-                Width.Set(Main.itemTexture[itemID].Width, 0);
-                Height.Set(Main.itemTexture[itemID].Height, 0);
+            
+            if(Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID != -1) {
+                Width.Set(Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID].Width, 0);
+                Height.Set(Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID].Height, 0);
             }
         }
 
@@ -66,16 +63,16 @@ namespace AmmoboxPlus.UI {
             base.DrawSelf(spriteBatch);
 
             CalculatedStyle innerDim = base.Parent.GetInnerDimensions();
-            if (itemID != -1) {
+            if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID != -1) {
                 float baseX = innerDim.X;
                 float baseY = innerDim.Y;
 
-                float textureWidth = Main.itemTexture[itemID].Width;
-                float textureHeight = Main.itemTexture[itemID].Height;
+                float textureWidth = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID].Width;
+                float textureHeight = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID].Height;
 
                 float centerX = baseX + ((innerDim.Width - textureWidth) / 2f);
                 float centerY = baseY + ((innerDim.Height - textureHeight) / 2f);
-                spriteBatch.Draw(Main.itemTexture[itemID], new Vector2(centerX, centerY), Color.White);
+                spriteBatch.Draw(Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID], new Vector2(centerX, centerY), Color.White);
             }
             Vector2 fontSize = Main.fontMouseText.MeasureString("Ammo: ");
             Vector2 textPos = new Vector2(innerDim.X - 14f, innerDim.Y - (fontSize.Y + 5f));
@@ -86,10 +83,10 @@ namespace AmmoboxPlus.UI {
             ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, "Ammo: ", textPos, baseColor, 0, Vector2.Zero, Vector2.One);
 
 
-            Color fontColor = AmmoboxHelpfulMethods.getRarityColor(rarity);
+            Color fontColor = AmmoboxHelpfulMethods.getRarityColor(Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemRarity);
             Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
-            if (base.Parent.ContainsPoint(mousePos) && mouseText != "") {
-                ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, mouseText, mousePos + new Vector2(15, 15), fontColor, 0, Vector2.Zero, Vector2.One);
+            if (base.Parent.ContainsPoint(mousePos) && Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemName != "") {
+                ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemName, mousePos + new Vector2(15, 15), fontColor, 0, Vector2.Zero, Vector2.One);
             }
 
         }
@@ -97,39 +94,23 @@ namespace AmmoboxPlus.UI {
 
     class AmmoSelectorUI : UIState {
         //  Is the UI visible?
-        internal static bool visible = false;
+        internal bool visible = false;
         //  Spawn position, i.e. mouse position at the time of pressing the hotkey
-        internal static Vector2 spawnPosition;
-        internal static Vector2 leftCorner;
+        internal Vector2 spawnPosition;
+        internal Vector2 leftCorner;
 
         //  Circle diameter
-        internal static int mainDiameter = 36;
+        internal int mainDiameter = 36;
         //  Circle radius
-        internal static int mainRadius = 36 / 2;
+        internal int mainRadius = 36 / 2;
 
-        //  Amount of spawned circles
-        internal static int circleAmount = -1;
-        //  Held item type
-        internal static int heldItemType = -1;
-        //  List of ammo types matching the properties of the held weapon
-        internal static List<int> ammoTypes;
-        //  Ammo count of ammo types used
-        internal static Dictionary<int, int> ammoCount;
-        //  Which ammo type is currently highlighted?
-        internal static int selectedAmmoType = -1;
-        //  Which ammo type is in the first ammo slot?
-        internal static int currentFirstAmmoType = -1;
-        //  Is held item allowed to be used with the ammo switcher?
-        internal static bool itemAllowed = false;
-        //  Skip drawing
-        internal static bool doNotDraw = false;
 
         //  Initialization
         public override void OnInitialize() {
             spawnPosition = new Vector2();
             leftCorner = new Vector2();
-            ammoTypes = new List<int>();
-            ammoCount = new Dictionary<int, int>();
+            //Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes = new List<int>();
+            //Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount = new Dictionary<int, int>();
         }
 
         //  Update ammo type list with any changes made during display of the UI
@@ -140,7 +121,8 @@ namespace AmmoboxPlus.UI {
 
         protected override void DrawSelf(SpriteBatch spriteBatch) {
             base.DrawSelf(spriteBatch);
-            if (doNotDraw) return;
+            if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().doNotDraw) return;
+            //Main.LocalPlayer.mouseInterface = true;
 
             Texture2D bgTexture = Main.wireUITexture[0];
 
@@ -149,11 +131,11 @@ namespace AmmoboxPlus.UI {
             spriteBatch.Draw(Main.wireUITexture[CheckMouseWithinCircle(Main.MouseScreen, mainRadius, spawnPosition) ? 1 : 0], outputRect, Color.White);
 
             //  Draw weapon inside circle
-            if (heldItemType != -1) {
-                int finalWidth = Main.itemTexture[heldItemType].Width / 2,
-                    finalHeight = Main.itemTexture[heldItemType].Height / 2;
+            if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType != -1) {
+                int finalWidth = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType].Width / 2,
+                    finalHeight = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType].Height / 2;
                 Rectangle outputWeaponRect = new Rectangle((int)spawnPosition.X - (finalWidth / 2), (int)spawnPosition.Y - (finalHeight / 2), finalWidth, finalHeight);
-                spriteBatch.Draw(Main.itemTexture[heldItemType], outputWeaponRect, Color.White);
+                spriteBatch.Draw(Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType], outputWeaponRect, Color.White);
             }
 
             //  Check how many ammo types are available
@@ -161,47 +143,47 @@ namespace AmmoboxPlus.UI {
             int outerRadius = 48;
             double offset = 0;
             //  Apply offset depending on the amount of circles to be drawn
-            offset = (circleAmount == 3) ? 0.5
-                                         : (circleAmount == 4) ? 0.25
-                                                                : (circleAmount == 5) ? (1d/9d) : 0;
+            offset = (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount == 3) ? 0.5
+                                         : (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount == 4) ? 0.25
+                                                                : (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount == 5) ? (1d/9d) : 0;
             //  Angle between each circle
             //  (*Math.PI is @ Line 186)
-            double angleSteps = 2.0d / circleAmount;
+            double angleSteps = 2.0d / Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount;
 
             //  TODO: Fix weird position of lower circle on circleAmount == 3
             int done = 0;
             //  Starting angle
             double i = offset;
             //  done --> ID of currently drawn circle
-            for (done = 0; done < circleAmount; ++done) {
+            for (done = 0; done < Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount; ++done) {
                 double x = outerRadius * Math.Cos(i * Math.PI), 
                        y = outerRadius * Math.Sin(i * Math.PI);
 
                 Rectangle ammoBgRect = new Rectangle((int)(leftCorner.X + x), (int)(leftCorner.Y + y), mainDiameter, mainDiameter);
                 //  Check if mouse is within the circle checked
                 //bool isMouseWithin = CheckMouseWithinCircle(Main.MouseScreen, mainRadius + 8, new Vector2((int)(spawnPosition.X + x), (int)(spawnPosition.Y + y)));
-                bool isMouseWithin = CheckMouseWithinWheel(Main.MouseScreen, spawnPosition, 96, mainRadius, offset*Math.PI, circleAmount, done);
+                bool isMouseWithin = CheckMouseWithinWheel(Main.MouseScreen, spawnPosition, 96, mainRadius, offset*Math.PI, Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount, done);
 
                 //  Actually draw the bg circle
-                spriteBatch.Draw(Main.wireUITexture[isMouseWithin ? 1 : 0], ammoBgRect, (ammoTypes[done] == currentFirstAmmoType) ? Color.Gray : Color.White);
+                spriteBatch.Draw(Main.wireUITexture[isMouseWithin ? 1 : 0], ammoBgRect, (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done] == Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().currentFirstAmmoType) ? Color.Gray : Color.White);
 
                 //  Draw ammo sprites over the icons
-                int ammoWidth = Main.itemTexture[ammoTypes[done]].Width,
-                    ammoHeight = Main.itemTexture[ammoTypes[done]].Height;
+                int ammoWidth = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done]].Width,
+                    ammoHeight = Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done]].Height;
                 Rectangle ammoRect = new Rectangle((int)(spawnPosition.X + x) - (ammoWidth / 2), (int)(spawnPosition.Y + y) - (ammoHeight / 2), ammoWidth, ammoHeight);
-                spriteBatch.Draw(Main.itemTexture[ammoTypes[done]], ammoRect, (ammoTypes[done] == currentFirstAmmoType ) ? Color.Gray : Color.White);
+                spriteBatch.Draw(Main.itemTexture[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done]], ammoRect, (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done] == Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().currentFirstAmmoType ) ? Color.Gray : Color.White);
                 if (isMouseWithin) {
-                    selectedAmmoType = ammoTypes[done];
+                    Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().selectedAmmoType = Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done];
 
                     //  For some reason CloneDefaults doesn't actually clone the type
                     //  Set the type for proper cloning
                     Item onetwo = new Item();
-                    onetwo.SetDefaults(ammoTypes[done]);
+                    onetwo.SetDefaults(Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done]);
 
                     //  Draw the tooltip
                     Color fontColor = AmmoboxHelpfulMethods.getRarityColor(onetwo.rare);
                     Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
-                    ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, onetwo.Name + " (" + ammoCount[ammoTypes[done]] + ")", mousePos + new Vector2(15, 15), fontColor, 0, Vector2.Zero, Vector2.One);
+                    ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, onetwo.Name + " (" + Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount[Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes[done]] + ")", mousePos + new Vector2(15, 15), fontColor, 0, Vector2.Zero, Vector2.One);
                 }
 
                 i += angleSteps;
@@ -209,18 +191,18 @@ namespace AmmoboxPlus.UI {
         }
 
         internal void UpdateAmmoTypeList() {
-            ammoCount.Clear();
-            ammoTypes.Clear();
+            Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount.Clear();
+            Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes.Clear();
             Item held = new Item();
-            held.SetDefaults(heldItemType);
+            held.SetDefaults(Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType);
 
             if (!held.ranged || held.useAmmo == 0 || held.type == 0) {
-                doNotDraw = true;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().doNotDraw = true;
             } else {
-                doNotDraw = false;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().doNotDraw = false;
             }
 
-            if (heldItemType != -1 ) {
+            if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().heldItemType != -1 ) {
                 List<int> ammos = new List<int>();
                 //  Check ammo slots for ammo usable by the currently held weapon
                 for (int j = 54; j <= 57; j++) {
@@ -233,26 +215,26 @@ namespace AmmoboxPlus.UI {
                             ammos.Add(itemType);
                         }
                         //  Count the total amount of this ammo type in the ammo slots
-                        if (ammoCount.ContainsKey(itemType)) {
-                            ammoCount[itemType] += Main.LocalPlayer.inventory[j].stack;
+                        if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount.ContainsKey(itemType)) {
+                            Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount[itemType] += Main.LocalPlayer.inventory[j].stack;
                         } else {
-                            ammoCount[itemType] = Main.LocalPlayer.inventory[j].stack;
+                            Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount[itemType] = Main.LocalPlayer.inventory[j].stack;
                         }
                     }
                 }
 
                 //  Additionally, search for one ammo type beyond the ammo slots
-                if (AmmoboxPlayer.apCanUseBeltAdvanced) {
+                if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().apCanUseBeltAdvanced) {
                     for(int j = 0; j < 54; j++) {
                         int chosenType = Main.LocalPlayer.inventory[j].ammo,
                             itemType = Main.LocalPlayer.inventory[j].type;
                         if(chosenType == held.useAmmo && itemType > 0) {
                             if (!FindInList(ammos, itemType)) {
                                 ammos.Add(itemType);
-                                if (ammoCount.ContainsKey(itemType)) {
-                                    ammoCount[itemType] += Main.LocalPlayer.inventory[j].stack;
+                                if (Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount.ContainsKey(itemType)) {
+                                    Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount[itemType] += Main.LocalPlayer.inventory[j].stack;
                                 } else {
-                                    ammoCount[itemType] = Main.LocalPlayer.inventory[j].stack;
+                                    Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoCount[itemType] = Main.LocalPlayer.inventory[j].stack;
                                 }
                                 break;
                             }
@@ -261,12 +243,12 @@ namespace AmmoboxPlus.UI {
                 }
 
 
-                circleAmount = ammos.Count;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().circleAmount = ammos.Count;
                 //  Sort types, to allow for static ammo positions on the selector wheel
                 ammos.Sort();
-                ammoTypes = ammos;
+                Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().ammoTypes = ammos;
             }
-            currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
+            Main.LocalPlayer.GetModPlayer<AmmoboxPlayer>().currentFirstAmmoType = Main.LocalPlayer.inventory[54].type;
         }
 
         internal bool CheckMouseWithinCircle(Vector2 mousePos, int radius, Vector2 center) {
