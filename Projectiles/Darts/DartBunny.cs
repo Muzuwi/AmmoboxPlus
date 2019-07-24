@@ -49,7 +49,6 @@ namespace AmmoboxPlus.Projectiles {
                     }
                     var packet = mod.GetPacket();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxBunny);
-                    packet.Write(true);
                     packet.Write(target.whoAmI);
                     packet.Send();
                 }

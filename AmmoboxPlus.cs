@@ -126,25 +126,32 @@ namespace AmmoboxPlus
                   "RocketHeart",
             };
 
+            //  Add normal rockets
             foreach (string className in rocketClassNames) {
                 Tuple<int, int> values = new Tuple<int, int>(ItemType(className), ProjectileType(className));
                 RocketNameTypes.Add(className, values);
             }
+
+            //  Add endless rockets
+            foreach (string className in rocketClassNames) {
+                Tuple<int, int> values = new Tuple<int, int>(ItemType("Endless"+className), ProjectileType(className));
+                RocketNameTypes.Add("Endless"+className, values);
+            }
+
         }
 
         //  TODO: Move everything sync-related to here
         public override void HandlePacket(BinaryReader reader, int whoAmI) {
             AmmoboxMsgType type = (AmmoboxMsgType)reader.ReadByte();
             switch (type) {
-                case AmmoboxMsgType.AmmoboxBunny:
-                    bool action = reader.ReadBoolean();
-                    int npcID = reader.ReadInt32();
-
-                    Vector2 pos = Main.npc[npcID].position;
-                    Main.npc[npcID].active = false;
-                    int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
-                    Main.PlaySound(SoundID.DoubleJump, pos);
-                    break;
+                case AmmoboxMsgType.AmmoboxBunny: {
+                        int npcID = reader.ReadInt32();
+                        Vector2 pos = Main.npc[npcID].position;
+                        Main.npc[npcID].active = false;
+                        int bunDex = NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
+                        Main.PlaySound(SoundID.DoubleJump, pos);
+                        break;
+                    }
                 case AmmoboxMsgType.AmmoboxMarked:
                 case AmmoboxMsgType.AmmoboxClouded:
                 case AmmoboxMsgType.AmmoboxCactus:
