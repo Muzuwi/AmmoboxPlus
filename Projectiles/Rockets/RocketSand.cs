@@ -70,6 +70,7 @@ namespace AmmoboxPlus.Projectiles {
                 Dust dust = Dust.NewDustPerfect(projectile.Center, 31);
                 Main.dust[dust.dustIndex].velocity *= 0.05f;
             }
+
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {

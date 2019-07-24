@@ -77,6 +77,7 @@ namespace AmmoboxPlus.Projectiles {
             //  Common for all launchers
             Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default(Color), 1f);
             Lighting.AddLight(projectile.Center, Color.LightBlue.ToVector3());
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

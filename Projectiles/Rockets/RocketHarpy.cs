@@ -65,6 +65,7 @@ namespace AmmoboxPlus.Projectiles {
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
                 AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
             }
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

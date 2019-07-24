@@ -76,6 +76,7 @@ namespace AmmoboxPlus.Projectiles {
 
             //  Common for all launchers
             Lighting.AddLight(projectile.Center, Color.Brown.ToVector3());
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {

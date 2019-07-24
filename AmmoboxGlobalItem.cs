@@ -25,6 +25,9 @@ namespace AmmoboxPlus {
         //  Id of ammo used by launcher
         internal int apAmmoUsedID;
 
+        /*
+         *  Adding ammoboxes to vanilla boss bags
+         */
         public override void OpenVanillaBag(string context, Player player, int arg) {
             if (context == "bossBag") {
                 if (AmmoboxPlus.AmmoboxBagAllowedPHM.Contains(arg) || AmmoboxPlus.AmmoboxBagModdedPHM.Contains(arg)) {
@@ -37,6 +40,28 @@ namespace AmmoboxPlus {
             }
         }
 
+        /*
+         *  Synchronize the shotFrom field across the clients for proper syncing of shot rockets
+         */
+        internal void broadcastShotFromValue(short shotFrom, int projType, int identity, int playerID) {
+            Main.NewText("Sending projectile id " + identity + " shot from " + shotFrom);
+            Main.projectile[identity].netUpdate = true;
+            ModPacket packet = mod.GetPacket();
+            packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFrom);
+            //  Owner id
+            packet.Write(playerID);
+            //  Projectile identity
+            packet.Write(identity);
+            //  Shot from which item?
+            packet.Write(shotFrom);
+            //  Projectile type
+            packet.Write(projType);
+            packet.Send();
+        }
+
+        /*
+         *  Override vanilla shooting for rockets when custom ammo is in use
+         */
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             //  Depending on the launcher, spawn projectile and set its' apShotFromLauncher to it's ID
             //Main.NewText("item " + item.type + ", " + type + " star" + mod.ItemType("RocketStarburst") + " proj" + mod.ProjectileType("RocketStarburst"));
@@ -45,6 +70,12 @@ namespace AmmoboxPlus {
                     if (type == ProjectileID.GrenadeI + entry.Value.Item2) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.GrenadeLauncher;
+
+                        if(Main.myPlayer == Main.projectile[id].owner) {
+                            Main.projectile[id].netUpdate = true;
+                            broadcastShotFromValue(ItemID.GrenadeLauncher, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
+                        }
+
                         return false;
                     }
                 }
@@ -53,6 +84,11 @@ namespace AmmoboxPlus {
                     if (type == ProjectileID.RocketI + entry.Value.Item2) {
                         Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[proj.identity].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.RocketLauncher;
+
+                        if (Main.myPlayer == Main.projectile[proj.identity].owner) {
+                            Main.projectile[proj.identity].netUpdate = true;
+                            broadcastShotFromValue(ItemID.RocketLauncher, entry.Value.Item2, proj.identity, Main.myPlayer);
+                        }
                         return false;
                     }
                 }
@@ -61,6 +97,12 @@ namespace AmmoboxPlus {
                     if (type == ProjectileID.ProximityMineI + entry.Value.Item2) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.ProximityMineLauncher;
+
+                        if (Main.myPlayer == Main.projectile[id].owner) {
+                            Main.projectile[id].netUpdate = true;
+                            broadcastShotFromValue(ItemID.ProximityMineLauncher, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
+                        }
+
                         return false;
                     }
                 }
@@ -69,6 +111,12 @@ namespace AmmoboxPlus {
                     if (apAmmoUsedID != -1 && apAmmoUsedID == entry.Value.Item2) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.SnowmanCannon;
+
+                        if (Main.myPlayer == Main.projectile[id].owner) {
+                            Main.projectile[id].netUpdate = true;
+                            broadcastShotFromValue(ItemID.SnowmanCannon, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
+                        }
+
                         return false;
                     }
                 }
@@ -81,66 +129,59 @@ namespace AmmoboxPlus {
             return true;
         }
 
-        public override void PickAmmo(Item item, Player player, ref int type, ref float speed, ref int damage, ref float knockback) {
+        /*
+         *  Record when one of the rocket ammos is used in the GlobalItem of the weapon
+         */
+        public override void PickAmmo(Item weapon, Item ammo, Player player, ref int type, ref float speed, ref int damage, ref float knockback) {
             foreach (var entry in AmmoboxPlus.RocketNameTypes) {
-                if (item.type == entry.Value.Item1) {
-                    apAmmoUsedID = item.type;
+                if (ammo.type == entry.Value.Item1) {
+                    apAmmoUsedID = ammo.type;
                 }
             }
         }
 
+        /*
+         *  Update ammo hotswap when an item is held out
+         */
         public override void HoldItem(Item item, Player player) {
-            AmmoSelectorUI.heldItemType = item.type;
+            player.GetModPlayer<AmmoboxPlayer>().heldItemType = item.type;
             if(item.ranged && item.useAmmo != 0) {
-                AmmoSelectorUI.itemAllowed = true;
+                player.GetModPlayer<AmmoboxPlayer>().itemAllowed = true;
             } else {
-                AmmoSelectorUI.itemAllowed = false;
+                player.GetModPlayer<AmmoboxPlayer>().itemAllowed = false;
             }
-
-
-            /*if (item.ranged && item.useAmmo == AmmoID.Bullet) { // Guns\
-                SearchForAmmo(AmmoID.Bullet, ref player);
-            } else if (item.ranged && item.useAmmo == AmmoID.Arrow) {  //  Bows and repeaters
-                SearchForAmmo(AmmoID.Arrow, ref player);
-            } else if (item.ranged && item.useAmmo == AmmoID.Rocket) { //  Rockets
-                SearchForAmmo(AmmoID.Rocket, ref player);
-            } else if (item.ranged && item.useAmmo == AmmoID.Dart) { //  Darts
-                SearchForAmmo(AmmoID.Dart, ref player);
-            } else if (item.ranged && item.useAmmo == AmmoID.Solution) { //  Rockets
-                SearchForAmmo(AmmoID.Solution, ref player);
-            } else {
-                AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = -1;
-                AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = "";
-            }*/
 
             if (AmmoIconUI.vis) {
                 if (item.ranged) {
                     SearchForAmmo(item.useAmmo, ref player);
                 } else {
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = -1;
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = "";
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID = -1;
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemName = "";
                 }
             }
         }
 
+        /*
+         *  Updates the ModPlayer with info on ammo type that will be used next when the player shoots a weapon
+         */
         public static void SearchForAmmo(int ammoType, ref Player player) {
             //  Look in ammo slots first
             for (int i = 54; i <= 57; i++) {
                 if (player.inventory[i].ammo == ammoType && player.inventory[i].active) {
-                    //Main.NewText("Found a matching item " + player.inventory[i].type + " " + player.inventory[i].HoverName);
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = player.inventory[i].type;
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = player.inventory[i].HoverName;
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.rarity = player.inventory[i].rare;
+                    //  TODO: Just pass an item instead of this
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID = player.inventory[i].type;
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemName = player.inventory[i].HoverName;
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemRarity = player.inventory[i].rare;
                     return;
                 }
             }
             //  ...Then in inventory
             foreach (Item it in player.inventory) {
                 if (it.ammo == ammoType && it.active) {
-                    //Main.NewText("Found a matching item " + it.type + " " + it.HoverName);
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.itemID = it.type;
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.mouseText = it.HoverName;
-                    AmmoboxPlus.AmmoboxAmmoUI.icon.rarity = it.rare;
+                    //  TODO: Just pass an item instead of this
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemID = it.type;
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemName = it.HoverName;
+                    player.GetModPlayer<AmmoboxPlayer>().ammoDisplayItemRarity = it.rare;
                     return;
                 }
             }

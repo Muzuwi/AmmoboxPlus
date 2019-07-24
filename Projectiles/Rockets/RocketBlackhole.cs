@@ -69,11 +69,6 @@ namespace AmmoboxPlus.Projectiles {
                 AmmoboxHelpfulMethods.chaseEnemy(projectile.identity);
             }
 
-            //  Common for all launchers
-            /* 
-                        Do stuff here
-            */
-
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
