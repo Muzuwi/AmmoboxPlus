@@ -5,6 +5,9 @@ v1.5.0.0
 - Add ice sound effect
 - Potential compatibility for rockets with modded launchers
 - Fixed aiType for pre-hardmode bullets
+- Fixed ammo display not working on MP
+- Fixed infinite ammo being consumed when shot from MechTransfer turrets
+- Fixed rockets being terribly desynched on multiplayer
 
 v1.4.4.1
 - Fix miner ammo dropping lunar ore/ammoboxes dropping post-ML ammo after defeating any mech boss
