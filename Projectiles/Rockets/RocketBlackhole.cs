@@ -33,7 +33,6 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void AI() {
             int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
-
             //  Rocket launcher
             if(shotFrom == ItemID.RocketLauncher) {
                 projectile.velocity = projectile.oldVelocity;
@@ -99,10 +98,11 @@ namespace AmmoboxPlus.Projectiles {
         public override void Kill(int timeLeft) {
             int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
             int id = Projectile.NewProjectile(projectile.position, projectile.velocity, mod.ProjectileType("BlackHole"), 0, 0, projectile.owner);
-            if(Main.netMode == 1) {
-                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, id);
+
+            if (Main.netMode != NetmodeID.Server) {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/blackHole").WithVolume(0.8f), projectile.position);
             }
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/blackHole").WithVolume(0.8f), projectile.position);
+
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.owner);
         }
     }

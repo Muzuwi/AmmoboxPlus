@@ -47,22 +47,17 @@ namespace AmmoboxPlus {
             //Main.NewText("Sending projectile id " + identity + " shot from " + shotFrom);
             Main.projectile[identity].netUpdate = true;
             ModPacket packet;
-            try {
-                packet = mod.GetPacket();
-                packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFrom);
-                //  Owner id
-                packet.Write(playerID);
-                //  Projectile identity
-                packet.Write(identity);
-                //  Shot from which item?
-                packet.Write(shotFrom);
-                //  Projectile type
-                packet.Write(projType);
-                packet.Send();
-            }
-            catch (SystemException e) {
-                //  TODO: Why does this happen?
-            }
+            packet = mod.GetPacket();
+            packet.Write((byte)AmmoboxMsgType.AmmoboxBroadcastShotFrom);
+            //  Owner id
+            packet.Write(playerID);
+            //  Projectile identity
+            packet.Write(identity);
+            //  Shot from which item?
+            packet.Write(shotFrom);
+            //  Projectile type
+            packet.Write(projType);
+            packet.Send();
         }
 
         /*
@@ -77,7 +72,7 @@ namespace AmmoboxPlus {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.GrenadeLauncher;
 
-                        if(Main.myPlayer == Main.projectile[id].owner) {
+                        if(Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;
                             broadcastShotFromValue(ItemID.GrenadeLauncher, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
                         }
@@ -91,7 +86,7 @@ namespace AmmoboxPlus {
                         Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[proj.identity].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.RocketLauncher;
 
-                        if (Main.myPlayer == Main.projectile[proj.identity].owner) {
+                        if (Main.myPlayer == Main.projectile[proj.identity].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[proj.identity].netUpdate = true;
                             broadcastShotFromValue(ItemID.RocketLauncher, entry.Value.Item2, proj.identity, Main.myPlayer);
                         }
@@ -104,7 +99,7 @@ namespace AmmoboxPlus {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.ProximityMineLauncher;
 
-                        if (Main.myPlayer == Main.projectile[id].owner) {
+                        if (Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;
                             broadcastShotFromValue(ItemID.ProximityMineLauncher, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
                         }
@@ -118,7 +113,7 @@ namespace AmmoboxPlus {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
                         Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.SnowmanCannon;
 
-                        if (Main.myPlayer == Main.projectile[id].owner) {
+                        if (Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;
                             broadcastShotFromValue(ItemID.SnowmanCannon, entry.Value.Item2, Main.projectile[id].identity, Main.myPlayer);
                         }
