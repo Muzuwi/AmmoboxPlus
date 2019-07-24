@@ -52,7 +52,7 @@ namespace AmmoboxPlus
         internal static UserInterface AmmoboxAmmoIconInterface;
         internal static UserInterface AmmoboxAmmoSwapInterface;
         internal static AmmoIconUI AmmoboxAmmoUI;
-        internal  AmmoSelectorUI AmmoboxSwapUI;
+        internal AmmoSelectorUI AmmoboxSwapUI;
         internal static ModHotKey AmmoboxAmmoIconHotkey;
         internal static ModHotKey AmmoboxAmmoSwapHotkey;
 
@@ -105,6 +105,22 @@ namespace AmmoboxPlus
             AmmoboxAmmoSwapInterface = null;
             AmmoboxGI = null;
             AmmoboxGP = null;
+            AmmoboxBagAllowedHM = null;
+            AmmoboxBagAllowedPHM = null;
+            AmmoboxBagModdedHM = null;
+            AmmoboxBagModdedPHM = null;
+            AmmoboxOreModded = null;
+            AmmoboxOreVanillaHM = null;
+            AmmoboxOreVanillaPHM = null;
+            AmmoboxModdedBlacklist = null;
+            AmmoboxVanillaAmmo = null;
+            AmmoboxVanillaHMAmmo = null;
+            AmmoboxModAmmoHM = null;
+            AmmoboxModAmmoPHM = null;
+            RocketNameTypes = null;
+            AmmoboxAmmoIconHotkey = null;
+            AmmoboxAmmoSwapHotkey = null;
+
         }
 
         public override void PostSetupContent() {
