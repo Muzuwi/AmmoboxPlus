@@ -158,6 +158,8 @@ namespace AmmoboxPlus {
 
         //  Create a burst of projectiles
         public static void createBurst(int type, Vector2 initialPos, int owner, int damage, float radius=10, float velocityMultiplier=1.0f, int oneInX=4, bool makeFriendly=false, int Count=16) {
+            if (Main.myPlayer != owner) return;
+    
             if (Main.rand.Next(oneInX) != 0) return;
 
             int done = 0;
