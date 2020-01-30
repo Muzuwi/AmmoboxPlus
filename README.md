@@ -30,6 +30,12 @@ Examples of implemented ammo types (full list on the forum post):
 - **Rocket special effects only work with Rocket Launcher/Grenade Launcher/Snowman Cannon/Proximity Mine Launcher (for now, Terraria's implementation of rockets makes it very hard to add custom ones that work with all launchers, and each rocket has to be added specifically for every launcher.**
 
 ## Changelog
+
+- v1.5.0.1
+	* Updated for tModLoader v0.11.6.2
+	* Fix a crash when spawning dev weapons when no weapon conditions were met
+	* Fix double spawning of rocket effects on MP
+
 - v1.5.0.0 - Bugfix Update
 	* New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots
 	* Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)

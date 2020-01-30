@@ -1,3 +1,8 @@
+v1.5.0.1
+- Updated for tModLoader v0.11.6.2
+- Fix a crash when spawning dev weapons when no weapon conditions were met
+- Fix double spawning of rocket effects on MP
+
 v1.5.0.0
 - New Feature - Ammo Belts! They allow you to switch between ammo in your ammo slots
 - Drugged/Cactus ammo now respect the npc.dontTakeDamage (fixes weird behaviour with Golem)
