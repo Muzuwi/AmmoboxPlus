@@ -38,9 +38,13 @@ namespace AmmoboxPlus.Items {
                     weaponList.Add(mod.ItemType("DartScrapper"));
                 }
 
-                int id1 = Item.NewItem(player.position, weaponList[Main.rand.Next(4)], 1, prefixGiven: 0, noGrabDelay: true);
-                if (Main.netMode == 1) {
-                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id1, 1f, 0f, 0f, 0, 0, 0);
+                if(weaponList.Count > 0)
+                {
+                    int id1 = Item.NewItem(player.position, weaponList[Main.rand.Next(4)], 1, prefixGiven: 0, noGrabDelay: true);
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, id1, 1f, 0f, 0f, 0, 0, 0);
+                    }
                 }
             }
 
