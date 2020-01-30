@@ -31,13 +31,13 @@ namespace AmmoboxPlus.Projectiles {
             if (target.type == NPCID.TargetDummy) return;
             if (target.realLife != -1) {
                 //  Apply only to the parent
-                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
-                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
+                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>().apCactus) {
+                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>().apCactus = false;
                     if (Main.netMode == 0) { //  Singleplayer
-                        Main.npc[target.realLife].DelBuff(mod.BuffType<Buffs.Cactus>());
+                        Main.npc[target.realLife].DelBuff(ModContent.BuffType<Buffs.Cactus>());
                     } else { //  Sync with others
                         var packet = mod.GetPacket();
-                        int buffType = mod.BuffType<Buffs.Cactus>();
+                        int buffType = ModContent.BuffType<Buffs.Cactus>();
                         packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
                         packet.Write(Main.npc[target.realLife].whoAmI);
                         packet.Write(buffType);
@@ -45,20 +45,20 @@ namespace AmmoboxPlus.Projectiles {
                     }
                 }
 
-                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
-                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 1000;
-                    Main.npc[target.realLife].AddBuff(mod.BuffType<Buffs.Drugged>(), 500);
+                if (Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>().apDruggedCooldown == 0) {
+                    Main.npc[target.realLife].GetGlobalNPC<AmmoboxGlobalNPC>().apDruggedCooldown = 1000;
+                    Main.npc[target.realLife].AddBuff(ModContent.BuffType<Buffs.Drugged>(), 500);
                 }
 
             } else {
                 //  Normal enemy, do things as usual
-                if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus) {
-                    target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = false;
+                if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apCactus) {
+                    target.GetGlobalNPC<AmmoboxGlobalNPC>().apCactus = false;
                     if (Main.netMode == 0) { //  Singleplayer
-                        target.DelBuff(mod.BuffType<Buffs.Cactus>());
+                        target.DelBuff(ModContent.BuffType<Buffs.Cactus>());
                     } else { //  Sync with others
                         var packet = mod.GetPacket();
-                        int buffType = mod.BuffType<Buffs.Cactus>();
+                        int buffType = ModContent.BuffType<Buffs.Cactus>();
                         packet.Write((byte)AmmoboxMsgType.AmmoboxDelBuff);
                         packet.Write(target.whoAmI);
                         packet.Write(buffType);
@@ -66,9 +66,9 @@ namespace AmmoboxPlus.Projectiles {
                     }
                 }
 
-                if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown == 0) {
-                    target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedCooldown = 900;
-                    target.AddBuff(mod.BuffType<Buffs.Drugged>(), 600);
+                if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apDruggedCooldown == 0) {
+                    target.GetGlobalNPC<AmmoboxGlobalNPC>().apDruggedCooldown = 900;
+                    target.AddBuff(ModContent.BuffType<Buffs.Drugged>(), 600);
                 }
             }
         }

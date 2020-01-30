@@ -217,7 +217,7 @@ namespace AmmoboxPlus
                             //  Found the projectile
                             if(proj.type == projType && proj.identity == projID) {
                                 //Main.NewText("Found proj " + proj.identity + ", " + proj.whoAmI);
-                                proj.GetGlobalProjectile<AmmoboxGlobalProjectile>(instance).apShotFromLauncherID = shotFrom;
+                                proj.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID = shotFrom;
                                 break;
                             }
                         }

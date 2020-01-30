@@ -40,54 +40,54 @@ namespace AmmoboxPlus.Projectiles {
             if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
 
             //  Have we reached Stuck limit?
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit) {
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apStuckLimit) {
 
                 //  If we have more parts in the chain, apply to the rest
                 if (target.realLife != -1) {
-                    Main.npc[target.realLife].AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                    Main.npc[target.realLife].AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                     int index = 0;
                     foreach (NPC n in Main.npc) {
                         if (n.realLife == target.realLife) {
-                            Main.npc[index].AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                            Main.npc[index].AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                         }
                         ++index;
                     }
                 }
                 else {
-                    target.AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                    target.AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                 }
             } else { //  No stuck limit
 
                 //  If enemy is in water, apply higher chance
                 if (Main.tile[posXlow, posYlow].liquid > 0 || Main.tile[posXhi, posYhi].liquid > 0) {
                     if (WorldGen.genRand.Next(3) == 0) {
-                        processAddBuffIce(ref target, mod.BuffType<Buffs.Stuck>(), 300);
+                        processAddBuffIce(ref target, ModContent.BuffType<Buffs.Stuck>(), 300);
                     }
                 } else {
                     int temp = WorldGen.genRand.Next(6);
                     if (temp == 0 || temp == 1 || temp == 2 || temp == 3) {
-                        processAddBuffIce(ref target, mod.BuffType<Buffs.Stuck>(), 300);
+                        processAddBuffIce(ref target, ModContent.BuffType<Buffs.Stuck>(), 300);
                     }
                 }
 
                 //  If multi-part enemy
                 if (target.realLife != -1) {
-                    Main.npc[target.realLife].AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                    Main.npc[target.realLife].AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                     int index = 0;
                     foreach (NPC n in Main.npc) {
                         if (n.realLife == target.realLife) {
-                            Main.npc[index].AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                            Main.npc[index].AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                         }
                         ++index;
                     }
                 } else {
-                    target.AddBuff(mod.BuffType<Buffs.Cold>(), 500);
+                    target.AddBuff(ModContent.BuffType<Buffs.Cold>(), 500);
                 }
             }
         }
 
         public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if(shotFrom == ItemID.RocketLauncher) {
@@ -133,7 +133,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if (shotFrom ==  ItemID.RocketLauncher) {
@@ -158,7 +158,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
     
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type, largeBlast: true);
         }
@@ -168,21 +168,21 @@ namespace AmmoboxPlus.Projectiles {
             if (npc.realLife != -1) {
                 Main.npc[npc.realLife].AddBuff(type, time);
                 Main.npc[npc.realLife].velocity = new Vector2(0, 0);
-                Main.npc[npc.realLife].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
+                Main.npc[npc.realLife].GetGlobalNPC<AmmoboxGlobalNPC>().apStuckLimit = true;
 
                 int index = 0;
                 foreach (NPC n in Main.npc) {
                     if (n.realLife == npc.realLife) {
                         Main.npc[index].AddBuff(type, time);
                         Main.npc[index].velocity = new Vector2(0, 0);
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>().apStuckLimit = true;
                     }
                     ++index;
                 }
             } else {
                 npc.AddBuff(type, time);
                 npc.velocity = new Vector2(0, 0);
-                npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuckLimit = true;
+                npc.GetGlobalNPC<AmmoboxGlobalNPC>().apStuckLimit = true;
             }
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/iceBullet").WithVolume(0.8f), projectile.position);
         }

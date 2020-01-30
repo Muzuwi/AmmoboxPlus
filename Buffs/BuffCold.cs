@@ -15,7 +15,7 @@ namespace AmmoboxPlus.Buffs {
         }
 
         public override void Update(NPC npc, ref int buffIndex) {
-            npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCold = true;
+            npc.GetGlobalNPC<AmmoboxGlobalNPC>().apCold = true;
             npc.netUpdate = true;
         }
     }

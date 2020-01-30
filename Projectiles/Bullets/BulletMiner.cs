@@ -33,9 +33,9 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre) return;
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre) return;
             if (AmmoboxHelpfulMethods.processMinerOreDrop(target)) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
+                target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre = true;
             }
         }
 

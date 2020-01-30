@@ -28,7 +28,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if(shotFrom == ItemID.RocketLauncher) {
@@ -76,10 +76,10 @@ namespace AmmoboxPlus.Projectiles {
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             if(Main.rand.Next(4) == 0 && !target.boss) {
                 if(Main.netMode == 0) {
-                    target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 400);
+                    target.AddBuff(ModContent.BuffType<Buffs.CloudedVision>(), 400);
                 } else {
                     var packet = mod.GetPacket();
-                    int buffType = mod.BuffType<Buffs.CloudedVision>();
+                    int buffType = ModContent.BuffType<Buffs.CloudedVision>();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
                     packet.Write(target.whoAmI);
                     packet.Write(buffType);
@@ -90,7 +90,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if (shotFrom ==  ItemID.RocketLauncher) {
@@ -115,7 +115,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             for(int i = 0; i < 30; i++) {
                 Dust.NewDust(projectile.position, 8, 8, DustID.Smoke, newColor: Color.LightYellow, Scale: 2f);
             }

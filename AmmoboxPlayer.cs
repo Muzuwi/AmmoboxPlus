@@ -49,7 +49,7 @@ namespace AmmoboxPlus {
 
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) {
-            if (npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apClouded) {
+            if (npc.GetGlobalNPC<AmmoboxGlobalNPC>().apClouded) {
                 if(WorldGen.genRand.Next(12) == 0) {
                     for(int i = 0; i < 5; i++) Dust.NewDust(player.position, 1, 1, DustID.Smoke);
                     player.shadowDodge = true;

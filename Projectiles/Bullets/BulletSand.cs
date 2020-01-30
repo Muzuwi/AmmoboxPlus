@@ -32,10 +32,10 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             if(Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.CloudedVision>(), 300);
+                target.AddBuff(ModContent.BuffType<Buffs.CloudedVision>(), 300);
             } else {
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.CloudedVision>();
+                int buffType = ModContent.BuffType<Buffs.CloudedVision>();
                 packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);

@@ -167,7 +167,7 @@ namespace AmmoboxPlus.NPCs {
          *  Fix glitches caused by a multi-part enemy being killed by ice ammo  
          */ 
         public override bool CheckDead(NPC npc) {
-            if(npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apStuck && npc.realLife != -1) {
+            if(npc.GetGlobalNPC<AmmoboxGlobalNPC>().apStuck && npc.realLife != -1) {
                 int index = 0;
                 foreach (NPC n in Main.npc) {
                     if(n.whoAmI == npc.realLife || n.realLife == npc.realLife) {
@@ -223,7 +223,7 @@ namespace AmmoboxPlus.NPCs {
                         } else {
                             n.StrikeNPC(npc.damage / 2, 1, 0);
                         }
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDruggedShouldTint = true;
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>().apDruggedShouldTint = true;
                         Main.npc[index].netUpdate = true;
                         ++appliedCount;
                     }
@@ -239,13 +239,13 @@ namespace AmmoboxPlus.NPCs {
                 foreach (NPC n in Main.npc) {
                     //  Calculate distance between enemies
                     bool collision = Collision.CheckAABBvAABBCollision(npc.Hitbox.BottomLeft(), new Vector2(npc.Hitbox.Width, npc.Hitbox.Height), n.Hitbox.BottomLeft(), new Vector2(n.Hitbox.Width, n.Hitbox.Height));
-                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus && n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown == 0 && !n.dontTakeDamage) {
+                    if ( (collision) && n.active && !n.friendly && (n.whoAmI != npc.whoAmI) && !n.GetGlobalNPC<AmmoboxGlobalNPC>().apCactus && n.GetGlobalNPC<AmmoboxGlobalNPC>().apCactusCooldown == 0 && !n.dontTakeDamage) {
                         if (n.position.X > npc.position.X) {
                             n.StrikeNPC(npc.damage / 4, 9.0f, 1);
                         }else {
                             n.StrikeNPC(npc.damage / 4, 9.0f, -1);
                         }
-                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactusCooldown = 300;
+                        Main.npc[index].GetGlobalNPC<AmmoboxGlobalNPC>().apCactusCooldown = 300;
                         Main.npc[index].netUpdate = true;
                     }
                     ++index;
@@ -334,12 +334,12 @@ namespace AmmoboxPlus.NPCs {
         public override void SetupShop(int type, Chest shop, ref int nextSlot) {
             if (type == NPCID.ArmsDealer) {
                 if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
-                    shop.item[nextSlot].SetDefaults(mod.ItemType<Items.ItemAmmoBelt>());
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ItemAmmoBelt>());
                     ++nextSlot;
                 }
 
                 if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && NPC.downedPlantBoss && NPC.downedGolemBoss) {
-                    shop.item[nextSlot].SetDefaults(mod.ItemType<Items.ItemLihzahrdBelt>());
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ItemLihzahrdBelt>());
                     ++nextSlot;
                 }
             }

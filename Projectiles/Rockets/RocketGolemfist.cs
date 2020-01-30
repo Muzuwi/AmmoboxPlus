@@ -28,7 +28,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if(shotFrom == ItemID.RocketLauncher) {
@@ -70,7 +70,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if (shotFrom ==  ItemID.RocketLauncher) {
@@ -95,7 +95,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             /*                        
                         Custom effects here                   
             */

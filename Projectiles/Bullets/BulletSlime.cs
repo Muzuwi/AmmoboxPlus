@@ -32,15 +32,15 @@ namespace AmmoboxPlus.Projectiles {
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             if (AmmoboxPlus.isEnemyBlacklisted(target.type)) return;
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apSlime = true;
+            target.GetGlobalNPC<AmmoboxGlobalNPC>().apSlime = true;
 
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Slime>(), 200);
+                target.AddBuff(ModContent.BuffType<Buffs.Slime>(), 200);
                 target.AddBuff(BuffID.Slimed, 200);
             } else {
                 target.AddBuff(BuffID.Slimed, 200);
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Slime>();
+                int buffType = ModContent.BuffType<Buffs.Slime>();
                 packet.Write((byte)AmmoboxMsgType.AmmoboxSlime);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);

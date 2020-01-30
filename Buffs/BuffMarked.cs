@@ -15,12 +15,12 @@ namespace AmmoboxPlus.Buffs {
 
         public override void Update(NPC npc, ref int buffIndex) {
             //ErrorLogger.Log("Enemy id " + npc.type + " update tick for Marked");
-            npc.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apMarked = true;
+            npc.GetGlobalNPC<AmmoboxGlobalNPC>().apMarked = true;
             npc.netUpdate = true;
             if(Main.netMode == 0) {
-                npc.AddBuff(mod.BuffType<Buffs.Marked>(), 100);
+                npc.AddBuff(ModContent.BuffType<Buffs.Marked>(), 100);
             }else if(Main.netMode == 1 || Main.netMode == 2) {  //  Does it actually work this way?
-                NetMessage.SendData(0x35, -1, -1, Terraria.Localization.NetworkText.Empty, npc.whoAmI, mod.BuffType<Buffs.Marked>(), 100);
+                NetMessage.SendData(0x35, -1, -1, Terraria.Localization.NetworkText.Empty, npc.whoAmI, ModContent.BuffType<Buffs.Marked>(), 100);
             }
         }
     }

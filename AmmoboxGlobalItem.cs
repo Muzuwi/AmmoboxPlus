@@ -70,7 +70,7 @@ namespace AmmoboxPlus {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (type == ProjectileID.GrenadeI + entry.Value.Item2) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
-                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.GrenadeLauncher;
+                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID = ItemID.GrenadeLauncher;
 
                         if(Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;
@@ -84,7 +84,7 @@ namespace AmmoboxPlus {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (type == ProjectileID.RocketI + entry.Value.Item2) {
                         Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), entry.Value.Item2, damage, knockBack, player.whoAmI);
-                        Main.projectile[proj.identity].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.RocketLauncher;
+                        Main.projectile[proj.identity].GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID = ItemID.RocketLauncher;
 
                         if (Main.myPlayer == Main.projectile[proj.identity].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[proj.identity].netUpdate = true;
@@ -97,7 +97,7 @@ namespace AmmoboxPlus {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (type == ProjectileID.ProximityMineI + entry.Value.Item2) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
-                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.ProximityMineLauncher;
+                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID = ItemID.ProximityMineLauncher;
 
                         if (Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;
@@ -111,7 +111,7 @@ namespace AmmoboxPlus {
                 foreach (var entry in AmmoboxPlus.RocketNameTypes) {
                     if (apAmmoUsedID != -1 && apAmmoUsedID == entry.Value.Item1) {
                         int id = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, entry.Value.Item2, damage, knockBack, player.whoAmI);
-                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID = ItemID.SnowmanCannon;
+                        Main.projectile[id].GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID = ItemID.SnowmanCannon;
 
                         if (Main.myPlayer == Main.projectile[id].owner && Main.netMode != NetmodeID.SinglePlayer) {
                             Main.projectile[id].netUpdate = true;

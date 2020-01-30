@@ -29,15 +29,15 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre) return;
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre) return;
             if (AmmoboxHelpfulMethods.processMinerOreDrop(target, oneInX: 20)) {
-                target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apAlreadyDroppedOre = true;
+                target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre = true;
             }
         }
 
 
         public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if(shotFrom == ItemID.RocketLauncher) {
@@ -80,7 +80,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
             if (shotFrom ==  ItemID.RocketLauncher) {
@@ -105,7 +105,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             AmmoboxHelpfulMethods.blastArea(projectile.position, maxRange: 7, extraDrops: true);
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type, largeBlast: true);
         }

@@ -27,14 +27,14 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apMarked = true;
+            target.GetGlobalNPC<AmmoboxGlobalNPC>().apMarked = true;
 
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Marked>(), 100);
+                target.AddBuff(ModContent.BuffType<Buffs.Marked>(), 100);
             }
             else {
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Marked>();
+                int buffType = ModContent.BuffType<Buffs.Marked>();
                 packet.Write((byte)AmmoboxMsgType.AmmoboxClouded);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);

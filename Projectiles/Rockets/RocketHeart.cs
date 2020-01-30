@@ -36,7 +36,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             if (drawAura) {
                 if(rotation >= 2) {
@@ -56,10 +56,10 @@ namespace AmmoboxPlus.Projectiles {
 
                     if (dist < 192f && n.active && !n.friendly) {
                         if (Main.player[projectile.owner].statLife < Main.player[projectile.owner].statLifeMax) {
-                            n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apExtraHeartTick = 120;
+                            n.GetGlobalNPC<AmmoboxGlobalNPC>().apExtraHeartTick = 120;
                         }
                         if (Main.player[projectile.owner].statMana < Main.player[projectile.owner].statManaMax) {
-                            n.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apExtraManaTick = 120;
+                            n.GetGlobalNPC<AmmoboxGlobalNPC>().apExtraManaTick = 120;
                         }
                         Main.npc[n.whoAmI].netUpdate = true;
                     }
@@ -110,7 +110,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             projectile.velocity = Vector2.Zero;
             drawAura = true;
 
@@ -118,7 +118,7 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>(mod).apShotFromLauncherID;
+            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             for(int i = 0; i < 20; i++) {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 12);
             }

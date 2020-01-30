@@ -29,17 +29,17 @@ namespace AmmoboxPlus.Projectiles {
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apDrugged) {
+            if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apDrugged) {
                 return;
             }
 
-            target.GetGlobalNPC<AmmoboxGlobalNPC>(mod).apCactus = true;
+            target.GetGlobalNPC<AmmoboxGlobalNPC>().apCactus = true;
             if (Main.netMode == 0) {
-                target.AddBuff(mod.BuffType<Buffs.Cactus>(), 300);
+                target.AddBuff(ModContent.BuffType<Buffs.Cactus>(), 300);
             }
             else {
                 var packet = mod.GetPacket();
-                int buffType = mod.BuffType<Buffs.Cactus>();
+                int buffType = ModContent.BuffType<Buffs.Cactus>();
                 packet.Write((byte)AmmoboxMsgType.AmmoboxCactus);
                 packet.Write(target.whoAmI);
                 packet.Write(buffType);
