@@ -88,12 +88,6 @@ namespace AmmoboxPlus
             AmmoboxAmmoSwapInterface = new UserInterface();
             AmmoboxAmmoSwapInterface.SetState(AmmoboxSwapUI);
 
-            AmmoboxGI = new AmmoboxGlobalItem();
-            AmmoboxGP = new AmmoboxGlobalProjectile();
-
-            AddGlobalItem("AmmoboxGlobalItem", AmmoboxGI);
-            AddGlobalProjectile("AmmoboxGlobalProjectile", AmmoboxGP);
-
             resetVariables();
         }
 
@@ -103,8 +97,6 @@ namespace AmmoboxPlus
             AmmoboxAmmoIconInterface = null;
             AmmoboxSwapUI = null;
             AmmoboxAmmoSwapInterface = null;
-            AmmoboxGI = null;
-            AmmoboxGP = null;
             AmmoboxBagAllowedHM = null;
             AmmoboxBagAllowedPHM = null;
             AmmoboxBagModdedHM = null;

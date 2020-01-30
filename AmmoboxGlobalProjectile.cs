@@ -12,6 +12,11 @@ namespace AmmoboxPlus {
             }
         }
 
+        public override bool Autoload(ref string name)
+        {
+            return true;
+        }
+
         //  Id of the launcher the projectile was shot from
         public int apShotFromLauncherID = -1;
 

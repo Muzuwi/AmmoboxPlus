@@ -22,6 +22,11 @@ namespace AmmoboxPlus {
             return this;
         }
 
+        public override bool Autoload(ref string name)
+        {
+            return true;
+        }
+
         //  Id of ammo used by launcher
         internal int apAmmoUsedID;
 
