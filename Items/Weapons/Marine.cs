@@ -1,47 +1,49 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Items.Weapons {
-    class Marine : ModItem{
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Muzuwi's Marine");
-            Tooltip.SetDefault("It gives off an aura of Doom\nThank you for supporting Ammobox+!");
+namespace AmmoboxPlus.Items.Weapons
+{
+    class Marine : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Muzuwi's Marine");
+            // Tooltip.SetDefault("It gives off an aura of Doom\nThank you for supporting Ammobox+!");
+            Item.autoReuse = true;
+            Item.knockBack = 7f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 34;
+            Item.useTime = 34;
+            Item.width = 50;
+            Item.height = 14;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.UseSound = SoundID.Item38;
+            Item.damage = 29;
+            Item.shootSpeed = 6f;
+            Item.noMelee = true;
+            Item.value = 700000;
+            Item.expert = true;
+            Item.expertOnly = false;
+            Item.DamageType = DamageClass.Ranged;
         }
 
-        public override void SetDefaults() {
-            item.autoReuse = true;
-            item.knockBack = 7f;
-            item.useStyle = 5;
-            item.useAnimation = 34;
-            item.useTime = 34;
-            item.width = 50;
-            item.height = 14;
-            item.shoot = 10;
-            item.useAmmo = AmmoID.Bullet;
-            item.UseSound = SoundID.Item38;
-            item.damage = 29;
-            item.shootSpeed = 6f;
-            item.noMelee = true;
-            item.value = 700000;
-            item.expert = true;
-            item.expertOnly = false;
-            item.ranged = true;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            for (int i = 0; i < 6; i++) {
-                float velX = speedX;
-                float velY = speedY;
-                velX += (float)Main.rand.Next(-40, 41) * 0.05f;
-                velY += (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position, new Vector2(velX, velY), type, damage, knockBack, player.whoAmI);
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                velocity.X += Main.rand.Next(-40, 41) * 0.05f;
+                velocity.Y += Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override Vector2? HoldoutOffset() {
+        public override Vector2? HoldoutOffset()
+        {
             return new Vector2(-6, 0);
         }
 
