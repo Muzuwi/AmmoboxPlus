@@ -2,34 +2,38 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Items.Weapons {
-    public class ArrowSpectral : ModItem {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Phantasmal Arrow");
-            Tooltip.SetDefault("Penetrates walls up to 4 blocks.\nAccuracy decreases significantly with each penetrated block.");
+namespace AmmoboxPlus.Items.Weapons
+{
+    public class ArrowSpectral : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Phantasmal Arrow");
+            // Tooltip.SetDefault("Penetrates walls up to 4 blocks.\nAccuracy decreases significantly with each penetrated block.");
         }
 
-        public override void SetDefaults() {
-            item.damage = 14;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 2f; 
-            item.value = 15; 
-            item.rare = ItemRarityID.Orange;
-            item.shoot = mod.ProjectileType("ArrowSpectral");
-            item.shootSpeed = 2f;
-            item.ammo = AmmoID.Arrow;
+        public override void SetDefaults()
+        {
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 2f;
+            Item.value = 15;
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = Mod.Find<ModProjectile>("ArrowSpectral").Type;
+            Item.shootSpeed = 2f;
+            Item.ammo = AmmoID.Arrow;
         }
 
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(150);
             recipe.AddIngredient(ItemID.SpectreBar, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 150);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 

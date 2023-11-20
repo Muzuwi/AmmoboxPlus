@@ -2,32 +2,37 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Items.Weapons {
-    public class EndlessBulletSand : ModItem {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Endless Sand Magazine");
-            Tooltip.SetDefault("Inflicts 'Clouded Vision'\nEnemies have a very low chance to miss their attacks.");
+namespace AmmoboxPlus.Items.Weapons
+{
+    public class EndlessBulletSand : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Endless Sand Magazine");
+            // Tooltip.SetDefault("Inflicts 'Clouded Vision'\nEnemies have a very low chance to miss their attacks.");
         }
 
-        public override void SetDefaults() {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 1;
-            item.knockBack = 2f; 
-            item.value = 15;
-            item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("BulletSand");
-            item.shootSpeed = 5f;
-            item.ammo = AmmoID.Bullet;
+        public override void SetDefaults()
+        {
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 1;
+            Item.knockBack = 2f;
+            Item.value = 15;
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = Mod.Find<ModProjectile>("BulletSand").Type;
+            Item.shootSpeed = 5f;
+            Item.ammo = AmmoID.Bullet;
         }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("BulletSand"), 3996);
-            recipe.SetResult(this, 1);
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(1);
+            recipe.AddIngredient(Mod.Find<ModItem>("BulletSand").Type, 3996);
             recipe.AddTile(TileID.CrystalBall);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

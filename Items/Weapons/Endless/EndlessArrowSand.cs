@@ -5,29 +5,29 @@ using Terraria.ModLoader;
 namespace AmmoboxPlus.Items.Weapons {
     public class EndlessArrowSand : ModItem {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Endless Sandy Quiver");
-            Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to miss their attacks.");
+// DisplayName.SetDefault("Endless Sandy Quiver");
+// Tooltip.SetDefault("Applies 'Clouded Vision'\nEnemies have a very low chance to miss their attacks.");
         }
 
         public override void SetDefaults() {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 1;
-            item.knockBack = 2f;
-            item.value = 15;
-            item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("ArrowSand");
-            item.shootSpeed = 5f;
-            item.ammo = AmmoID.Arrow;
+         Item.damage = 9;
+         Item.DamageType = DamageClass.Ranged;
+         Item.width = 8;
+         Item.height = 8;
+         Item.maxStack = 1;
+         Item.knockBack = 2f;
+         Item.value = 15;
+         Item.rare = ItemRarityID.Green;
+         Item.shoot = Mod.Find<ModProjectile>("ArrowSand").Type;
+         Item.shootSpeed = 5f;
+         Item.ammo = AmmoID.Arrow;
         }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ArrowSand"), 3996);
-            recipe.SetResult(this, 1);
+
+        public override void AddRecipes() {
+            Recipe recipe = CreateRecipe(1);
+            recipe.AddIngredient(Mod.Find<ModItem>("ArrowSand").Type, 3996);
             recipe.AddTile(TileID.CrystalBall);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

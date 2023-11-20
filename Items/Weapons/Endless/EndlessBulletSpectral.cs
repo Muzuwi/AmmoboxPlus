@@ -2,32 +2,37 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Items.Weapons {
-    public class EndlessBulletSpectral : ModItem {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Endless Phantasmal Magazine");
-            Tooltip.SetDefault("Penetrates walls up to 4 blocks.\nAccuracy decreases significantly with each penetrated block.");
+namespace AmmoboxPlus.Items.Weapons
+{
+    public class EndlessBulletSpectral : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Endless Phantasmal Magazine");
+            // Tooltip.SetDefault("Penetrates walls up to 4 blocks.\nAccuracy decreases significantly with each penetrated block.");
         }
 
-        public override void SetDefaults() {
-            item.damage = 20;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 1;
-            item.knockBack = 2f; 
-            item.value = 50;
-            item.rare = ItemRarityID.Lime;
-            item.shoot = mod.ProjectileType("BulletSpectral");
-            item.shootSpeed = 2f;
-            item.ammo = AmmoID.Bullet;
+        public override void SetDefaults()
+        {
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 1;
+            Item.knockBack = 2f;
+            Item.value = 50;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = Mod.Find<ModProjectile>("BulletSpectral").Type;
+            Item.shootSpeed = 2f;
+            Item.ammo = AmmoID.Bullet;
         }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("BulletSpectral"), 3996);
-            recipe.SetResult(this, 1);
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(1);
+            recipe.AddIngredient(Mod.Find<ModItem>("BulletSpectral").Type, 3996);
             recipe.AddTile(TileID.CrystalBall);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

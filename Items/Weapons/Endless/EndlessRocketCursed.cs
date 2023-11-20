@@ -2,32 +2,37 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Items.Weapons {
-    class EndlessRocketCursed : ModItem {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Endless Cursed Crate");
-            Tooltip.SetDefault("Small blast radius. Will not destroy tiles.\nInflicts 'Cursed'");
+namespace AmmoboxPlus.Items.Weapons
+{
+    class EndlessRocketCursed : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Endless Cursed Crate");
+            // Tooltip.SetDefault("Small blast radius. Will not destroy tiles.\nInflicts 'Cursed'");
         }
 
-        public override void SetDefaults() {
-            item.damage = 35;
-            item.ranged = true;
-            item.width = 20;
-            item.height = 14;
-            item.maxStack = 1;
-            item.knockBack = 2f;
-            item.value = 15;
-            item.rare = ItemRarityID.Lime;
-            item.shootSpeed = 4f;
-            item.shoot = mod.ProjectileType("RocketCursed");
-            item.ammo = AmmoID.Rocket;
+        public override void SetDefaults()
+        {
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 20;
+            Item.height = 14;
+            Item.maxStack = 1;
+            Item.knockBack = 2f;
+            Item.value = 15;
+            Item.rare = ItemRarityID.Lime;
+            Item.shootSpeed = 4f;
+            Item.shoot = Mod.Find<ModProjectile>("RocketCursed").Type;
+            Item.ammo = AmmoID.Rocket;
         }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("RocketCursed"), 3996);
-            recipe.SetResult(this, 1);
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(1);
+            recipe.AddIngredient(Mod.Find<ModItem>("RocketCursed").Type, 3996);
             recipe.AddTile(TileID.CrystalBall);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }
