@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items
 {
     class ItemLihzahrdBelt : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Lihzahrd Ammo Belt");
             // Tooltip.SetDefault("15% increased ranged damage\nAllows hotswapping between ammo in your ammo slots.\nAdditionally, it allows for swapping of one additional ammo type from your main inventory.");

@@ -10,7 +10,7 @@ namespace AmmoboxPlus.Items
     {
         private static readonly int DEV_WEAPON_CHANCE_1_IN_X = 20;
 
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Ammo Box Plus");
             // Tooltip.SetDefault("A box containing some ammo\nIt's very heavy and radiating an aura of Power and Conflict\nRight Click to open");

@@ -6,7 +6,7 @@ namespace AmmoboxPlus.Items
 {
     class ItemAmmoBelt : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Ammo Belt");
             // Tooltip.SetDefault("15% increased ranged damage\nAllows hotswapping between ammo in your ammo slots.");

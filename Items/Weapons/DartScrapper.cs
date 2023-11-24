@@ -7,7 +7,7 @@ namespace AmmoboxPlus.Items.Weapons
 {
     class DartScrapper : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Supporter's Dartscrapper");
             // Tooltip.SetDefault("Thank you for supporting Ammobox+!");

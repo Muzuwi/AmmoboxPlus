@@ -7,7 +7,7 @@ namespace AmmoboxPlus.Items.Weapons
 {
     class Boombox : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Bunnyz Boombox");
             // Tooltip.SetDefault("'Music to my ears, death to my enemies'\nThank you for supporting Ammobox+!");

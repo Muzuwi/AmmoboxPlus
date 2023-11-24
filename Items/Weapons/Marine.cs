@@ -8,7 +8,7 @@ namespace AmmoboxPlus.Items.Weapons
 {
     class Marine : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Muzuwi's Marine");
             // Tooltip.SetDefault("It gives off an aura of Doom\nThank you for supporting Ammobox+!");

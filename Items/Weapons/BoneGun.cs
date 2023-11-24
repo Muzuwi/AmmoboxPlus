@@ -10,7 +10,7 @@ namespace AmmoboxPlus.Items.Weapons
     {
         private static readonly int NO_AMMO_CONSUME_1_IN_X = 2;
 
-        public override void SetStaticDefaults()
+        public override void SetDefaults()
         {
             // DisplayName.SetDefault("Kranot's Kaliberfracture");
             // Tooltip.SetDefault("An artist's weapon of choice\nThank you for supporting Ammobox+!");
