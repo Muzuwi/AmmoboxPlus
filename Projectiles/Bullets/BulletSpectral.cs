@@ -5,71 +5,91 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Projectiles {
-    public class BulletSpectral : ModProjectile {
+namespace AmmoboxPlus.Projectiles
+{
+    public class BulletSpectral : ModProjectile
+    {
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Phantasmal Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Phantasmal Bullet");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults() {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.scale = 1.2f;
-            projectile.aiStyle = 1;
-            projectile.ranged = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.alpha = 1;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
-            projectile.maxPenetrate = 5;
-            projectile.penetrate = 6;
-            projectile.spriteDirection = 1;
-            aiType = ProjectileID.Bullet;
+        public override void SetDefaults()
+        {
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.scale = 1.2f;
+            Projectile.aiStyle = 1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.alpha = 1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.extraUpdates = 1;
+            Projectile.maxPenetrate = 5;
+            Projectile.penetrate = 6;
+            Projectile.spriteDirection = 1;
+            AIType = ProjectileID.Bullet;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) {
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
             // Preserve old velocity
-            projectile.velocity = oldVelocity;
+            Projectile.velocity = oldVelocity;
 
-            --projectile.penetrate;
-            if(projectile.penetrate <= 0) {
-                projectile.Kill();
-            } else {
+            --Projectile.penetrate;
+            if (Projectile.penetrate <= 0)
+            {
+                Projectile.Kill();
+            }
+            else
+            {
                 //  Calculate """""angle"""""
-                double tng = projectile.velocity.Y / projectile.velocity.X;
+                double tng = Projectile.velocity.Y / Projectile.velocity.X;
                 double angle = Math.Atan(tng);
-                if(angle < -1.2) {
-                    projectile.velocity.X += WorldGen.genRand.NextFloat(-1*  (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
-                } else if(angle < 0) {
-                    projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
-                } else if(angle < 1.2) {
-                    projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
-                    projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
-                } else {
-                    projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (projectile.penetrate * 1.12f), projectile.penetrate * 1.12f);
+                if (angle < -1.2)
+                {
+                    Projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (Projectile.penetrate * 1.12f), Projectile.penetrate * 1.12f);
+                }
+                else if (angle < 0)
+                {
+                    Projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (Projectile.penetrate * 1.12f), Projectile.penetrate * 1.12f);
+                }
+                else if (angle < 1.2)
+                {
+                    Projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (Projectile.penetrate * 1.12f), Projectile.penetrate * 1.12f);
+                    Projectile.velocity.Y += WorldGen.genRand.NextFloat(-1 * (Projectile.penetrate * 1.12f), Projectile.penetrate * 1.12f);
+                }
+                else
+                {
+                    Projectile.velocity.X += WorldGen.genRand.NextFloat(-1 * (Projectile.penetrate * 1.12f), Projectile.penetrate * 1.12f);
                 }
             }
             return false;
         }
 
-        public override void AI() {
-            Lighting.AddLight(projectile.Top, Color.LightBlue.ToVector3());
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Top, Color.LightBlue.ToVector3());
         }
 
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // FIXME: Verify if this actually works
+            lightColor = Color.Transparent;
             //Redraw the projectile with the color not influenced by light
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++) {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)*0.3f;
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
+            // Vector2 drawOrigin = new Vector2(Main.projectileTexture[Projectile.type].Width * 0.5f, Projectile.height * 0.5f);
+            // for (int k = 0; k < Projectile.oldPos.Length; k++)
+            // {
+            //     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+            //     Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.3f;
+            //     spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            // }
             return true;
         }
     }

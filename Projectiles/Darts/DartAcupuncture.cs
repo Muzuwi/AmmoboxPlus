@@ -2,60 +2,76 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 
-namespace AmmoboxPlus.Projectiles {
-    public class DartAcupuncture : ModProjectile {
+namespace AmmoboxPlus.Projectiles
+{
+    public class DartAcupuncture : ModProjectile
+    {
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Acupuncture Dart");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Acupuncture Dart");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults() {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.alpha = 1;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.spriteDirection = 1;
+        public override void SetDefaults()
+        {
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.alpha = 1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.spriteDirection = 1;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) {
-            if (!AmmoboxPlayer.apAcupunctureFirstTarget) {
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (!AmmoboxPlayer.apAcupunctureFirstTarget)
+            {
                 AmmoboxPlayer.apAcupunctureTargetID = target.whoAmI;
                 AmmoboxPlayer.apAcupunctureFirstTarget = true;
-            } else {
-                if (AmmoboxPlayer.apAcupunctureTargetID != target.whoAmI) {
+            }
+            else
+            {
+                if (AmmoboxPlayer.apAcupunctureTargetID != target.whoAmI)
+                {
                     AmmoboxPlayer.apAcupunctureDmgIncrease = 0;
                     AmmoboxPlayer.apAcupunctureFirstTarget = false;
-                } else {
+                }
+                else
+                {
                     AmmoboxPlayer.apAcupunctureDmgIncrease += 2;
                 }
             }
-            damage += AmmoboxPlayer.apAcupunctureDmgIncrease;
+
+            modifiers.FlatBonusDamage += AmmoboxPlayer.apAcupunctureDmgIncrease;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) {
-            if (AmmoboxPlayer.apAcupunctureFirstTarget) {
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (AmmoboxPlayer.apAcupunctureFirstTarget)
+            {
                 AmmoboxPlayer.apAcupunctureFirstTarget = false;
                 AmmoboxPlayer.apAcupunctureTargetID = -1;
                 AmmoboxPlayer.apAcupunctureDmgIncrease = 0;
             }
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.Kill();
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
-        public override void AI() {
-            Lighting.AddLight(projectile.position, Color.GhostWhite.ToVector3());
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.position, Color.GhostWhite.ToVector3());
         }
 
     }

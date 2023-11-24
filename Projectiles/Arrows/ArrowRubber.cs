@@ -1,40 +1,51 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AmmoboxPlus.Projectiles {
-    public class ArrowRubber : ModProjectile {
+namespace AmmoboxPlus.Projectiles
+{
+    public class ArrowRubber : ModProjectile
+    {
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Rubber Arrow");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Rubber Arrow");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults() {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.alpha = 1;
-            projectile.spriteDirection = 1;
+        public override void SetDefaults()
+        {
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.alpha = 1;
+            Projectile.spriteDirection = 1;
 
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.extraUpdates = 1;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            int damage = hit.Damage;
+            float knockback = hit.Knockback;
+            bool crit = hit.Crit;
+
             knockback = 15;
         }
 
 
-        public override bool OnTileCollide(Vector2 oldVelocity) {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.Kill();
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 

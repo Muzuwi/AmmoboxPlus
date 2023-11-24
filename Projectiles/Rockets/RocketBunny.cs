@@ -1,50 +1,67 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 
-namespace AmmoboxPlus.Projectiles {
-    public class RocketBunny : ModProjectile {
+namespace AmmoboxPlus.Projectiles
+{
+    public class RocketBunny : ModProjectile
+    {
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Bunny Rocket");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Bunny Rocket");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults() {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 16;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.alpha = 1;
-            projectile.timeLeft = 600;
+        public override void SetDefaults()
+        {
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 16;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.alpha = 1;
+            Projectile.timeLeft = 600;
 
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.boss || target.type == NPCID.TargetDummy) {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            int damage = hit.Damage;
+            float knockback = hit.Knockback;
+            bool crit = hit.Crit;
+
+            if (target.boss || target.type == NPCID.TargetDummy)
+            {
                 return;
             }
-            if (WorldGen.genRand.Next(20) == 0) {
-                if (Main.netMode == 0) {
+            if (WorldGen.genRand.Next(20) == 0)
+            {
+                if (Main.netMode == 0)
+                {
                     Vector2 pos = target.position;
                     target.active = false;
-                    NPC.NewNPC((int)pos.X, (int)pos.Y, NPCID.Bunny);
-                    Main.PlaySound(SoundID.DoubleJump, pos);
-                    for (int i = 0; i < 20; i++) {
+                    NPC.NewNPC(Projectile.GetSource_FromThis(), (int)pos.X, (int)pos.Y, NPCID.Bunny);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, pos);
+                    for (int i = 0; i < 20; i++)
+                    {
                         Dust.NewDust(target.position, 16, 16, DustID.Confetti);
                     }
-                } else {
-                    for (int i = 0; i < 20; i++) {
+                }
+                else
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
                         Dust.NewDust(target.position, 16, 16, DustID.Confetti);
                     }
-                    var packet = mod.GetPacket();
+                    var packet = Mod.GetPacket();
                     packet.Write((byte)AmmoboxMsgType.AmmoboxBunny);
                     packet.Write(target.whoAmI);
                     packet.Send();
@@ -52,81 +69,99 @@ namespace AmmoboxPlus.Projectiles {
             }
         }
 
-        public override void AI() {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
+        public override void AI()
+        {
+            int shotFrom = Projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
-            if(shotFrom == ItemID.RocketLauncher) {
-                projectile.velocity = projectile.oldVelocity;
-                if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f) projectile.velocity *= 1.1f;
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            if (shotFrom == ItemID.RocketLauncher)
+            {
+                Projectile.velocity = Projectile.oldVelocity;
+                if (Math.Abs(Projectile.velocity.X) < 15f && Math.Abs(Projectile.velocity.Y) < 15f) Projectile.velocity *= 1.1f;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
             }
 
             //  Grenade launcher
-            if (shotFrom == ItemID.GrenadeLauncher) {
-                //projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            if (shotFrom == ItemID.GrenadeLauncher)
+            {
+                //Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
                 //  If going to explode 
-                if (projectile.ai[1] == 200) {
-                    projectile.Kill();
-                } else {
-                    projectile.ai[1] += 1;
+                if (Projectile.ai[1] == 200)
+                {
+                    Projectile.Kill();
+                }
+                else
+                {
+                    Projectile.ai[1] += 1;
                 }
             }
 
             //  Proximity mine
-            if (shotFrom == ItemID.ProximityMineLauncher) {
-                if(projectile.ai[1] < 3) {
-                    projectile.velocity *= 0.98f;
+            if (shotFrom == ItemID.ProximityMineLauncher)
+            {
+                if (Projectile.ai[1] < 3)
+                {
+                    Projectile.velocity *= 0.98f;
                 }
-                if(projectile.ai[1] >= 3 && projectile.alpha < 150) {
-                    projectile.alpha += 1;
+                if (Projectile.ai[1] >= 3 && Projectile.alpha < 150)
+                {
+                    Projectile.alpha += 1;
                 }
 
             }
 
             //  Snowman
-            if (shotFrom == ItemID.SnowmanCannon) {
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                AmmoboxHelpfulMethods.chaseEnemy(projectile.identity, projectile.type);
+            if (shotFrom == ItemID.SnowmanCannon)
+            {
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
+                AmmoboxHelpfulMethods.chaseEnemy(Projectile.identity, Projectile.type);
             }
 
             //  Common for all launchers
-            Dust dust = Dust.NewDustPerfect(projectile.position, DustID.Silver, projectile.velocity*0.2f);
+            Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.Silver, Projectile.velocity * 0.2f);
             dust.noGravity = true;
 
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            int shotFrom = Projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
 
             //  Rocket launcher
-            if (shotFrom ==  ItemID.RocketLauncher) {
-                projectile.Kill();
+            if (shotFrom == ItemID.RocketLauncher)
+            {
+                Projectile.Kill();
             }
 
             //  Proximity mine
-            if (shotFrom == ItemID.ProximityMineLauncher) {
-                if(projectile.ai[1] > 3) {
-                    projectile.velocity = Vector2.Zero;
-                } else {
-                    projectile.ai[1] += 1;
+            if (shotFrom == ItemID.ProximityMineLauncher)
+            {
+                if (Projectile.ai[1] > 3)
+                {
+                    Projectile.velocity = Vector2.Zero;
+                }
+                else
+                {
+                    Projectile.ai[1] += 1;
                 }
             }
 
             //  Snowman
-            if (shotFrom == ItemID.SnowmanCannon) {
-                projectile.Kill();
+            if (shotFrom == ItemID.SnowmanCannon)
+            {
+                Projectile.Kill();
             }
 
             return true;
         }
 
-        public override void Kill(int timeLeft) {
-            int shotFrom = projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
+        public override void Kill(int timeLeft)
+        {
+            int shotFrom = Projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             /*                        
                         Custom effects here                   
             */
-            AmmoboxHelpfulMethods.explodeRocket(shotFrom, projectile.identity, projectile.type);
+            AmmoboxHelpfulMethods.explodeRocket(shotFrom, Projectile.identity, Projectile.type);
         }
     }
 }
