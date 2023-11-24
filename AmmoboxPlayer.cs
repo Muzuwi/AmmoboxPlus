@@ -4,8 +4,10 @@ using Terraria.ModLoader;
 using AmmoboxPlus.NPCs;
 using System.Collections.Generic;
 
-namespace AmmoboxPlus {
-    class AmmoboxPlayer : ModPlayer {
+namespace AmmoboxPlus
+{
+    class AmmoboxPlayer : ModPlayer
+    {
 
         //  Has a target been selected already?
         internal static bool apAcupunctureFirstTarget = false;
@@ -47,30 +49,37 @@ namespace AmmoboxPlus {
         internal int ammoDisplayItemRarity = -1;
 
 
-
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) {
-            if (npc.GetGlobalNPC<AmmoboxGlobalNPC>().apClouded) {
-                if(WorldGen.genRand.Next(12) == 0) {
-                    for(int i = 0; i < 5; i++) Dust.NewDust(player.position, 1, 1, DustID.Smoke);
-                    player.shadowDodge = true;
-                    player.shadowDodgeTimer = 5;
+        public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+        {
+            if (npc.GetGlobalNPC<AmmoboxGlobalNPC>().apClouded)
+            {
+                if (WorldGen.genRand.NextBool(12))
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Dust.NewDust(Player.position, 1, 1, DustID.Smoke);
+                    }
+                    Player.shadowDodge = true;
+                    Player.shadowDodgeTimer = 5;
                 }
             }
         }
 
-        public override void OnEnterWorld(Player player) {
+        public override void OnEnterWorld()
+        {
             //  Reset the lists/dictionaries and bools
             AmmoboxPlus.resetVariables();
-            AmmoboxWorld.apInsertedPostMechAny = false;
-            AmmoboxWorld.apInsertedPostMechAll = false;
-            AmmoboxWorld.apInsertedPostPlantera = false;
-            AmmoboxWorld.apInsertedPostGolem = false;
-            AmmoboxWorld.apInsertedPostMoonlord = false;
-            AmmoboxWorld.apInsertedPostHMActive = false;
-            AmmoboxWorld.apInsertedAlwaysAvailablePHM = false;
+            AmmoboxSystem.apInsertedPostMechAny = false;
+            AmmoboxSystem.apInsertedPostMechAll = false;
+            AmmoboxSystem.apInsertedPostPlantera = false;
+            AmmoboxSystem.apInsertedPostGolem = false;
+            AmmoboxSystem.apInsertedPostMoonlord = false;
+            AmmoboxSystem.apInsertedPostHMActive = false;
+            AmmoboxSystem.apInsertedAlwaysAvailablePHM = false;
         }
 
-        public override void PreUpdate() {
+        public override void PreUpdate()
+        {
             apCanUseBeltBasic = false;
             apCanUseBeltAdvanced = false;
         }
