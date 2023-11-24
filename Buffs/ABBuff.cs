@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace AmmoboxPlus.Buffs
 {
-    public class ABBuff : ModBuff
+    public abstract class ABBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
