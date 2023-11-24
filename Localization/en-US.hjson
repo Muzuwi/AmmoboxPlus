@@ -1,3 +1,597 @@
-{
-    
+Mods: {
+	AmmoboxPlus: {
+		Keybinds: {
+			"Switch between ammo.DisplayName": Switch between ammo
+			"Display used ammo.DisplayName": Display used ammo
+		}
+
+		Buffs: {
+			Cactus: {
+				DisplayName: Cactus
+				Description: Mods.AmmoboxPlus.Buffs.Cactus.Description
+			}
+
+			CloudedVision: {
+				DisplayName: Clouded Vision
+				Description: Mods.AmmoboxPlus.Buffs.CloudedVision.Description
+			}
+
+			Cold: {
+				DisplayName: Cold
+				Description: Mods.AmmoboxPlus.Buffs.Cold.Description
+			}
+
+			Drugged: {
+				DisplayName: Drugged
+				Description: Mods.AmmoboxPlus.Buffs.Drugged.Description
+			}
+
+			Marked: {
+				DisplayName: Marked
+				Description: Mods.AmmoboxPlus.Buffs.Marked.Description
+			}
+
+			Slime: {
+				DisplayName: Slime
+				Description: Mods.AmmoboxPlus.Buffs.Slime.Description
+			}
+
+			Stuck: {
+				DisplayName: Stuck
+				Description: Mods.AmmoboxPlus.Buffs.Stuck.Description
+			}
+		}
+
+		Items: {
+			AmmoBox: {
+				DisplayName: Ammo Box
+				Tooltip: ""
+			}
+
+			AmmoBoxPlus: {
+				DisplayName: Ammo Box Plus
+				Tooltip: ""
+			}
+
+			ItemAmmoBelt: {
+				DisplayName: Item Ammo Belt
+				Tooltip: ""
+			}
+
+			ItemLihzahrdBelt: {
+				DisplayName: Item Lihzahrd Belt
+				Tooltip: ""
+			}
+
+			ArrowBunny: {
+				DisplayName: Arrow Bunny
+				Tooltip: ""
+			}
+
+			ArrowCactus: {
+				DisplayName: Arrow Cactus
+				Tooltip: ""
+			}
+
+			ArrowDrugged: {
+				DisplayName: Arrow Drugged
+				Tooltip: ""
+			}
+
+			ArrowIce: {
+				DisplayName: Arrow Ice
+				Tooltip: ""
+			}
+
+			ArrowMarked: {
+				DisplayName: Arrow Marked
+				Tooltip: ""
+			}
+
+			ArrowRubber: {
+				DisplayName: Arrow Rubber
+				Tooltip: ""
+			}
+
+			ArrowSand: {
+				DisplayName: Arrow Sand
+				Tooltip: ""
+			}
+
+			ArrowSlime: {
+				DisplayName: Arrow Slime
+				Tooltip: ""
+			}
+
+			ArrowSpectral: {
+				DisplayName: Arrow Spectral
+				Tooltip: ""
+			}
+
+			ArrowTrueChloro: {
+				DisplayName: Arrow True Chloro
+				Tooltip: ""
+			}
+
+			BoneGun: {
+				DisplayName: Bone Gun
+				Tooltip: ""
+			}
+
+			Boombox: {
+				DisplayName: Boombox
+				Tooltip: ""
+			}
+
+			BulletBunny: {
+				DisplayName: Bullet Bunny
+				Tooltip: ""
+			}
+
+			BulletCactus: {
+				DisplayName: Bullet Cactus
+				Tooltip: ""
+			}
+
+			BulletDrugged: {
+				DisplayName: Bullet Drugged
+				Tooltip: ""
+			}
+
+			BulletIce: {
+				DisplayName: Bullet Ice
+				Tooltip: ""
+			}
+
+			BulletMarked: {
+				DisplayName: Bullet Marked
+				Tooltip: ""
+			}
+
+			BulletMiner: {
+				DisplayName: Bullet Miner
+				Tooltip: ""
+			}
+
+			BulletRubber: {
+				DisplayName: Bullet Rubber
+				Tooltip: ""
+			}
+
+			BulletSand: {
+				DisplayName: Bullet Sand
+				Tooltip: ""
+			}
+
+			BulletSlime: {
+				DisplayName: Bullet Slime
+				Tooltip: ""
+			}
+
+			BulletSpectral: {
+				DisplayName: Bullet Spectral
+				Tooltip: ""
+			}
+
+			BulletStarfall: {
+				DisplayName: Bullet Starfall
+				Tooltip: ""
+			}
+
+			DartAcupuncture: {
+				DisplayName: Dart Acupuncture
+				Tooltip: ""
+			}
+
+			DartBunny: {
+				DisplayName: Dart Bunny
+				Tooltip: ""
+			}
+
+			DartCactus: {
+				DisplayName: Dart Cactus
+				Tooltip: ""
+			}
+
+			DartDrugged: {
+				DisplayName: Dart Drugged
+				Tooltip: ""
+			}
+
+			DartFrostburn: {
+				DisplayName: Dart Frostburn
+				Tooltip: ""
+			}
+
+			DartIce: {
+				DisplayName: Dart Ice
+				Tooltip: ""
+			}
+
+			DartMarked: {
+				DisplayName: Dart Marked
+				Tooltip: ""
+			}
+
+			DartSand: {
+				DisplayName: Dart Sand
+				Tooltip: ""
+			}
+
+			DartScrapper: {
+				DisplayName: Dart Scrapper
+				Tooltip: ""
+			}
+
+			DartSlime: {
+				DisplayName: Dart Slime
+				Tooltip: ""
+			}
+
+			DartStarfall: {
+				DisplayName: Dart Starfall
+				Tooltip: ""
+			}
+
+			DartYang: {
+				DisplayName: Dart Yang
+				Tooltip: ""
+			}
+
+			DartYing: {
+				DisplayName: Dart Ying
+				Tooltip: ""
+			}
+
+			EndlessArrowBunny: {
+				DisplayName: Endless Arrow Bunny
+				Tooltip: ""
+			}
+
+			EndlessArrowCactus: {
+				DisplayName: Endless Arrow Cactus
+				Tooltip: ""
+			}
+
+			EndlessArrowDrugged: {
+				DisplayName: Endless Arrow Drugged
+				Tooltip: ""
+			}
+
+			EndlessArrowIce: {
+				DisplayName: Endless Arrow Ice
+				Tooltip: ""
+			}
+
+			EndlessArrowMarked: {
+				DisplayName: Endless Arrow Marked
+				Tooltip: ""
+			}
+
+			EndlessArrowRubber: {
+				DisplayName: Endless Arrow Rubber
+				Tooltip: ""
+			}
+
+			EndlessArrowSand: {
+				DisplayName: Endless Arrow Sand
+				Tooltip: ""
+			}
+
+			EndlessArrowSlime: {
+				DisplayName: Endless Arrow Slime
+				Tooltip: ""
+			}
+
+			EndlessArrowSpectral: {
+				DisplayName: Endless Arrow Spectral
+				Tooltip: ""
+			}
+
+			EndlessArrowTrueChloro: {
+				DisplayName: Endless Arrow True Chloro
+				Tooltip: ""
+			}
+
+			EndlessBulletBunny: {
+				DisplayName: Endless Bullet Bunny
+				Tooltip: ""
+			}
+
+			EndlessBulletCactus: {
+				DisplayName: Endless Bullet Cactus
+				Tooltip: ""
+			}
+
+			EndlessBulletDrugged: {
+				DisplayName: Endless Bullet Drugged
+				Tooltip: ""
+			}
+
+			EndlessBulletIce: {
+				DisplayName: Endless Bullet Ice
+				Tooltip: ""
+			}
+
+			EndlessBulletMarked: {
+				DisplayName: Endless Bullet Marked
+				Tooltip: ""
+			}
+
+			EndlessBulletMiner: {
+				DisplayName: Endless Bullet Miner
+				Tooltip: ""
+			}
+
+			EndlessBulletRubber: {
+				DisplayName: Endless Bullet Rubber
+				Tooltip: ""
+			}
+
+			EndlessBulletSand: {
+				DisplayName: Endless Bullet Sand
+				Tooltip: ""
+			}
+
+			EndlessBulletSlime: {
+				DisplayName: Endless Bullet Slime
+				Tooltip: ""
+			}
+
+			EndlessBulletSpectral: {
+				DisplayName: Endless Bullet Spectral
+				Tooltip: ""
+			}
+
+			EndlessBulletStarfall: {
+				DisplayName: Endless Bullet Starfall
+				Tooltip: ""
+			}
+
+			EndlessDartAcupuncture: {
+				DisplayName: Endless Dart Acupuncture
+				Tooltip: ""
+			}
+
+			EndlessDartBunny: {
+				DisplayName: Endless Dart Bunny
+				Tooltip: ""
+			}
+
+			EndlessDartCactus: {
+				DisplayName: Endless Dart Cactus
+				Tooltip: ""
+			}
+
+			EndlessDartDrugged: {
+				DisplayName: Endless Dart Drugged
+				Tooltip: ""
+			}
+
+			EndlessDartFrostburn: {
+				DisplayName: Endless Dart Frostburn
+				Tooltip: ""
+			}
+
+			EndlessDartIce: {
+				DisplayName: Endless Dart Ice
+				Tooltip: ""
+			}
+
+			EndlessDartMarked: {
+				DisplayName: Endless Dart Marked
+				Tooltip: ""
+			}
+
+			EndlessDartSand: {
+				DisplayName: Endless Dart Sand
+				Tooltip: ""
+			}
+
+			EndlessDartSlime: {
+				DisplayName: Endless Dart Slime
+				Tooltip: ""
+			}
+
+			EndlessDartStarfall: {
+				DisplayName: Endless Dart Starfall
+				Tooltip: ""
+			}
+
+			EndlessDartYang: {
+				DisplayName: Endless Dart Yang
+				Tooltip: ""
+			}
+
+			EndlessDartYing: {
+				DisplayName: Endless Dart Ying
+				Tooltip: ""
+			}
+
+			EndlessRocketBlackhole: {
+				DisplayName: Endless Rocket Blackhole
+				Tooltip: ""
+			}
+
+			EndlessRocketBunny: {
+				DisplayName: Endless Rocket Bunny
+				Tooltip: ""
+			}
+
+			EndlessRocketChlorophyte: {
+				DisplayName: Endless Rocket Chlorophyte
+				Tooltip: ""
+			}
+
+			EndlessRocketCursed: {
+				DisplayName: Endless Rocket Cursed
+				Tooltip: ""
+			}
+
+			EndlessRocketFrostburn: {
+				DisplayName: Endless Rocket Frostburn
+				Tooltip: ""
+			}
+
+			EndlessRocketGolemfist: {
+				DisplayName: Endless Rocket Golemfist
+				Tooltip: ""
+			}
+
+			EndlessRocketHarpy: {
+				DisplayName: Endless Rocket Harpy
+				Tooltip: ""
+			}
+
+			EndlessRocketHeart: {
+				DisplayName: Endless Rocket Heart
+				Tooltip: ""
+			}
+
+			EndlessRocketIce: {
+				DisplayName: Endless Rocket Ice
+				Tooltip: ""
+			}
+
+			EndlessRocketIchor: {
+				DisplayName: Endless Rocket Ichor
+				Tooltip: ""
+			}
+
+			EndlessRocketMiner: {
+				DisplayName: Endless Rocket Miner
+				Tooltip: ""
+			}
+
+			EndlessRocketSand: {
+				DisplayName: Endless Rocket Sand
+				Tooltip: ""
+			}
+
+			EndlessRocketStarburst: {
+				DisplayName: Endless Rocket Starburst
+				Tooltip: ""
+			}
+
+			Marine: {
+				DisplayName: Marine
+				Tooltip: ""
+			}
+
+			RocketBlackhole: {
+				DisplayName: Rocket Blackhole
+				Tooltip: ""
+			}
+
+			RocketBunny: {
+				DisplayName: Rocket Bunny
+				Tooltip: ""
+			}
+
+			RocketChlorophyte: {
+				DisplayName: Rocket Chlorophyte
+				Tooltip: ""
+			}
+
+			RocketCursed: {
+				DisplayName: Rocket Cursed
+				Tooltip: ""
+			}
+
+			RocketFrostburn: {
+				DisplayName: Rocket Frostburn
+				Tooltip: ""
+			}
+
+			RocketGolemfist: {
+				DisplayName: Rocket Golemfist
+				Tooltip: ""
+			}
+
+			RocketHarpy: {
+				DisplayName: Rocket Harpy
+				Tooltip: ""
+			}
+
+			RocketHeart: {
+				DisplayName: Rocket Heart
+				Tooltip: ""
+			}
+
+			RocketIce: {
+				DisplayName: Rocket Ice
+				Tooltip: ""
+			}
+
+			RocketIchor: {
+				DisplayName: Rocket Ichor
+				Tooltip: ""
+			}
+
+			RocketMiner: {
+				DisplayName: Rocket Miner
+				Tooltip: ""
+			}
+
+			RocketSand: {
+				DisplayName: Rocket Sand
+				Tooltip: ""
+			}
+
+			RocketStarburst: {
+				DisplayName: Rocket Starburst
+				Tooltip: ""
+			}
+		}
+
+		Projectiles: {
+			ArrowBunny.DisplayName: Arrow Bunny
+			ArrowCactus.DisplayName: Arrow Cactus
+			ArrowDrugged.DisplayName: Arrow Drugged
+			ArrowIce.DisplayName: Arrow Ice
+			ArrowMarked.DisplayName: Arrow Marked
+			ArrowRubber.DisplayName: Arrow Rubber
+			ArrowSand.DisplayName: Arrow Sand
+			ArrowSlime.DisplayName: Arrow Slime
+			ArrowSpectral.DisplayName: Arrow Spectral
+			ArrowTrueChloro.DisplayName: Arrow True Chloro
+			BlackHole.DisplayName: Black Hole
+			BulletBunny.DisplayName: Bullet Bunny
+			BulletCactus.DisplayName: Bullet Cactus
+			BulletDrugged.DisplayName: Bullet Drugged
+			BulletIce.DisplayName: Bullet Ice
+			BulletMarked.DisplayName: Bullet Marked
+			BulletMiner.DisplayName: Bullet Miner
+			BulletRubber.DisplayName: Bullet Rubber
+			BulletSand.DisplayName: Bullet Sand
+			BulletSlime.DisplayName: Bullet Slime
+			BulletSpectral.DisplayName: Bullet Spectral
+			BulletStarfall.DisplayName: Bullet Starfall
+			DartAcupuncture.DisplayName: Dart Acupuncture
+			DartBunny.DisplayName: Dart Bunny
+			DartCactus.DisplayName: Dart Cactus
+			DartDrugged.DisplayName: Dart Drugged
+			DartFrostburn.DisplayName: Dart Frostburn
+			DartIce.DisplayName: Dart Ice
+			DartMarked.DisplayName: Dart Marked
+			DartSand.DisplayName: Dart Sand
+			DartSlime.DisplayName: Dart Slime
+			DartStarfall.DisplayName: Dart Starfall
+			DartYang.DisplayName: Dart Yang
+			DartYing.DisplayName: Dart Ying
+			RocketBlackhole.DisplayName: Rocket Blackhole
+			RocketBunny.DisplayName: Rocket Bunny
+			RocketChlorophyte.DisplayName: Rocket Chlorophyte
+			RocketCursed.DisplayName: Rocket Cursed
+			RocketFrostburn.DisplayName: Rocket Frostburn
+			RocketGolemfist.DisplayName: Rocket Golemfist
+			RocketHarpy.DisplayName: Rocket Harpy
+			RocketHeart.DisplayName: Rocket Heart
+			RocketIce.DisplayName: Rocket Ice
+			RocketIchor.DisplayName: Rocket Ichor
+			RocketMiner.DisplayName: Rocket Miner
+			RocketSand.DisplayName: Rocket Sand
+			RocketStarburst.DisplayName: Rocket Starburst
+		}
+	}
 }
