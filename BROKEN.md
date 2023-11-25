@@ -20,5 +20,6 @@ System.IndexOutOfRangeException: Index was outside the bounds of the array.
    at Terraria.MonoLaunch.<>c__DisplayClass1_0.<Main>b__1()
    at Terraria.MonoLaunch.Main(String[] args)
 
+# Issue #2
 
-
+Arrows hitting floor don't have particles and wrong sound compared to vanilla.
