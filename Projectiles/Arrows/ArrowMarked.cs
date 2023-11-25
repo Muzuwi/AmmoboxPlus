@@ -25,7 +25,7 @@ namespace AmmoboxPlus.Projectiles
         public override void AI()
         {
             base.AI();
-            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width / 2, Projectile.height / 2, 90, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, newColor: Color.Red);
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width / 2, Projectile.height / 2, DustID.GemRuby, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, newColor: Color.Red);
         }
     }
 }
