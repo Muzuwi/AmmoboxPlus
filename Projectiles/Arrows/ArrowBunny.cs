@@ -2,9 +2,7 @@ using AmmoboxPlus.Projectiles.Abstract;
 using AmmoboxPlus.Projectiles.Abstract.Effects;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AmmoboxPlus.Projectiles
 {
