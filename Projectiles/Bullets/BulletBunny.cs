@@ -1,10 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using AmmoboxPlus.NPCs;
-using AmmoboxPlus;
 using AmmoboxPlus.Projectiles.Abstract;
 using AmmoboxPlus.Projectiles.Abstract.Effects;
 
