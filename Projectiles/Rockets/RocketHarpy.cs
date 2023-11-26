@@ -15,15 +15,15 @@ namespace AmmoboxPlus.Projectiles
 
         public override void SetDefaults()
         {
-            base.SetDefaults(); 
+            base.SetDefaults();
             Projectile.width = 14;
             Projectile.height = 20;
         }
 
         public override void OnKill(int timeLeft)
         {
-            base.OnKill(timeLeft);
             AmmoboxHelpfulMethods.createBurst(ProjectileID.HarpyFeather, Projectile.position, Projectile.owner, 20, oneInX: 1, makeFriendly: true);
+            base.OnKill(timeLeft);
         }
     }
 }

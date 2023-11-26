@@ -23,7 +23,7 @@ namespace AmmoboxPlus.Projectiles
 
         public override void AI()
         {
-            base.AI(); 
+            base.AI();
             AmmoboxHelpfulMethods.chaseEnemy(Projectile.identity, Projectile.type);
             for (int idx = 0; idx < 10; ++idx)
             {

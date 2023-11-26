@@ -34,8 +34,8 @@ namespace AmmoboxPlus.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            base.OnKill(timeLeft);
             AmmoboxHelpfulMethods.createBurst(ProjectileID.FallingStar, Projectile.position, Projectile.owner, 40);
+            base.OnKill(timeLeft);
         }
     }
 }

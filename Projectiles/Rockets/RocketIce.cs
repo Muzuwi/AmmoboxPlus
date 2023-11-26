@@ -25,12 +25,12 @@ namespace AmmoboxPlus.Projectiles
 
         public override void AI()
         {
-            base.AI();
             for (int i = 0; i < 1; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Ice, newColor: Color.WhiteSmoke);
             }
             Lighting.AddLight(Projectile.Center, Color.SkyBlue.ToVector3());
+            base.AI();
         }
     }
 }

@@ -32,11 +32,11 @@ namespace AmmoboxPlus.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            base.OnKill(timeLeft);
             for (int i = 0; i < 30; i++)
             {
                 Dust.NewDust(Projectile.position, 8, 8, DustID.Smoke, newColor: Color.LightYellow, Scale: 2f);
             }
+            base.OnKill(timeLeft);
         }
     }
 }
