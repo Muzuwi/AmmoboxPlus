@@ -42,7 +42,7 @@ namespace AmmoboxPlus.Projectiles.Abstract
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, oldVelocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             Projectile.Kill();
             return false;
         }
