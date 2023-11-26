@@ -149,17 +149,17 @@ namespace AmmoboxPlus.NPCs
                 if (apMarked && !apStuck)
                 {
                     finalPos = distToNpc - new Vector2(0.5f * elSizeX, elSizeY + spacer);
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("UI/Marked").Value, finalPos, new Color(255, 255, 255, 255));
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("AmmoboxPlus/UI/Marked").Value, finalPos, new Color(255, 255, 255, 255));
                 }
                 else if (!apMarked && apStuck)
                 {
                     finalPos = distToNpc - new Vector2(0.5f * elSizeX, elSizeY + spacer);
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("UI/Iced").Value, finalPos, new Color(255, 255, 255, 255));
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("AmmoboxPlus/UI/Iced").Value, finalPos, new Color(255, 255, 255, 255));
                 }
                 else if (apMarked && apStuck)
                 {
                     finalPos = distToNpc - new Vector2(0.5f * elSizeX, elSizeY + spacer);
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("UI/FrozenMark").Value, finalPos, new Color(255, 255, 255, 255));
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("AmmoboxPlus/UI/FrozenMark").Value, finalPos, new Color(255, 255, 255, 255));
                 }
             }
 
