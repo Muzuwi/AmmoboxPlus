@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
-using AmmoboxPlus.NPCs;
 using AmmoboxPlus.Projectiles.Abstract;
+using AmmoboxPlus.Projectiles.Abstract.Effects;
 
 namespace AmmoboxPlus.Projectiles
 {
@@ -17,21 +17,11 @@ namespace AmmoboxPlus.Projectiles
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Effect = EffectMiner.Instance;
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.light = 0.5f;
             Projectile.scale = 2f;
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            base.OnHitNPC(target, hit, damageDone);
-
-            if (target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre)
-            {
-                return;
-            }
-            target.GetGlobalNPC<AmmoboxGlobalNPC>().apAlreadyDroppedOre = AmmoboxHelpfulMethods.processMinerOreDrop(target);
         }
 
         public override void AI()

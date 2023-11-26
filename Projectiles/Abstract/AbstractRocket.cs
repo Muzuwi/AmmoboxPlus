@@ -122,13 +122,9 @@ namespace AmmoboxPlus.Projectiles.Abstract
             dust.noGravity = true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int shotFrom = Projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
-            // FIXME: What did I mean by this?
-            /*                        
-                        Custom effects here                   
-            */
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, Projectile.identity, Projectile.type);
         }
 
