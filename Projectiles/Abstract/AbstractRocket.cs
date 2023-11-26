@@ -22,7 +22,7 @@ namespace AmmoboxPlus.Projectiles.Abstract
 
         public override void SetDefaults()
         {
-            Projectile.aiStyle = 16;
+            Projectile.aiStyle = 0;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.friendly = true;
             Projectile.hostile = false;
