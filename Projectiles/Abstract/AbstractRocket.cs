@@ -124,6 +124,7 @@ namespace AmmoboxPlus.Projectiles.Abstract
 
         public override void OnKill(int timeLeft)
         {
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             int shotFrom = Projectile.GetGlobalProjectile<AmmoboxGlobalProjectile>().apShotFromLauncherID;
             AmmoboxHelpfulMethods.explodeRocket(shotFrom, Projectile.identity, Projectile.type);
         }
