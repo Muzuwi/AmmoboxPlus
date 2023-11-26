@@ -22,4 +22,17 @@ System.IndexOutOfRangeException: Index was outside the bounds of the array.
 
 # Issue #2
 
-Arrows hitting floor don't have particles and wrong sound compared to vanilla.
+~~Arrows~~ hitting floor don't have particles and wrong sound compared to vanilla.
+Some projectiles don't have proper destruction dusts (they just disappear on collision with terrain).
+
+# Issue #3
+
+Chlorophyte rocket trail doesnt follow projectile precisely.
+
+# Issue #4
+
+Projectile source is scuffed (doesn't fire from gun, but from player sprite center).
+
+# Issue #5
+
+Life rocket incredibly laggy
